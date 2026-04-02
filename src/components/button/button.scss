@@ -1,0 +1,19 @@
+.cmp-button {
+    cursor: pointer;
+
+    &.add-button {
+        position: fixed;
+        border-radius: 100%;
+        aspect-ratio: 1;
+        bottom: 5dvh;
+        right: 5dvw;
+    }
+
+    &.settings-button {
+        position: fixed;
+        border-radius: 100%;
+        aspect-ratio: 1;
+        bottom: 5dvh;
+        left: 5dvw;
+    }
+}

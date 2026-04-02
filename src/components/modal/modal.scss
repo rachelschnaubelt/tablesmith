@@ -1,0 +1,16 @@
+.cmp-modal {
+    display: none;
+    position: fixed;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 80dvw;
+    max-height: 80dvh;
+    background-color: black;
+    overflow: auto;
+
+    &--open {
+        display: block;
+    }
+}

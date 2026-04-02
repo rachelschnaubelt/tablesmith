@@ -1,0 +1,17 @@
+.cmp-sidebar {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    transform: translateX(-100%);
+    transition: 0.3s ease;
+    background-color: #333;
+
+    &--open {
+        transform: translateX(0);
+    }
+
+    &__inputs {
+        display: flex;
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,15 @@
+.cmp-carousel {
+    &__items {      
+        & > * {
+            display: none;
+        }
+
+        @for $i from 1 through 20 {
+            &.selected-#{$i} {
+                & > *:nth-child(#{$i}) {
+                    display: block;
+                }
+            }
+        }
+    }
+}

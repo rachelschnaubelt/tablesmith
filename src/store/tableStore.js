@@ -41,10 +41,12 @@ const useTableStore = create((set) => ({
     modalOpen: '',
     tableKey: '',
     isProbabilityColumnVisible: true,
+    theme: '',
 
     // actions
     setEntries: (entries) => set({entries}),
     setTableKey: (tableKey) => set({tableKey}),
+    setTheme: (theme) => set({theme}),
     setIsProbabilityColumnVisible: (event) => set(() => {
         return({isProbabilityColumnVisible: event.target.checked})
     }),

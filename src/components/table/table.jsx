@@ -24,14 +24,14 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove }) => {
             return (
                 <div key={roll}
                     className='cmp-roll-table__row'>
-                    <p>{roll}</p>
-                    {isProbabilityColumnVisible && <p>{probAsPercent}</p>}
-                    <input
+                    <p className='cmp-roll-table__column--number'>{roll}</p>
+                    {isProbabilityColumnVisible && <p className='cmp-roll-table__column--probability'>{probAsPercent}%</p>}
+                    <textarea
                         value={entries[index]}
                         onChange={e => onEntryChange(index, e.target.value)}
-                        className='cmp-roll-table__input'
+                        className='cmp-roll-table__input cmp-roll-table__column--value'
                     />
-                    <div className='no-print'>
+                    <div className='no-print cmp-roll-table__column--move-buttons'>
                         <Button
                             onClick={() => { onEntryMove(index, index - 1) }}
                             label={'Move up'} />
@@ -39,7 +39,7 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove }) => {
                             onClick={() => { onEntryMove(index, index + 1) }}
                             label={'Move down'} />
                     </div>
-                    <div className='no-print'>
+                    <div className='no-print cmp-roll-table__column--delete-button'>
                         <Button
                             onClick={() => { deleteEntry(index) }}
                             label={'Remove'} />
@@ -155,9 +155,11 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove }) => {
                     </textarea>
                 </div>
                 <div className='cmp-roll-table__row cmp-roll-table__row--header'>
-                    <p>Roll {comboObj.diceString}</p>
-                    {isProbabilityColumnVisible && <p>Probability</p>}
-                    <p>Value</p>
+                    <p className='cmp-roll-table__column--number'>Roll {comboObj.diceString}</p>
+                    {isProbabilityColumnVisible && <p className='cmp-roll-table__column--probability'>Probability</p>}
+                    <p className='cmp-roll-table__column--value'>Value</p>
+                    <p className='cmp-roll-table__column--move-buttons'></p>
+                    <p className='cmp-roll-table__column--delete-button'></p>
                 </div>
                 <div className='cmp-roll-table__body'>
                     {getProbabilityRows(comboObj.probabilities)}

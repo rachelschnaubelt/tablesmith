@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import './App.css'
 import Carousel from './components/carousel/carousel';
 import Table from './components/table/table';
 import Sidebar from './components/sidebar/sidebar';
@@ -8,6 +7,7 @@ import Modal from './components/modal/modal';
 import Gallery from './components/gallery/gallery';
 import useTableStore from './store/tableStore';
 import { getCombinationObjects, getHints } from './utils/calculations'
+import Header from './components/header/header';
 
 function App() {
   const setSidebarOpen = useTableStore((state) => state.setSidebarOpen);
@@ -19,7 +19,7 @@ function App() {
   const selectedOptions = useTableStore((state) => state.selectedOptions);
   const setCarouselIndex = useTableStore((state) => state.setCarouselIndex);
   const modalOpen = useTableStore((state) => state.modalOpen);
-  const setModalOpen = useTableStore((state) => state.setModalOpen);
+  const theme = useTableStore((state) => state.theme);
 
   const handleEntryChange = (index, value) => {
     const newEntries = [...entries];
@@ -104,16 +104,17 @@ function App() {
   }
 
   return (
-    <>
+    <div className={`cmp-app ${theme}`}>
+      <Header />
       <Sidebar
         handleQuickSetup={handleQuickSetup} />
-      <p>{entryCount} Entries</p>
+      <p className='table-count'>{entryCount} Entries</p>
       {comboObjects.length > 0 && 
       <Carousel>
         {tables}
       </Carousel>}
       {invalidCombination()}
-      {hints && comboObjects.length > 0 && <div>
+      {hints && <div>
         <p>Want a more even distribution?</p>
         {hints.closestMax && hints.maxDiff && <p>Add another {hints.maxDiff} options to make a 1d{hints.closestMax} table</p>}
         {hints.closestMin && hints.minDiff && <p>{hints.closestMax && hints.maxDiff ? 'Or remove' : 'Remove'} {hints.minDiff} options to make a 1d{hints.closestMin} table</p>}
@@ -122,19 +123,11 @@ function App() {
         label={'add'}
         className={'no-print add-button'}
         onClick={() => {addEntry()}} />
-      <Button
-        label={'Settings'}
-        className={'no-print settings-button'}
-        onClick={() => { setSidebarOpen(true) }} />
-      <Button
-        label={'load'}
-        className={'no-print load-button'}
-        onClick={() => {setModalOpen(true)}} />
       <Modal
         modalOpen={modalOpen}>
           <Gallery/>
       </Modal>
-    </>
+    </div>
   )
 }
 

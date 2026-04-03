@@ -3,8 +3,7 @@ import Button from "../button/button";
 
 const Card = ({heading, children, id}) => {
     const handleDelete = () => {
-        console.log(id);
-        localStorage.removeItem(id);
+\        localStorage.removeItem(id);
     };
 
     return(

@@ -1,0 +1,19 @@
+@import './variables.scss';
+
+.cmp-app {
+  background-color: $bg;
+  color: $text;
+  padding-top: 4rem;
+  font-family: $font-family;
+  max-width: $max-width;
+  margin: 0 auto;
+  
+  & > * {
+    padding-left: $page-padding;
+    padding-right: $page-padding;
+  }
+}
+
+.table-count {
+    text-align: center;
+}

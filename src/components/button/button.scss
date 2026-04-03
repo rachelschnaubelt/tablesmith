@@ -1,5 +1,9 @@
+@import '../../styles/variables.scss';
+
 .cmp-button {
     cursor: pointer;
+    border-radius: 0.5rem;
+    padding: 0.2rem 0.8rem;
 
     &.add-button {
         position: fixed;
@@ -9,11 +13,15 @@
         right: 5dvw;
     }
 
-    &.settings-button {
-        position: fixed;
-        border-radius: 100%;
-        aspect-ratio: 1;
-        bottom: 5dvh;
-        left: 5dvw;
+    &.active {
+        background-color: $color-primary;
     }
+
+    // &.settings-button {
+    //     position: fixed;
+    //     border-radius: 100%;
+    //     aspect-ratio: 1;
+    //     bottom: 5dvh;
+    //     left: 5dvw;
+    // }
 }

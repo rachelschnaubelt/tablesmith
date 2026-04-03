@@ -1,0 +1,33 @@
+@import '../../styles/variables.scss';
+
+:root {
+    --header-bg: white;
+
+}
+
+.theme--modern--dark {
+    --header-bg: black;
+}
+
+$bg-header: var(--header-bg);
+
+.cmp-header {
+    padding: 0.5rem $page-padding;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: $bg-header;
+    
+    &__heading {
+        font-size: 2rem;
+    }
+    
+    &__inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: $max-width;
+        margin: 0 auto;
+    }
+}

@@ -1,3 +1,5 @@
+import useTableStore from "../store/tableStore";
+
 const getCombinations = (count, selectedOptions) => {
   const target = count - 1;
   const combinations = [];
@@ -134,14 +136,15 @@ const getCombinationObjects = (count, selectedOptions) => {
 const getHints = (comboObjs, selectedOptions) => {
   const isSingleDie = comboObjs.find(combo => combo.combination.length === 1);
   if (!isSingleDie) {
-    const target = comboObjs[0]?.count;
+    const { entries } = useTableStore.getState();
+    const target = entries.length;
     const threshold = 8;
     const singleDieSolutions = Object.values(selectedOptions).sort((a, b) => a.value - b.value);
 
     const closestMin = singleDieSolutions.findLast(die => die.value < target);
     const closestMax = singleDieSolutions.find(die => die.value > target);
-    const minDiff = target - closestMin.value;
-    const maxDiff = closestMax.value - target;
+    const minDiff = closestMin && target - closestMin.value;
+    const maxDiff = closestMax && closestMax.value - target;
 
     return {
       ...(minDiff < threshold && { closestMin: closestMin.value }),

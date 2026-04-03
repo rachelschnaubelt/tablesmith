@@ -10,6 +10,7 @@ const Sidebar = ({ handleQuickSetup }) => {
     const setSidebarOpen = useTableStore((state) => state.setSidebarOpen);
     const setSelectedOptions = useTableStore((state) => state.setSelectedOptions);
     const setIsProbabilityColumnVisible = useTableStore((state) => state.setIsProbabilityColumnVisible);
+    const setTheme = useTableStore((state) => state.setTheme);
 
     const handleExampleSetup = (key) => {
         const table = exampleTables[key];
@@ -127,6 +128,14 @@ const Sidebar = ({ handleQuickSetup }) => {
                 label="Show probability column"
                 isChecked={true}
                 onChange={setIsProbabilityColumnVisible} />
+            <p>Theme</p>
+            <Button
+                label={'Modern Light'}
+                onClick={() => {setTheme('theme--modern--light')}} />
+            <Button
+                label={'Modern Dark'}
+                onClick={() => {setTheme('theme--modern--dark')}} />
+
             <hr />
             <Button 
                 label={'close'} 

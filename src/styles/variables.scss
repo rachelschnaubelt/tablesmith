@@ -1,0 +1,26 @@
+:root {
+  --background-color: white;
+  --text-color: black;
+  --modal-bg: white;
+  --sidebar-bg: #ccc;
+  --font-family: Arial, Helvetica, sans-serif;
+  --max-width: 1000px;
+  --page-padding: 1rem;
+  --color-primary: green;
+}
+
+.theme--modern--dark {
+  --background-color: black;
+  --text-color: white;
+  --modal-bg: black;
+  --sidebar-bg: #333;
+}
+
+$bg: var(--background-color);
+$text: var(--text-color);
+$modal-bg: var(--modal-bg);
+$sidebar-bg: var(--sidebar-bg);
+$font-family: var(--font-family);
+$max-width: var(--max-width);
+$page-padding: var(--page-padding);
+$color-primary: var(--color-primary);

@@ -1,60 +1,170 @@
+@use '../../styles/variables.scss' as *;
+
 .cmp-roll-table {
-    width: 100%;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+
+    @media print {
+        display: block;
+    }
+
+    &__cell {
+        flex-basis: 0;
+        flex-grow: 0;
+        border: 1px solid black;
+        display: flex;
+        align-items: center;
+        padding: 0.2rem 0.5rem;
+    }
 
     &__row {
         display: flex;
-        align-items: center;
+        align-items: stretch;
+        transition: 0.2s;
 
-        & > * {
-            flex: 1;
+        &:nth-of-type(even) {
+            background-color: $color-gray--light;
+        }
+
+        &:hover {
+            background-color: $color-highlight;
         }
 
         &--header {
             font-weight: bold;
+            background: white;
+            position: sticky;
+            border-bottom: 1px solid black;
+
+            .cmp-roll-table__cell {
+                border-color: transparent;
+            }
+
+            &:hover {
+                background: white;
+            }
         }
     }
 
     &__column {
         &--number {
-
+            flex-basis: 5rem;
         }
 
         &--probability {
-
+            flex-basis: 6rem;
         }
 
         &--value {
-            flex: 4;
+            flex-grow: 4;
         }
 
         &--move-buttons {
+            flex-direction: column;
+            justify-content: center;
 
+            button {
+                padding: 0 0.3rem;
+                border: 0;
+                background-color: transparent;
+            }
         }
 
         &--delete-button {
+            display: flex;
+            justify-content: flex-end;
 
+            .cmp-button {}
+        }
+    }
+
+    &__entry-count {
+        white-space: nowrap;
+    }
+
+    &__table {
+        margin-top: 1rem;
+    }
+
+    &__actions {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        column-gap: 0.3rem;
+
+        &__menu {
+            position: relative;
+
+            &__dropdown {
+                display: flex;
+                column-gap: 0.5rem;
+                justify-content: flex-end;
+                position: absolute;
+                right: 0;
+                width: 0;
+                overflow: hidden;
+                backdrop-filter: blur(10px);
+                transition: 0.3s;
+                z-index: 10;
+            }
+
+            &:hover {
+                .cmp-roll-table {
+                    &__actions__menu {
+                        &__dropdown {
+                            width: auto;
+                            padding: 0.5rem 2rem;
+
+                        }
+
+                        &-button {
+                            width: auto;
+                            column-gap: 0.5rem;
+                            border-radius: initial initial 0 0;
+
+                            .cmp-button__label {
+                                width: auto;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
     &__input {
-        width: 100%;
+        background-color: transparent;
     }
 
     &__heading {
         display: flex;
         flex-direction: column;
         align-items: center;
+        width: 60%;
+        margin: 0 auto;
+        row-gap: 1rem;
 
-        & > * {
-            width: 60%;
+        &>* {
+            width: 100%;
         }
     }
 
     &__title {
-        // display: block;
+        letter-spacing: 2px;
+        font-weight: 600;
+        font-size: 1.5rem;
     }
 
-    &__description {
-        // display: block;
+    &__description {}
+
+    &__variance {
+        display: flex;
+        justify-content: center;
+
+        &>p {
+            width: fit-content;
+        }
     }
 }

@@ -42,11 +42,13 @@ const useTableStore = create((set) => ({
     tableKey: '',
     isProbabilityColumnVisible: true,
     theme: '',
+    headerHeight: 0,
 
     // actions
     setEntries: (entries) => set({entries}),
     setTableKey: (tableKey) => set({tableKey}),
     setTheme: (theme) => set({theme}),
+    setHeaderHeight: (headerHeight) => set({headerHeight}),
     setIsProbabilityColumnVisible: (event) => set(() => {
         return({isProbabilityColumnVisible: event.target.checked})
     }),

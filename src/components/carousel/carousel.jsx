@@ -8,16 +8,6 @@ const Carousel = ({children}) => {
     const [index, setIndex] = useState(1);
     const defaultIndex = useTableStore((store) => store.carouselIndex);
     const buttonContainerRef = useRef(null);
-    // const childrenCount = Children.count(children);
-
-    // const updateIndex = (change) => {
-    //     if(change > 0) {
-    //         setIndex(prevIndex => {return Math.min(childrenCount, prevIndex + change)});
-    //     }
-    //     else {
-    //         setIndex(prevIndex => {return Math.max(1, prevIndex + change)});
-    //     }
-    // }
 
     const setActiveButton = (index) => {
         const buttonsContainer = buttonContainerRef.current;
@@ -44,7 +34,7 @@ const Carousel = ({children}) => {
             buttons.push(
                 <Button
                     label={child.props.comboObj.diceString}
-                    className={`no-print combo-button-${index+1}`}
+                    className={`combo-button-${index+1}`}
                     onClick={() => handleUpdateIndex(index+1)} 
                     key={index} />
             )
@@ -63,13 +53,14 @@ const Carousel = ({children}) => {
 
     return(
         <div className="cmp-carousel">
-            <p>Options</p>
-            <div 
-                className="cmp-carousel__buttons"
-                ref={buttonContainerRef}>
-                {getChildrenButtons()}
+            <div className="cmp-carousel__header no-print">
+                <p>Possible dice combinations</p>
+                <div 
+                    className="cmp-carousel__buttons"
+                    ref={buttonContainerRef}>
+                    {getChildrenButtons()}
+                </div>
             </div>
-            {/* <p className="no-print">{index}/{childrenCount}</p> */}
             <div className={`cmp-carousel__items selected-${index}`}>
                 {children}
             </div>

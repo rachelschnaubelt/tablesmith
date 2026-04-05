@@ -5,9 +5,14 @@ import React from 'react';
 import useTableStore from '../../store/tableStore';
 import html2canvas from 'html2canvas';
 import { snakeCaseString } from '../../utils/stringUtils';
+import Input from '../input/input';
+import Accordion from '../accordion/accordion';
+import Tooltip from '../tooltip/tooltip';
 
 const Table = React.memo(({ comboObj, onEntryChange, onEntryMove }) => {
     const entries = useTableStore((store) => store.entries);
+    const entryCount = entries.length;
+    const addEntry = useTableStore((state) => state.addEntry);
     const deleteEntry = useTableStore((store) => store.deleteEntry);
     const tableName = useTableStore((store) => store.tableName);
     const setTableName = useTableStore((store) => store.setTableName);
@@ -17,6 +22,7 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove }) => {
     const setTableKey = useTableStore((store) => store.setTableKey);
     const setEntries = useTableStore((store) => store.setEntries);
     const isProbabilityColumnVisible = useTableStore((state) => state.isProbabilityColumnVisible);
+    const headerHeight = useTableStore((state) => state.headerHeight);
 
     const getProbabilityRows = (probabilities) => {
         return Object.entries(probabilities).map(([roll, prob], index) => {
@@ -24,25 +30,27 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove }) => {
             return (
                 <div key={roll}
                     className='cmp-roll-table__row'>
-                    <p className='cmp-roll-table__column--number'>{roll}</p>
-                    {isProbabilityColumnVisible && <p className='cmp-roll-table__column--probability'>{probAsPercent}%</p>}
+                    <p className='cmp-roll-table__column--number cmp-roll-table__cell'>{roll}</p>
+                    {isProbabilityColumnVisible && <p className='cmp-roll-table__column--probability cmp-roll-table__cell'>{probAsPercent}%</p>}
                     <textarea
                         value={entries[index]}
                         onChange={e => onEntryChange(index, e.target.value)}
-                        className='cmp-roll-table__input cmp-roll-table__column--value'
+                        className='cmp-roll-table__input cmp-roll-table__column--value cmp-roll-table__cell'
                     />
-                    <div className='no-print cmp-roll-table__column--move-buttons'>
+                    <div className='no-print cmp-roll-table__column--move-buttons cmp-roll-table__cell'>
                         <Button
                             onClick={() => { onEntryMove(index, index - 1) }}
-                            label={'Move up'} />
+                            label={'∧'} />
                         <Button
                             onClick={() => { onEntryMove(index, index + 1) }}
-                            label={'Move down'} />
+                            label={'∨'} />
                     </div>
-                    <div className='no-print cmp-roll-table__column--delete-button'>
+                    <div className='no-print cmp-roll-table__column--delete-button cmp-roll-table__cell'>
                         <Button
                             onClick={() => { deleteEntry(index) }}
-                            label={'Remove'} />
+                            label={'Remove'}
+                            type='icon'
+                            icon='X' />
                     </div>
                 </div>
             );
@@ -64,18 +72,18 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove }) => {
                 <thead>
                     <tr>
                         <th>Roll ${comboObj.diceString}</th>
-                        ${isProbabilityColumnVisible ? `<th>Probability</th>`: ''}
+                        ${isProbabilityColumnVisible ? `<th>Probability</th>` : ''}
                         <th>Value</th>
                     </tr>
                 </thead>
                 <tbody>
                     ${Object.entries(comboObj.probabilities).map(([roll, prob], index) => {
-                        return (`<tr>
+            return (`<tr>
                             <td>${roll}</td>
-                            ${isProbabilityColumnVisible ? `<td>${(prob * 100).toFixed(2)}</td>`: ''}
+                            ${isProbabilityColumnVisible ? `<td>${(prob * 100).toFixed(2)}</td>` : ''}
                             <td>${entries[index]}</td>
                         </tr>`)
-                    }).join('')}
+        }).join('')}
                 </tbody>
             </table>`;
 
@@ -93,12 +101,13 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove }) => {
     }
 
     const handlePrint = () => {
+        window.scrollTo(0, 0);
         window.print();
     }
 
     const handleSaveAsImage = () => {
         const element = document.querySelector('.cmp-roll-table');
-        html2canvas(element, {backgroundColor: '#ffffff'})
+        html2canvas(element, { backgroundColor: '#ffffff' })
             .then(canvas => {
                 const link = document.createElement('a');
                 const fileName = tableName ? snakeCaseString(tableName) : 'dice-table';
@@ -136,69 +145,92 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove }) => {
 
     return (
         <div>
-            <div className='cmp-roll-table'
-                data-table-key={tableKey}>
-                <div className='cmp-roll-table__heading'>
-                    <input
-                        type="text"
-                        placeholder='Table name'
-                        value={tableName}
-                        className='cmp-roll-table__title'
-                        id='table-name'
-                        onChange={(e) => { setTableName(e.target.value) }} />
-                    <textarea
-                        className='cmp-roll-table__description'
-                        onChange={(e) => { setTableDescription(e.target.value) }}
-                        value={tableDescription}
-                        id='table-description'
-                        placeholder='Table description'>
-                    </textarea>
+            <div className='cmp-roll-table'>
+                <div className='cmp-roll-table__inner'
+                    data-table-key={tableKey}>
+                    <div className='cmp-roll-table__heading'>
+                        <Input
+                            className='cmp-roll-table__title'
+                            value={tableName}
+                            placeholder={'Name'}
+                            id='table-name'
+                            onChange={(e) => { setTableName(e.target.value) }} />
+                        <Input
+                            className='cmp-roll-table__description'
+                            value={tableDescription}
+                            placeholder={'Description'}
+                            type='textarea'
+                            id='table-description'
+                            onChange={(e) => { setTableDescription(e.target.value) }} />
+                    </div>
+
+                    <div className="cmp-roll-table__table">
+                        <div className='cmp-roll-table__row cmp-roll-table__row--header' style={{ 'top': `${headerHeight}px` }}>
+                            <p className='cmp-roll-table__column--number cmp-roll-table__cell'>Roll {comboObj.diceString}</p>
+                            {isProbabilityColumnVisible && <p className='cmp-roll-table__column--probability cmp-roll-table__cell'>Probability</p>}
+                            <p className='cmp-roll-table__column--value cmp-roll-table__cell'>Value</p>
+                            <div className='cmp-roll-table__actions'>
+                                <p className='cmp-roll-table__entry-count no-print'>{entryCount} Entries</p>
+                                <Button
+                                    label={'add'}
+                                    className={'no-print add-button'}
+                                    onClick={() => { addEntry() }}
+                                    type="icon"
+                                    icon="+" />
+                                <div className='cmp-roll-table__actions__menu' >
+                                    <Button
+                                        className={'cmp-roll-table__actions__menu-button no-print'}
+                                        label={'menu'}
+                                        type='icon'
+                                        icon='...' />
+                                    <div className='cmp-roll-table__actions__menu__dropdown'>
+                                        <Button
+                                            label={'copy'}
+                                            className={'no-print'}
+                                            onClick={handleCopyTable} />
+                                        <Button
+                                            label={'print'}
+                                            className={'no-print'}
+                                            onClick={handlePrint} />
+                                        <Button
+                                            label={tableKey ? 'save changes' : 'save'}
+                                            className={'no-print'}
+                                            onClick={() => { handleSave(tableKey) }} />
+                                        <Button
+                                            label={'save as image'}
+                                            className={'no-print'}
+                                            onClick={handleSaveAsImage} />
+                                        <Button
+                                            label={'clear'}
+                                            className={'no-print'}
+                                            onClick={handleClear} />
+                                        {tableKey &&
+                                            <Button
+                                                label={'save as new'}
+                                                className={'no-print'}
+                                                onClick={() => { handleSave() }} />
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='cmp-roll-table__body'>
+                            {getProbabilityRows(comboObj.probabilities)}
+                        </div>
+                    </div>
                 </div>
-                <div className='cmp-roll-table__row cmp-roll-table__row--header'>
-                    <p className='cmp-roll-table__column--number'>Roll {comboObj.diceString}</p>
-                    {isProbabilityColumnVisible && <p className='cmp-roll-table__column--probability'>Probability</p>}
-                    <p className='cmp-roll-table__column--value'>Value</p>
-                    <p className='cmp-roll-table__column--move-buttons'></p>
-                    <p className='cmp-roll-table__column--delete-button'></p>
-                </div>
-                <div className='cmp-roll-table__body'>
-                    {getProbabilityRows(comboObj.probabilities)}
-                </div>
-                <Button
-                    label={'copy'}
-                    className={'no-print'}
-                    onClick={handleCopyTable} />
-                <Button
-                    label={'print'}
-                    className={'no-print'}
-                    onClick={handlePrint} />
-                <Button
-                    label={tableKey ? 'save changes' : 'save'}
-                    className={'no-print'}
-                    onClick={() => { handleSave(tableKey) }} />
-                <Button
-                    label={'save as image'}
-                    className={'no-print'}
-                    onClick={handleSaveAsImage} />
-                <Button
-                    label={'clear'}
-                    className={'no-print'}
-                    onClick={handleClear} />
-                {tableKey &&
-                    <Button
-                        label={'save as new'}
-                        className={'no-print'}
-                        onClick={() => { handleSave() }} />
-                }
-            </div>
-            <hr />
-            <div>
-                <p>Table info</p>
-                <dl>
-                    <dt>Variance: {comboObj.variance.toExponential(2)}</dt>
-                    {/* <dd>How evenly spread the probabilities are. A variance of 0 means every option is equally likely. The higher the number, the middle options will be more likely than the top or bottom of the table.</dd> */}
-                </dl>
-                <DistributionChart comboObj={comboObj} />
+
+                <Accordion
+                    label={'Table info'}
+                    initialState={true} >
+                    <DistributionChart comboObj={comboObj} />
+                    <div className='cmp-roll-table__variance'>
+                        <p>Variance: {comboObj.variance.toExponential(2)}</p>
+                        <Tooltip>
+                            <p>How evenly spread the probabilities are. A variance of 0 means every option is equally likely. The higher the number, the middle options will be more likely than the top or bottom of the table.</p>
+                        </Tooltip>
+                    </div>
+                </Accordion>
             </div>
         </div>
     )

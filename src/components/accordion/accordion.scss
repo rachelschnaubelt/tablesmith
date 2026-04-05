@@ -1,0 +1,32 @@
+@use '../../styles/variables.scss' as *;
+
+.cmp-accordion {
+    &__heading {
+        cursor: pointer;
+        font-weight: 600;
+        display: flex;
+        justify-content: space-between;
+        padding: 0.3rem 0.5rem;
+
+        &:hover {
+            background-color: $color-primary--light;
+        }
+    }
+
+    &__contents {
+        overflow: hidden;
+        transition: 0.3s;
+    }
+
+    &__arrow {
+        transform: rotate(180deg);
+    }
+
+    &--open {
+        .cmp-accordion {
+            &__arrow {
+                transform: none;
+            }
+        }
+    }
+}

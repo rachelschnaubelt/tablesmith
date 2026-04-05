@@ -13,13 +13,13 @@ function App() {
   const setSidebarOpen = useTableStore((state) => state.setSidebarOpen);
   const entries = useTableStore((state) => state.entries);
   const setEntries = useTableStore((state) => state.setEntries);
-  const addEntry = useTableStore((state) => state.addEntry);
   const deleteEntry = useTableStore((state) => state.deleteEntry);
   const entryCount = entries.length;
   const selectedOptions = useTableStore((state) => state.selectedOptions);
   const setCarouselIndex = useTableStore((state) => state.setCarouselIndex);
   const modalOpen = useTableStore((state) => state.modalOpen);
   const theme = useTableStore((state) => state.theme);
+  const headerHeight = useTableStore((state) => state.headerHeight);
 
   const handleEntryChange = (index, value) => {
     const newEntries = [...entries];
@@ -104,25 +104,22 @@ function App() {
   }
 
   return (
-    <div className={`cmp-app ${theme}`}>
+    <div 
+      className={`cmp-app ${theme}`}
+      style={{marginTop: `${headerHeight}px`}}>
       <Header />
       <Sidebar
         handleQuickSetup={handleQuickSetup} />
-      <p className='table-count'>{entryCount} Entries</p>
       {comboObjects.length > 0 && 
       <Carousel>
         {tables}
       </Carousel>}
       {invalidCombination()}
-      {hints && <div>
-        <p>Want a more even distribution?</p>
-        {hints.closestMax && hints.maxDiff && <p>Add another {hints.maxDiff} options to make a 1d{hints.closestMax} table</p>}
-        {hints.closestMin && hints.minDiff && <p>{hints.closestMax && hints.maxDiff ? 'Or remove' : 'Remove'} {hints.minDiff} options to make a 1d{hints.closestMin} table</p>}
+      {hints && <div className='hints'>
+        {comboObjects.length > 0 && <p>Want a more even distribution?</p>}
+        {hints.closestMax && hints.maxDiff && <p>Add another {hints.maxDiff > 1 && hints.maxDiff} option{hints.maxDiff > 1 && 's'} to make a 1d{hints.closestMax} table</p>}
+        {hints.closestMin && hints.minDiff && <p>{hints.closestMax && hints.maxDiff ? 'Or remove' : 'Remove'} {hints.minDiff > 1 ? hints.minDiff : 'an'} option{hints.minDiff > 1 && 's'} to make a 1d{hints.closestMin} table</p>}
       </div>}
-      <Button
-        label={'add'}
-        className={'no-print add-button'}
-        onClick={() => {addEntry()}} />
       <Modal
         modalOpen={modalOpen}>
           <Gallery/>

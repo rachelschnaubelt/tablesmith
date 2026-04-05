@@ -7,6 +7,12 @@ import { loadTable } from '../../utils/tableManagement';
 const Gallery = () => {
     const [cards, setCards] = useState([]);
     const modalOpen = useTableStore((state) => state.modalOpen); 
+    const setModalOpen = useTableStore((state) => state.setModalOpen);
+
+    const handleLoadTable = (jsonEntry) => {
+        loadTable(jsonEntry);
+        setModalOpen(false);
+    }
 
     useEffect(() => {
         if (modalOpen) {
@@ -33,7 +39,7 @@ const Gallery = () => {
                         </ul>
                         <Button
                             label='load'
-                            onClick={() => {loadTable(jsonEntry)}} />
+                            onClick={() => handleLoadTable(jsonEntry)} />
                     </div>
                 )
             });

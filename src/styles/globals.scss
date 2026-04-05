@@ -3,10 +3,10 @@
 .cmp-app {
   background-color: $bg;
   color: $text;
-  padding-top: 4rem;
   font-family: $font-family;
   max-width: $max-width;
   margin: 0 auto;
+  padding-bottom: 3rem;
   
   & > * {
     padding-left: $page-padding;
@@ -14,6 +14,12 @@
   }
 }
 
-.table-count {
-    text-align: center;
+.hints {
+  margin-top: 1rem;
+}
+
+.no-print {
+    @media print {
+        display: none !important;
+    }
 }

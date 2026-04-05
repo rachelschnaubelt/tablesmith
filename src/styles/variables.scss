@@ -7,6 +7,10 @@
   --max-width: 1000px;
   --page-padding: 1rem;
   --color-primary: green;
+  --color-primary--light: lightgreen;
+  --color-higlight: #c9f2c9;
+  --color-gray--light: #ccc;
+  --color-gray--dark: #333;
 }
 
 .theme--modern--dark {
@@ -24,3 +28,7 @@ $font-family: var(--font-family);
 $max-width: var(--max-width);
 $page-padding: var(--page-padding);
 $color-primary: var(--color-primary);
+$color-primary--light: var(--color-primary--light);
+$color-gray--light: var(--color-gray--light);
+$color-gray--dark: var(--color-gray--dark);
+$color-highlight: var(--color-higlight);

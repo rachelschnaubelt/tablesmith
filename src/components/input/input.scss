@@ -37,6 +37,10 @@
         }
     }
 
+    @media print {
+        border-bottom: 2px solid $color-primary;
+    }
+
     &>input, &>textarea {
         width: 100%;
         z-index: 1;
@@ -46,6 +50,7 @@
         outline: none;
         position: relative;
         transition: 0.3s;
+        resize: none;
 
         &:hover,
         &:active,

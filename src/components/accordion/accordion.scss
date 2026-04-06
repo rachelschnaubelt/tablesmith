@@ -17,15 +17,11 @@
         overflow: hidden;
         transition: 0.3s;
     }
-
-    &__arrow {
-        transform: rotate(180deg);
-    }
-
+    
     &--open {
         .cmp-accordion {
             &__arrow {
-                transform: none;
+                transform: rotate(180deg);
             }
         }
     }

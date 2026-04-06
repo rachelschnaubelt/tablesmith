@@ -8,6 +8,7 @@ import { snakeCaseString } from '../../utils/stringUtils';
 import Input from '../input/input';
 import Accordion from '../accordion/accordion';
 import Tooltip from '../tooltip/tooltip';
+import { ArrowsClockwiseIcon, DotsThreeIcon, PlusIcon, XIcon } from '@phosphor-icons/react';
 
 const Table = React.memo(({ comboObj, onEntryChange, onEntryMove }) => {
     const entries = useTableStore((store) => store.entries);
@@ -24,6 +25,12 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove }) => {
     const isProbabilityColumnVisible = useTableStore((state) => state.isProbabilityColumnVisible);
     const headerHeight = useTableStore((state) => state.headerHeight);
 
+    const handleInputChange = (event, index) => {
+        event.target.style.height = 'auto';
+        event.target.style.height = event.target.scrollHeight + 3 + 'px';
+        onEntryChange(index, event.target.value);
+    }
+
     const getProbabilityRows = (probabilities) => {
         return Object.entries(probabilities).map(([roll, prob], index) => {
             const probAsPercent = (prob * 100).toFixed(2);
@@ -34,24 +41,27 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove }) => {
                     {isProbabilityColumnVisible && <p className='cmp-roll-table__column--probability cmp-roll-table__cell'>{probAsPercent}%</p>}
                     <textarea
                         value={entries[index]}
-                        onChange={e => onEntryChange(index, e.target.value)}
+                        onChange={e => handleInputChange(e, index)}
                         className='cmp-roll-table__input cmp-roll-table__column--value cmp-roll-table__cell'
                     />
-                    <div className='no-print cmp-roll-table__column--move-buttons cmp-roll-table__cell'>
-                        <Button
-                            onClick={() => { onEntryMove(index, index - 1) }}
-                            label={'∧'} />
-                        <Button
-                            onClick={() => { onEntryMove(index, index + 1) }}
-                            label={'∨'} />
-                    </div>
-                    <div className='no-print cmp-roll-table__column--delete-button cmp-roll-table__cell'>
-                        <Button
-                            onClick={() => { deleteEntry(index) }}
-                            label={'Remove'}
-                            type='icon'
-                            icon='X' />
-                    </div>
+                    {index !== 0 && <Button
+                        className='no-print cmp-roll-table__button--move-up'
+                        onClick={() => { onEntryMove(index, index - 1) }}
+                        label='swap'
+                        type="icon"
+                        icon={<ArrowsClockwiseIcon size={16} />} />}
+                    {index !== entryCount - 1 && <Button
+                        className='no-print cmp-roll-table__button--move-down'
+                        onClick={() => { onEntryMove(index, index + 1) }}
+                        label='swap'
+                        type="icon"
+                        icon={<ArrowsClockwiseIcon size={16} />} />}
+                    <Button
+                        className='no-print cmp-roll-table__button--delete'
+                        onClick={() => { deleteEntry(index) }}
+                        label={'Remove'}
+                        type='icon'
+                        icon={<XIcon size={16} />} />
                 </div>
             );
         });
@@ -176,13 +186,13 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove }) => {
                                     className={'no-print add-button'}
                                     onClick={() => { addEntry() }}
                                     type="icon"
-                                    icon="+" />
+                                    icon={<PlusIcon size={32} />} />
                                 <div className='cmp-roll-table__actions__menu' >
                                     <Button
                                         className={'cmp-roll-table__actions__menu-button no-print'}
                                         label={'menu'}
                                         type='icon'
-                                        icon='...' />
+                                        icon={<DotsThreeIcon size={32} />} />
                                     <div className='cmp-roll-table__actions__menu__dropdown'>
                                         <Button
                                             label={'copy'}
@@ -221,8 +231,8 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove }) => {
                 </div>
 
                 <Accordion
-                    label={'Table info'}
-                    initialState={true} >
+                    label={'Advanced stats'}
+                    initialState={false} >
                     <DistributionChart comboObj={comboObj} />
                     <div className='cmp-roll-table__variance'>
                         <p>Variance: {comboObj.variance.toExponential(2)}</p>

@@ -9,10 +9,10 @@ const Checkbox = ({id, name, value, label, isChecked, onChange}) => {
     }
 
     return (
-        <>
+        <div className="cmp-checkbox">
             <input type='checkbox' id={id} name={name} value={value} checked={checked} onChange={(handleChange)} />
             <label htmlFor={id}>{label}</label>
-        </>
+        </div>
     )
 }
 

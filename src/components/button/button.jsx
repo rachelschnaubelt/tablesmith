@@ -15,9 +15,9 @@ const Button = ({ label, onClick, className, type, icon }) => {
             className={classNameArray.join(' ')}
             onClick={() => { onClick() }}>
                 <span className='cmp-button__icon'>{icon}</span>
-                <span className='cmp-button__label'>
+                {label && <span className='cmp-button__label'>
                     {label}
-                </span>
+                </span>}
             </button>
         );
 

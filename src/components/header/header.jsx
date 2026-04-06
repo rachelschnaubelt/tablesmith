@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import useTableStore from "../../store/tableStore";
 import Button from "../button/button";
 import './header.scss';
+import { GearIcon, TableIcon } from "@phosphor-icons/react";
 
 const Header = () => {
     const setModalOpen = useTableStore((state) => state.setModalOpen);
@@ -28,13 +29,13 @@ const Header = () => {
                         className={'no-print settings-button'}
                         onClick={() => { setSidebarOpen(true) }}
                         type="icon"
-                        icon="S" />
+                        icon={<GearIcon size={32} />} />
                     <Button
                         label={'load'}
                         className={'no-print load-button'}
                         onClick={() => { setModalOpen(true) }}
                         type="icon"
-                        icon="L" />
+                        icon={<TableIcon size={32} />} />
                 </div>
             </div>
         </header>

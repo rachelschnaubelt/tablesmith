@@ -16,4 +16,10 @@
     &--open {
         display: block;
     }
+
+    &__close {
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+    }
 }

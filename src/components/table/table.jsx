@@ -3,12 +3,11 @@ import Button from "../button/button";
 import DistributionChart from '../distribution-chart/distribution-chart';
 import React from 'react';
 import useTableStore from '../../store/tableStore';
-import html2canvas from 'html2canvas';
 import { snakeCaseString } from '../../utils/stringUtils';
 import Input from '../input/input';
 import Accordion from '../accordion/accordion';
 import Tooltip from '../tooltip/tooltip';
-import { ArrowsClockwiseIcon, DotsThreeIcon, PlusIcon, XIcon } from '@phosphor-icons/react';
+import { ArrowsClockwiseIcon, CopySimpleIcon, DotsThreeIcon, EraserIcon, FilePdfIcon, FloppyDiskIcon, PlusIcon, PrinterIcon, XIcon } from '@phosphor-icons/react';
 
 const Table = React.memo(({ comboObj, onEntryChange, onEntryMove }) => {
     const entries = useTableStore((store) => store.entries);
@@ -49,19 +48,23 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove }) => {
                         onClick={() => { onEntryMove(index, index - 1) }}
                         label='swap'
                         type="icon"
-                        icon={<ArrowsClockwiseIcon size={16} />} />}
+                        icon={<ArrowsClockwiseIcon size={16} />} 
+                        hierarchy="secondary" />}
                     {index !== entryCount - 1 && <Button
                         className='no-print cmp-roll-table__button--move-down'
                         onClick={() => { onEntryMove(index, index + 1) }}
                         label='swap'
                         type="icon"
-                        icon={<ArrowsClockwiseIcon size={16} />} />}
+                        icon={<ArrowsClockwiseIcon size={16}/>}
+                        hierarchy="secondary"  />}
                     <Button
                         className='no-print cmp-roll-table__button--delete'
                         onClick={() => { deleteEntry(index) }}
                         label={'Remove'}
                         type='icon'
-                        icon={<XIcon size={16} />} />
+                        icon={<XIcon size={16} />}
+                        hierarchy="secondary" 
+                        isWarning={true}/>
                 </div>
             );
         });
@@ -115,18 +118,8 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove }) => {
         window.print();
     }
 
-    const handleSaveAsImage = () => {
-        const element = document.querySelector('.cmp-roll-table');
-        html2canvas(element, { backgroundColor: '#ffffff' })
-            .then(canvas => {
-                const link = document.createElement('a');
-                const fileName = tableName ? snakeCaseString(tableName) : 'dice-table';
-                console.log(fileName);
-                link.download = `${fileName}.png`;
-                link.href = canvas.toDataURL();
-                link.click();
-                URL.revokeObjectURL(link.href);
-            })
+    const handleSaveAsPDF = () => {
+        return;
     }
 
     const handleSave = (storageKey) => {
@@ -186,34 +179,50 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove }) => {
                                     className={'no-print add-button'}
                                     onClick={() => { addEntry() }}
                                     type="icon"
-                                    icon={<PlusIcon size={32} />} />
+                                    icon={<PlusIcon size={24} />} />
                                 <div className='cmp-roll-table__actions__menu' >
                                     <Button
                                         className={'cmp-roll-table__actions__menu-button no-print'}
                                         label={'menu'}
                                         type='icon'
-                                        icon={<DotsThreeIcon size={32} />} />
+                                        icon={<DotsThreeIcon size={24} />}
+                                        hierarchy="secondary" />
                                     <div className='cmp-roll-table__actions__menu__dropdown'>
                                         <Button
                                             label={'copy'}
                                             className={'no-print'}
-                                            onClick={handleCopyTable} />
+                                            icon={<CopySimpleIcon size={16} />}
+                                            type="icon"
+                                            onClick={handleCopyTable}
+                                            hierarchy={'tertiary'} />
                                         <Button
                                             label={'print'}
                                             className={'no-print'}
-                                            onClick={handlePrint} />
+                                            icon={<PrinterIcon size={16} />}
+                                            type="icon"
+                                            onClick={handlePrint}
+                                            hierarchy={'tertiary'} />
                                         <Button
                                             label={tableKey ? 'save changes' : 'save'}
                                             className={'no-print'}
-                                            onClick={() => { handleSave(tableKey) }} />
+                                            icon={<FloppyDiskIcon size={16} />}
+                                            type="icon"
+                                            onClick={() => { handleSave(tableKey) }}
+                                            hierarchy={'tertiary'} />
                                         <Button
-                                            label={'save as image'}
+                                            label={'save as pdf'}
                                             className={'no-print'}
-                                            onClick={handleSaveAsImage} />
+                                            icon={<FilePdfIcon size={16} />}
+                                            type='icon'
+                                            onClick={handleSaveAsPDF}
+                                            hierarchy={'tertiary'} />
                                         <Button
                                             label={'clear'}
                                             className={'no-print'}
-                                            onClick={handleClear} />
+                                            icon={<EraserIcon size={16} />}
+                                            type='icon'
+                                            onClick={handleClear}
+                                            hierarchy={'tertiary'} />
                                         {tableKey &&
                                             <Button
                                                 label={'save as new'}

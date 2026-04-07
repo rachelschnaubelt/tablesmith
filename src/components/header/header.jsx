@@ -29,13 +29,13 @@ const Header = () => {
                         className={'no-print settings-button'}
                         onClick={() => { setSidebarOpen(true) }}
                         type="icon"
-                        icon={<GearIcon size={32} />} />
+                        icon={<GearIcon size={24} />} />
                     <Button
                         label={'load'}
                         className={'no-print load-button'}
                         onClick={() => { setModalOpen(true) }}
                         type="icon"
-                        icon={<TableIcon size={32} />} />
+                        icon={<TableIcon size={24} />} />
                 </div>
             </div>
         </header>

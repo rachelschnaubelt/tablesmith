@@ -106,7 +106,7 @@ function App() {
   return (
     <div 
       className={`cmp-app ${theme}`}
-      style={{marginTop: `${headerHeight}px`}}>
+      style={{marginTop: `${headerHeight + 16}px`}}>
       <Header />
       <Sidebar
         handleQuickSetup={handleQuickSetup} />

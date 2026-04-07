@@ -23,12 +23,9 @@
         display: flex;
         gap: 0.5rem;
         padding: 0.5rem 1rem;
-        background-color: #ccc;
+        background-color: $color-primary;
+        // border: 3px solid $color-primary;
         border-radius: 5rem;
         flex-wrap: wrap;
-
-        > .cmp-button {
-            background-color: transparent;
-        }
     }
 }

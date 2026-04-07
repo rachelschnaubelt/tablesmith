@@ -1,5 +1,10 @@
 @import './variables.scss';
 
+body {
+  background-color: $bg;
+  color: $text;
+}
+
 .cmp-app {
   background-color: $bg;
   color: $text;
@@ -7,8 +12,8 @@
   max-width: $max-width;
   margin: 0 auto;
   padding-bottom: 3rem;
-  
-  & > * {
+
+  &>* {
     padding-left: $page-padding;
     padding-right: $page-padding;
   }
@@ -19,7 +24,14 @@
 }
 
 .no-print {
-    @media print {
-        display: none !important;
-    }
+  @media print {
+    display: none !important;
+  }
+}
+
+.max-width {
+  margin-left: calc((100% - 100dvw) / 2);
+  margin-right: calc((100% - 100dvw) / 2);
+  padding-left: calc((100dvw - 100%) / 2);
+  padding-right: calc((100dvw - 100%) / 2);
 }

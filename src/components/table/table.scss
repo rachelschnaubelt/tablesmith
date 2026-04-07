@@ -12,7 +12,8 @@
 
     &__cell {
         flex-grow: 0;
-        border: 1px solid black;
+        border: none;
+        border: 1px solid $text;
         display: flex;
         align-items: center;
         padding: 0.2rem 0.5rem;
@@ -25,13 +26,15 @@
         position: relative;
 
         &:nth-of-type(even) {
-            background-color: $color-gray--light;
+            // background-color: $color-gray--light;
         }
 
         &:hover {
             background-color: $color-highlight;
+            background: linear-gradient(63deg, $color-primary--light, $color-highlight);
 
             .cmp-roll-table__button {
+
                 &--move-up,
                 &--move-down,
                 &--delete {
@@ -43,18 +46,19 @@
 
         &--header {
             font-weight: bold;
-            background: white;
             position: sticky;
-            border-bottom: 1px solid black;
-            padding-bottom: 0.3rem;
+            padding-bottom: 0.5rem;
             z-index: 1;
+            align-items: flex-end;
+            background: $bg;
+            padding-top: 0.5rem;
 
             .cmp-roll-table__cell {
-                border-color: transparent;
+                border: none;
             }
 
             &:hover {
-                background: white;
+                background: $bg;
             }
         }
     }
@@ -80,7 +84,46 @@
         }
     }
 
+    &__body {
+        border: 3px solid $text;
+        border-radius: 1rem;
+        margin-top: 0.5rem;
+
+        .cmp-roll-table {
+            &__row {
+                &:nth-of-type(1) {
+                    border-top-left-radius: 0.8rem;
+                    border-top-right-radius: 0.8rem;
+
+                    .cmp-roll-table__cell {
+                        border-top: none;
+                    }
+                }
+
+                &:nth-last-of-type(1) {
+                    border-bottom-left-radius: 0.8rem;
+                    border-bottom-right-radius: 0.8rem;
+
+                    .cmp-roll-table__cell {
+                        border-bottom: none;
+                    }
+                }
+            }
+
+            &__cell {
+                &:nth-child(1) {
+                    border-left: none;
+                }
+            }
+
+            &__input {
+                border-right: none;
+            }
+        }
+    }
+
     &__button {
+
         &--move-up,
         &--move-down {
             position: absolute;
@@ -92,6 +135,12 @@
             .cmp-button__icon {
                 transform: rotate(90deg);
             }
+        }
+
+        &--move-up,
+        &--move-down,
+        &--delete {
+            line-height: 1;
         }
 
         &--move-up {
@@ -134,15 +183,23 @@
                 display: flex;
                 flex-direction: column;
                 display: none;
-                // column-gap: 0.5rem;
-                // justify-content: flex-end;
+                row-gap: 0.3rem;
                 position: absolute;
                 right: 0;
-                // width: 0;
-                // overflow: hidden;
-                backdrop-filter: blur(10px);
-                // transition: 0.3s;
-                // z-index: 10;
+                background-color: $bg;
+                border-radius: 1rem;
+                box-shadow: $shadow--button-hover;
+                transform: translateY(0.5rem);
+                &::before {
+                    content: '';
+                    display: block;
+                    width: 100%;
+                    position: absolute;
+                    bottom: 100%;
+                    left: 0;
+                    background-color: transparent;
+                    height: 0.5rem;
+                }
             }
 
             &:hover {
@@ -150,19 +207,7 @@
                     &__actions__menu {
                         &__dropdown {
                             display: flex;
-                            // width: auto;
                             padding: 0.5rem;
-
-                        }
-
-                        &-button {
-                            // width: auto;
-                            // column-gap: 0.5rem;
-                            // border-radius: initial initial 0 0;
-
-                            .cmp-button__label {
-                                // width: auto;
-                            }
                         }
                     }
                 }

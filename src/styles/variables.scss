@@ -1,21 +1,24 @@
 :root {
-  --background-color: white;
-  --text-color: black;
-  --modal-bg: white;
+  --background-color: #fff2e0;
+  --text-color: #4B3660;
+  --modal-bg: #fff2e0;
   --sidebar-bg: #ccc;
   --font-family: Arial, Helvetica, sans-serif;
   --max-width: 1000px;
   --page-padding: 1rem;
-  --color-primary: green;
-  --color-primary--light: #90ee90;
-  --color-higlight: #c9f2c9;
+  --color-primary: #c68efd;
+  --color-primary--light: #e9a5f1;
+  --color-higlight: #f5d7f9;
   --color-gray--light: #ccc;
   --color-gray--dark: #333;
+  --color-warning: #E63946;
+  --shadow--button-hover: 0.3rem 0.3rem 0.8rem rgba(0,0,0,0.3),
+                          0.1rem 0.1rem 0.6rem rgba(0,0,0,0.5);
 }
 
 .theme--modern--dark {
   --background-color: black;
-  --text-color: white;
+  --text-color: #fff2e0;
   --modal-bg: black;
   --sidebar-bg: #333;
 }
@@ -32,3 +35,5 @@ $color-primary--light: var(--color-primary--light);
 $color-gray--light: var(--color-gray--light);
 $color-gray--dark: var(--color-gray--dark);
 $color-highlight: var(--color-higlight);
+$color-warning: var(--color-warning);
+$shadow--button-hover: var(--shadow--button-hover);

@@ -19,7 +19,7 @@ const DistributionChart = React.memo(({ comboObj }) => {
                     className="custom-tooltip"
                     style={{
                         border: '1px solid #d88488',
-                        backgroundColor: '#fff',
+                        backgroundColor: '#fff2e0',
                         padding: '10px',
                         borderRadius: '5px',
                         boxShadow: '1px 1px 2px #d88488',

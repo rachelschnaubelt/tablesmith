@@ -7,25 +7,62 @@
     transition: 0.3s;
     text-wrap: nowrap;
     font-weight: normal;
-    border: none;
-    box-shadow: 0.1rem 0.1rem 0.4rem rgba(0,0,0,0.3);
-
-    &.active {
-        background-color: $color-primary;
-        transform: scale(1.1);
-    }
+    border: 2px solid $color-primary;
+    // box-shadow: 0.1rem 0.1rem 0.4rem rgba(0,0,0,0.3);
+    background-color: $color-primary;
+    color: $text;
 
     &:hover, &:active, &:target, &:focus {
+    background-color: $color-primary--light;
+    color: $bg;
+    border-color: $color-primary--light;
+    box-shadow: $shadow--button-hover;
+    z-index: 1;
+    }
+
+    &--primary {
+
+    }
+
+    &--secondary {
+        background-color: $bg;
+        color: $color-primary;
+
+        &:hover {
+            background-color: $color-primary--light;
+            color: $bg;
+        }
+    }
+
+    &--tertiary {
+        background-color: $bg;
+        color: $text;
+        border-color: $bg;
+
+        &:hover {
+            border-color: $color-primary;
+            background-color: $bg;
+            color: $color-primary;
+        }
+    }
+
+    &--warning {
+        &:hover {
+            background-color: $color-warning;
+        }
+    }
+
+    &.active {
         background-color: $color-primary--light;
-        box-shadow: 0.3rem 0.3rem 0.8rem rgba(0,0,0,0.3),
-                    0.1rem 0.1rem 0.6rem rgba(0,0,0,0.5);
+        color: $bg;
+        border-color: $color-primary--light;
     }
 
     &--icon {
         display: flex;
         align-items: center;
         justify-content: center;
-        column-gap: 0.5rem;
+        column-gap: 0.3rem;
 
         .cmp-button {
             &__icon,

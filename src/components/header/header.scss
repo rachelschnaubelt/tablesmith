@@ -1,24 +1,13 @@
 @use '../../styles/variables.scss' as *;
 
-:root {
-    --header-bg: white;
-
-}
-
-.theme--modern--dark {
-    --header-bg: black;
-}
-
-$bg-header: var(--header-bg);
-
 .cmp-header {
     padding: 0.5rem $page-padding;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    background-color: $bg-header;
     z-index: 3;
+    background-color: $bg;
     
     &__heading {
         font-size: 2rem;
@@ -34,8 +23,7 @@ $bg-header: var(--header-bg);
 
     &__menu {
         display: flex;
-        flex-direction: column;
         align-items: flex-end;
-        row-gap: 0.5rem;
+        column-gap: 0.5rem;
     }
 }

@@ -6,15 +6,24 @@
         font-weight: 600;
         display: flex;
         justify-content: space-between;
+        align-items: center;
         padding: 0.3rem 0.5rem;
+        border-radius: 5rem;
+        background-color: $color-primary;
+        transition: 0.3s;
 
         &:hover {
             background-color: $color-primary--light;
+            box-shadow: $shadow--button-hover;
         }
     }
 
     &__contents {
         overflow: hidden;
+        transition: 0.3s;
+    }
+
+    &__arrow {
         transition: 0.3s;
     }
     

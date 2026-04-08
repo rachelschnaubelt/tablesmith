@@ -1,7 +1,6 @@
-import { useMemo } from 'react';
 import { create } from 'zustand';
 
-const defaultCount = 6;
+const defaultCount = 5;
 
 const options = {
   'd100': {
@@ -38,7 +37,8 @@ const useTableStore = create((set) => ({
     selectedOptions: {...options},
     carouselIndex: 1,
     tableDescription: '',
-    modalOpen: '',
+    loadModalOpen: '',
+    saveModalOpen: '',
     tableKey: '',
     isProbabilityColumnVisible: true,
     theme: '',
@@ -64,8 +64,11 @@ const useTableStore = create((set) => ({
     setSidebarOpen: (sidebarState) => set(() => ({
         sidebarOpen: sidebarState
     })),
-    setModalOpen: (modalState) => set(() => ({
-        modalOpen: modalState
+    setLoadModalOpen: (modalState) => set(() => ({
+        loadModalOpen: modalState
+    })),
+    setSaveModalOpen: (modalState) => set(() => ({
+        saveModalOpen: modalState
     })),
 
     setTableName: (tableName) => set({tableName}),

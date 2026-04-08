@@ -141,6 +141,7 @@
         &--move-down,
         &--delete {
             line-height: 1;
+            box-shadow: 0.1rem 0.1rem 0.3rem rgba(0,0,0,0.3) inset; // not sold on this
         }
 
         &--move-up {
@@ -219,6 +220,7 @@
         background-color: transparent;
         resize: none;
         padding: 0.8rem;
+        scrollbar-width: none;
     }
 
     &__heading {

@@ -1,3 +1,19 @@
 .cmp-card {
+    display: flex;
+    flex-direction: column;
+
+    &__heading {
+        font-weight: bold;
+    }
+
+    &__contents {
+    }
+
+    &__ctas {
+        display: flex;
+        justify-self: flex-end;
+        padding-top: 1rem;
+        margin-top: auto;
+    }
 
 }

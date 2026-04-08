@@ -5,7 +5,7 @@ import './header.scss';
 import { GearIcon, TableIcon } from "@phosphor-icons/react";
 
 const Header = () => {
-    const setModalOpen = useTableStore((state) => state.setModalOpen);
+    const setLoadModalOpen = useTableStore((state) => state.setLoadModalOpen);
     const setSidebarOpen = useTableStore((state) => state.setSidebarOpen);
     const setHeaderHeight = useTableStore((state) => state.setHeaderHeight);
     const headerRef = useRef(null);
@@ -33,7 +33,7 @@ const Header = () => {
                     <Button
                         label={'load'}
                         className={'no-print load-button'}
-                        onClick={() => { setModalOpen(true) }}
+                        onClick={() => { setLoadModalOpen(true) }}
                         type="icon"
                         icon={<TableIcon size={24} />} />
                 </div>

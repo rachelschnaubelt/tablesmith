@@ -1,18 +1,16 @@
 import './card.scss';
-import Button from "../button/button";
 
-const Card = ({heading, children, id}) => {
-    const handleDelete = () => {
-\        localStorage.removeItem(id);
-    };
+const Card = ({ heading, children, cta }) => {
 
-    return(
-        <div className="cmp-card">
-            <p>{heading}</p>
-            {children}
-            <Button 
-                label={'delete'}
-                onClick={handleDelete} />
+    return (
+        <div className='cmp-card'>
+            <p className='cmp-card__heading'>{heading}</p>
+            <div className='cmp-card__contents'>
+                {children}
+            </div>
+            <div className="cmp-card__ctas">
+                {cta}
+            </div>
         </div>
     )
 }

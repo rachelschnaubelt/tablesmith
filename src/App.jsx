@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 import Carousel from './components/carousel/carousel';
 import Table from './components/table/table';
 import Sidebar from './components/sidebar/sidebar';
-import Button from './components/button/button';
 import Modal from './components/modal/modal';
 import Gallery from './components/gallery/gallery';
 import useTableStore from './store/tableStore';
@@ -13,11 +12,13 @@ function App() {
   const setSidebarOpen = useTableStore((state) => state.setSidebarOpen);
   const entries = useTableStore((state) => state.entries);
   const setEntries = useTableStore((state) => state.setEntries);
-  const deleteEntry = useTableStore((state) => state.deleteEntry);
   const entryCount = entries.length;
   const selectedOptions = useTableStore((state) => state.selectedOptions);
   const setCarouselIndex = useTableStore((state) => state.setCarouselIndex);
-  const modalOpen = useTableStore((state) => state.modalOpen);
+  const setLoadModalOpen = useTableStore((state) => state.setLoadModalOpen);
+  const loadModalOpen = useTableStore((state) => state.loadModalOpen);
+  const setSaveModalOpen = useTableStore((state) => state.setSaveModalOpen);
+  const saveModalOpen = useTableStore((state) => state.saveModalOpen);
   const theme = useTableStore((state) => state.theme);
   const headerHeight = useTableStore((state) => state.headerHeight);
 
@@ -59,49 +60,18 @@ function App() {
 
   const comboObjects = useMemo(() => getCombinationObjects(entryCount, selectedOptions), [entryCount, selectedOptions]);
   const hints = useMemo(() => getHints(comboObjects, selectedOptions), [comboObjects]);
-
-  const tables = comboObjects.map((comboObj, index) => (
+  const tables = comboObjects.length > 0 ? comboObjects.map((comboObj, index) => (
     <Table
       key={index}
       comboObj={comboObj}
       onEntryChange={handleEntryChange}
       onEntryMove={handleChangeEntryIndex}
+      hints={hints}
+      comboCount = {comboObjects.length}
     />
-  ));
-
-  const invalidCombination = () => {
-    if (comboObjects.length <= 0) {
-      return (
-        <div>
-          <p>There is no way to create a combination of the selected dice for {entryCount} items.</p>
-          <p>Change your selected dice or add or remove items from the list.</p>
-          <table className={'cmp-roll-table'}>
-            <tbody>
-              {entries.map((entry, index) => {
-                return (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>
-                      <input
-                        value={entries[index]}
-                        onChange={e => handleEntryChange(index, e.target.value)}
-                        className='cmp-roll-table__input'
-                      />
-                    </td>
-                    <td>
-                      <Button
-                        onClick={() => { deleteEntry(index) }}
-                        label={'Remove'} />
-                    </td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
-        </div>
-      )
-    }
-  }
+  )) : 
+  <Table onEntryChange={handleEntryChange}
+        onEntryMove={handleChangeEntryIndex} />;
 
   return (
     <div 
@@ -110,19 +80,15 @@ function App() {
       <Header />
       <Sidebar
         handleQuickSetup={handleQuickSetup} />
-      {comboObjects.length > 0 && 
       <Carousel>
         {tables}
-      </Carousel>}
-      {invalidCombination()}
-      {hints && <div className='hints'>
-        {comboObjects.length > 0 && <p>Want a more even distribution?</p>}
-        {hints.closestMax && hints.maxDiff && <p>Add another {hints.maxDiff > 1 && hints.maxDiff} option{hints.maxDiff > 1 && 's'} to make a 1d{hints.closestMax} table</p>}
-        {hints.closestMin && hints.minDiff && <p>{hints.closestMax && hints.maxDiff ? 'Or remove' : 'Remove'} {hints.minDiff > 1 ? hints.minDiff : 'an'} option{hints.minDiff > 1 && 's'} to make a 1d{hints.closestMin} table</p>}
-      </div>}
+      </Carousel>
       <Modal
-        modalOpen={modalOpen}>
-          <Gallery/>
+        className='modal--load'
+        modalOpen={loadModalOpen}
+        modalHandler={setLoadModalOpen}
+        heading={'Load'}>
+          <Gallery />
       </Modal>
     </div>
   )

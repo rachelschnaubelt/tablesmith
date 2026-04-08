@@ -1,6 +1,7 @@
+import './checkbox.scss';
 import { useState } from "react";
 
-const Checkbox = ({id, name, value, label, isChecked, onChange}) => {
+const Checkbox = ({ id, name, value, label, isChecked, onChange, type, icon }) => {
     const [checked, setChecked] = useState(isChecked);
 
     const handleChange = (e) => {
@@ -9,9 +10,17 @@ const Checkbox = ({id, name, value, label, isChecked, onChange}) => {
     }
 
     return (
-        <div className="cmp-checkbox">
-            <input type='checkbox' id={id} name={name} value={value} checked={checked} onChange={(handleChange)} />
-            <label htmlFor={id}>{label}</label>
+        <div className={`cmp-checkbox ${type ? `cmp-checkbox--${type}` : ''}`}>
+            <input
+                className='cmp-checkbox__checkbox'
+                type='checkbox' id={id} name={name} value={value} checked={checked} onChange={(handleChange)} />
+            <label
+                className='cmp-checkbox__label'
+                htmlFor={id}>{icon}
+                <p>
+                    {label}
+                </p>
+            </label>
         </div>
     )
 }

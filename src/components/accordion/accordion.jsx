@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './accordion.scss';
 import { CaretDownIcon } from '@phosphor-icons/react';
 
@@ -9,7 +9,6 @@ const Accordion = ({children, label, initialState}) => {
 
     const handleToggle = () => {
         const height = contentsRef.current.scrollHeight;
-        console.log(height);
         if(!isOpen) {
             setContentHeight(height);
         }
@@ -18,6 +17,13 @@ const Accordion = ({children, label, initialState}) => {
         }
         setIsOpen(!isOpen);
     }
+
+    useEffect(() => {
+        if(isOpen) {
+            const height = contentsRef.current.scrollHeight;
+            setContentHeight(height);
+        }
+    }, children)
 
     return (
         <div className={`cmp-accordion cmp-accordion--${isOpen ? 'open' : 'closed'}`}>

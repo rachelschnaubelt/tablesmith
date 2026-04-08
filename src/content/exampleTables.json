@@ -74,7 +74,7 @@
     },
     "table2": {
         "tableName": "Extreme Weather Events",
-        "tableDescription": "Events for players to fight their way through or to complicate a scene",
+        "tableDescription": "Nature-based challenges for players to fight their way through or to complicate a scene",
         "comboObj": {
             "count": 11,
             "diceCounts": {

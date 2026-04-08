@@ -1,6 +1,20 @@
 .cmp-gallery {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: 1rem;
+
+    &__heading {
+        display: flex;
+        justify-content: center;
+        padding: 0 0 1rem;
+        font-size: 1.25rem;
+    }
+
+    &__contents {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+
+        & > * {
+            flex: 1 0 10rem;
+        }
+    }
 
 }

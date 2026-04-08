@@ -3,19 +3,20 @@ import { useEffect, useState } from "react";
 import useTableStore from '../../store/tableStore';
 import Button from '../button/button';
 import { loadTable } from '../../utils/tableManagement';
+import Card from '../card/card';
 
-const Gallery = () => {
+const Gallery = ({ }) => {
     const [cards, setCards] = useState([]);
-    const modalOpen = useTableStore((state) => state.modalOpen); 
-    const setModalOpen = useTableStore((state) => state.setModalOpen);
+    const loadModalOpen = useTableStore((state) => state.loadModalOpen);
+    const setLoadModalOpen = useTableStore((state) => state.setLoadModalOpen);
 
     const handleLoadTable = (jsonEntry) => {
         loadTable(jsonEntry);
-        setModalOpen(false);
+        setLoadModalOpen(false);
     }
 
     useEffect(() => {
-        if (modalOpen) {
+        if (loadModalOpen) {
             const entries = [];
             for (let i = 0; i < localStorage.length; i++) {
                 entries.push(localStorage.getItem(localStorage.key(i)));
@@ -24,8 +25,13 @@ const Gallery = () => {
             const cards = sortedEntries.map((entry, index) => {
                 const jsonEntry = JSON.parse(entry);
                 return (
-                    <div className='table-card' key={`card-${index}`}>
-                        <p>{jsonEntry.tableName}</p>
+                    <Card 
+                        key={`card-${index}`}
+                        heading={jsonEntry.tableName}
+                        cta={<Button
+                                label='load'
+                                onClick={() => handleLoadTable(jsonEntry)} />}>
+                        <p>{jsonEntry?.comboObj?.diceString}</p>
                         <p>{jsonEntry.tableDescription}</p>
                         <ul>
                             {/* optimize this to not continue after the fourth entry */}
@@ -37,19 +43,18 @@ const Gallery = () => {
                                 }
                             })}
                         </ul>
-                        <Button
-                            label='load'
-                            onClick={() => handleLoadTable(jsonEntry)} />
-                    </div>
+                    </Card>
                 )
             });
             setCards(cards);
         }
-    }, [modalOpen])
+    }, [loadModalOpen])
 
     return (
         <div className="cmp-gallery">
-            {cards}
+            <div className="cmp-gallery__contents">
+                {cards}
+            </div>
         </div>
     )
 }

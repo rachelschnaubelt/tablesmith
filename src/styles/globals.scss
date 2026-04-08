@@ -35,3 +35,13 @@ body {
   padding-left: calc((100dvw - 100%) / 2);
   padding-right: calc((100dvw - 100%) / 2);
 }
+
+.action-text {
+  text-decoration: underline;
+  cursor: pointer;
+  transition: 0.3s;
+
+  &:hover {
+    color: $color-highlight;
+  }
+}

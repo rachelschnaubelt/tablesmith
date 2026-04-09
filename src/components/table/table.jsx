@@ -1,13 +1,13 @@
 import './table.scss';
 import Button from "../button/button";
 import DistributionChart from '../distribution-chart/distribution-chart';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import useTableStore from '../../store/tableStore';
 import { snakeCaseString } from '../../utils/stringUtils';
 import Input from '../input/input';
 import Accordion from '../accordion/accordion';
 import Tooltip from '../tooltip/tooltip';
-import { ArrowsClockwiseIcon, CopySimpleIcon, DotsThreeIcon, EraserIcon, FilePdfIcon, FloppyDiskIcon, PlusIcon, PrinterIcon, XIcon } from '@phosphor-icons/react';
+import { ArrowsClockwiseIcon, CopySimpleIcon, DiceOneIcon, DiceSixIcon, DotsThreeIcon, EraserIcon, FilePdfIcon, FloppyDiskIcon, PlusIcon, PrinterIcon, XIcon } from '@phosphor-icons/react';
 import Modal from '../modal/modal';
 
 const Table = React.memo(({ comboObj, onEntryChange, onEntryMove, hints, comboCount }) => {
@@ -26,6 +26,9 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove, hints, comboCo
     const setEntries = useTableStore((store) => store.setEntries);
     const isProbabilityColumnVisible = useTableStore((state) => state.isProbabilityColumnVisible);
     const headerHeight = useTableStore((state) => state.headerHeight);
+    const [isRowSelected, setIsRowSelected] = useState(false);
+    const [rollResults, setRollResults] = useState({});
+    const diceRollsRef = useRef(null);
     const tableBody = useRef(null);
 
     const handleInputChange = (event, index) => {
@@ -54,7 +57,7 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove, hints, comboCo
             const probAsPercent = (prob * 100).toFixed(2);
             return (
                 <div key={roll}
-                    className='cmp-roll-table__row'>
+                    className={`cmp-roll-table__row cmp-roll-table__row--${roll}`}>
                     <p className='cmp-roll-table__column--number cmp-roll-table__cell'>{roll}</p>
                     {isProbabilityColumnVisible && <p className='cmp-roll-table__column--probability cmp-roll-table__cell'>{probAsPercent}%</p>}
                     <textarea
@@ -93,7 +96,7 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove, hints, comboCo
         return entries.map((entry, index) => {
             return (
                 <div key={index}
-                    className='cmp-roll-table__row'>
+                    className={`cmp-roll-table__row cmp-roll-table__row--${index + 1}`}>
                     <p className='cmp-roll-table__column--number cmp-roll-table__cell'>{index + 1}</p>
                     <textarea
                         value={entries[index]}
@@ -165,23 +168,23 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove, hints, comboCo
                 </tbody>
             </table>`;
 
-            const markdown = `
+        const markdown = `
 **${tableName}**
 ${tableDescription}
 | **${comboObj && comboObj.diceString ? `Roll ${comboObj.diceString}` : 'Item'}** | **${comboObj && isProbabilityColumnVisible ? `Probability` : ''}** | **Value** |
 | ------------ | ${comboObj && isProbabilityColumnVisible ? `--------------- |` : ''} ----------------- |
 ${comboObj ? Object.entries(comboObj.probabilities).map(([roll, prob], index) => {
-return (`| ${roll} | ${isProbabilityColumnVisible ? `${(prob * 100).toFixed(2)}% |` : ''} ${entries[index]} |`)
-}).join('')
-:
-entries.map((entry, index) => {
-return (`| ${index + 1} | ${entry} |  `)
-}).join('')}
+            return (`| ${roll} | ${isProbabilityColumnVisible ? `${(prob * 100).toFixed(2)}% |` : ''} ${entries[index]} |`)
+        }).join('')
+                :
+                entries.map((entry, index) => {
+                    return (`| ${index + 1} | ${entry} |  `)
+                }).join('')}
             `;
         try {
             const clipboardItemData = {
                 ['text/html']: new Blob([html], { type: 'text/html' }),
-                [ 'text/plain' ]: new Blob([markdown], {type: 'text/plain'})
+                ['text/plain']: new Blob([markdown], { type: 'text/plain' })
             };
             const clipboardItem = new ClipboardItem(clipboardItemData);
             await navigator.clipboard.write([clipboardItem]);
@@ -224,6 +227,59 @@ return (`| ${index + 1} | ${entry} |  `)
         setTableDescription('');
     }
 
+    const handleRoll = () => {
+        let total = 0;
+        if (comboObj) {
+            const combination = comboObj.combination;
+            const results = [];
+            combination.map(die => {
+                const faces = parseInt(die.substring(1));
+                const result = Math.ceil(Math.random() * faces);
+                results.push({
+                    die,
+                    result
+                })
+                total += result;
+            })
+
+            setRollResults({
+                results,
+                total
+            })
+
+            diceRollsRef.current.style.height = `${diceRollsRef.current.scrollHeight}px`;
+        }
+        else {
+            const numItems = entries.length;
+            total = Math.ceil(Math.random() * numItems);
+            setRollResults({
+                results: [],
+                total
+            })
+        }
+        // find appropriate row
+            // clear selected rows
+            const previousSelect = tableBody.current.querySelectorAll('.cmp-roll-table__row.selected');
+            previousSelect.forEach(row => row.classList.remove('selected'));
+
+            const row = tableBody.current.querySelector(`.cmp-roll-table__row--${total}`);
+            row.classList.add('selected');
+            const rowY = row.getBoundingClientRect().y;
+            const windowHeight = window.innerHeight;
+            const bufferTop = 125;
+            const bufferBottom = 100;
+            if (rowY > windowHeight - bufferBottom || rowY < bufferTop) {
+                row.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            }
+            setIsRowSelected(true);
+    }
+
+    const handleClearSelection = () => {
+        const previousSelect = tableBody.current.querySelectorAll('.cmp-roll-table__row.selected');
+        previousSelect.forEach(row => row.classList.remove('selected'));
+        setIsRowSelected(false);
+    }
+
     return (
         <div>
             <div className='cmp-roll-table'>
@@ -258,6 +314,29 @@ return (`| ${index + 1} | ${entry} |  `)
                                     onClick={() => { addEntry() }}
                                     type="icon"
                                     icon={<PlusIcon size={24} />} />
+                                <div className='cmp-roll-table__roll-menu'>
+                                    <Button
+                                        label={comboObj ? 'roll' : 'get random'}
+                                        className={'no-print add-button cmp-roll-table__roll-menu__button'}
+                                        onClick={handleRoll}
+                                        type="icon"
+                                        icon={<DiceSixIcon size={24} />} />
+                                    {rollResults && rollResults.results &&
+                                        <div className="cmp-roll-table__roll-menu__container">
+                                            <p className='cmp-roll-table__roll-menu__heading'>Result: {rollResults.total}</p>
+                                            <div className='cmp-roll-table__roll-menu__dice-rolls'
+                                                ref={diceRollsRef}>
+                                                {rollResults.results.map(({ die, result }) => {
+                                                    return (
+                                                        <div key={die} className='cmp-roll-table__roll-menu__die-roll'>
+                                                            <p className='cmp-roll-table__roll-menu__die'>{die}</p>
+                                                            <p className='cmp-roll-table__roll-menu__result'>{result}</p>
+                                                        </div>
+                                                    )
+                                                })}
+                                            </div>
+                                        </div>}
+                                </div>
                                 <div className='cmp-roll-table__actions__menu' >
                                     <Button
                                         className={'cmp-roll-table__actions__menu-button no-print'}
@@ -301,6 +380,13 @@ return (`| ${index + 1} | ${entry} |  `)
                                             type='icon'
                                             onClick={handleSaveAsPDF}
                                             hierarchy={'tertiary'} />
+                                        {isRowSelected && <Button
+                                            label={'unmark selected row'}
+                                            className={'no-print'}
+                                            icon={<DiceOneIcon size={16} />}
+                                            type='icon'
+                                            onClick={handleClearSelection}
+                                            hierarchy={'tertiary'} />}
                                         <Button
                                             label={'clear'}
                                             className={'no-print'}

@@ -1,6 +1,5 @@
 import './modal.scss';
 import Button from '../button/button';
-import useTableStore from '../../store/tableStore';
 import { XIcon } from '@phosphor-icons/react';
 import { useEffect, useRef } from 'react';
 

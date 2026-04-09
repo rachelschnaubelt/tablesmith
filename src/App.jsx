@@ -17,8 +17,6 @@ function App() {
   const setCarouselIndex = useTableStore((state) => state.setCarouselIndex);
   const setLoadModalOpen = useTableStore((state) => state.setLoadModalOpen);
   const loadModalOpen = useTableStore((state) => state.loadModalOpen);
-  const setSaveModalOpen = useTableStore((state) => state.setSaveModalOpen);
-  const saveModalOpen = useTableStore((state) => state.saveModalOpen);
   const theme = useTableStore((state) => state.theme);
   const headerHeight = useTableStore((state) => state.headerHeight);
 

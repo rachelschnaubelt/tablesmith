@@ -2,17 +2,58 @@
 
 .cmp-checkbox {
     position: relative;
+    color: $color-primary;
     
     &__checkbox {
-        
+        width: 0;
+        height: 0;
+        opacity: 0;
+        position: absolute;
+
+        &:checked {
+            +.cmp-checkbox {
+                &__label {
+                    .cmp-checkbox__checked-icon {
+                        opacity: 1;
+                    }
+                }
+            }
+        }
     }
     
     &__label {
         cursor: pointer;
+        display: flex;
+        flex-direction: row;
+        column-gap: 0.5rem;
+        align-items: center;
+    }
+
+    &::before {
+        content: '';
+        display: block;
+        width: 1.25em;
+        height: 1.25em;
+        top: 50%;
+        transform: translateY(-50%);
+        border: 2px solid $color-primary;
+        position: absolute;
+        border-radius: 0.3rem;
+        z-index: -1;
+    }
+
+    &__checked-icon {
+        transition: 0.3s;
+        opacity: 0;
+        margin-left: 0.12em;
     }
 
 
     &--icon {
+
+        &::before {
+            content: none;
+        }
         .cmp-checkbox {
             &__checkbox {
                 width: 0;
@@ -21,10 +62,29 @@
                 position: absolute;
 
                 &:checked {
-                    +.cmp-checkbox__label {
+                    +.cmp-checkbox {
+                        &__label {
                         color: $bg;
                         background-color: $color-primary;
+                        box-shadow: 0.1rem 0.1rem 0.3rem rgba(0,0,0,0.3) inset;
+                        transition: 0.3s;
+                        
+                        &:hover {
+                            background-color: $bg;
+                            color: $color-primary;
+                        }
+                        
+                        &:active {
+                            box-shadow: $shadow--button-hover;
+                            
+                        }
+
+                        .cmp-checkbox__checked-icon {
+                            opacity: 1;
+                        }
                     }
+                }
+                
                 }
             }
 
@@ -35,10 +95,31 @@
                 border: 2px solid $color-primary;
                 border-radius: 0.5rem;
                 transition: 0.3s;
-
+                padding: 0.3rem;
+                
                 &:hover {
                     box-shadow: $shadow--button-hover;
                 }
+                
+                &:active { 
+                    box-shadow: 0.1rem 0.1rem 0.3rem rgba(0,0,0,0.3) inset;
+                    background-color: $color-primary;
+                    color: $bg;
+
+                    .cmp-checkbox__checked-icon {
+                        opacity: 1;
+                    }
+                }
+            }
+
+            &__checked-icon {
+                position: absolute;
+                bottom: 100%;
+                left: 100%;
+                transform: translate(-75%, 75%);
+                filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.7));
+                opacity: 0;
+                transition: 0.3s;
             }
         }
     }

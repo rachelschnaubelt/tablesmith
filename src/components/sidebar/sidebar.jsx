@@ -4,7 +4,7 @@ import Checkbox from '../checkbox/checkbox';
 import './sidebar.scss';
 import exampleTables from '../../content/exampleTables.json';
 import { loadTable } from '../../utils/tableManagement';
-import { NumberEightIcon, NumberFourIcon, NumberOneIcon, NumberSixIcon, NumberTwoIcon, NumberZeroIcon, XIcon } from '@phosphor-icons/react';
+import { DiceFourIcon, DiceSixIcon, DiceTwoIcon, NumberEightIcon, NumberFourIcon, NumberOneIcon, NumberSixIcon, NumberTwoIcon, NumberZeroIcon, XIcon } from '@phosphor-icons/react';
 
 const Sidebar = ({ handleQuickSetup }) => {
     const sidebarOpen = useTableStore((state) => state.sidebarOpen);
@@ -42,7 +42,7 @@ const Sidebar = ({ handleQuickSetup }) => {
                             isChecked={false}
                             onChange={setSelectedOptions}
                             type="icon"
-                            icon={<NumberTwoIcon size={32} />} />
+                            icon={<DiceTwoIcon size={32} />} />
                         <Checkbox
                             id="d4"
                             name="dice"
@@ -51,7 +51,7 @@ const Sidebar = ({ handleQuickSetup }) => {
                             isChecked={true}
                             onChange={setSelectedOptions}
                             type="icon"
-                            icon={<NumberFourIcon size={32} />} />
+                            icon={<DiceFourIcon size={32} />} />
                         <Checkbox
                             id="d6"
                             name="dice"
@@ -60,7 +60,7 @@ const Sidebar = ({ handleQuickSetup }) => {
                             isChecked={true}
                             onChange={setSelectedOptions}
                             type="icon"
-                            icon={<NumberSixIcon size={32} />} />
+                            icon={<DiceSixIcon size={32} />} />
                         <Checkbox
                             id="d8"
                             name="dice"
@@ -69,7 +69,7 @@ const Sidebar = ({ handleQuickSetup }) => {
                             isChecked={true}
                             onChange={setSelectedOptions}
                             type="icon"
-                            icon={<NumberEightIcon size={32} />} />
+                            icon={<DiceSixIcon size={32} />} />
                         <Checkbox
                             id="d10"
                             name="dice"
@@ -78,7 +78,7 @@ const Sidebar = ({ handleQuickSetup }) => {
                             isChecked={true}
                             onChange={setSelectedOptions}
                             type="icon"
-                            icon={<><NumberOneIcon size={32} /><NumberZeroIcon size={32} /></>} />
+                            icon={<DiceSixIcon size={32} />} />
                         <Checkbox
                             id="d12"
                             name="dice"
@@ -87,7 +87,7 @@ const Sidebar = ({ handleQuickSetup }) => {
                             isChecked={true}
                             onChange={setSelectedOptions}
                             type="icon"
-                            icon={<><NumberOneIcon size={32} /><NumberTwoIcon size={32} /></>} />
+                            icon={<DiceSixIcon size={32} />} />
                         <Checkbox
                             id="d20"
                             name="dice"
@@ -96,7 +96,7 @@ const Sidebar = ({ handleQuickSetup }) => {
                             isChecked={true}
                             onChange={setSelectedOptions}
                             type="icon"
-                            icon={<><NumberTwoIcon size={32} /><NumberZeroIcon size={32} /></>} />
+                            icon={<DiceSixIcon size={32} />} />
                         <Checkbox
                             id="d100"
                             name="dice"
@@ -105,7 +105,7 @@ const Sidebar = ({ handleQuickSetup }) => {
                             isChecked={true}
                             onChange={setSelectedOptions}
                             type="icon"
-                            icon={<><NumberOneIcon size={32} /><NumberZeroIcon size={32} /><NumberZeroIcon size={32} /></>} />
+                            icon={<DiceSixIcon size={32} />} />
                     </div>
                 </div>
                 <div className='settings-menu__quick-setup settings-menu__section'>

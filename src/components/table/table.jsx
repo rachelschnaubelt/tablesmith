@@ -39,7 +39,7 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove, hints, comboCo
         const children = tableBody.current.children;
         const row1 = children[index1];
         const row2 = children[index2];
-        if(row1 && row2) {
+        if (row1 && row2) {
             const textarea1 = row1.querySelector('textarea');
             const textarea2 = row2.querySelector('textarea');
             const ta1scrollHeight = textarea1.scrollHeight;
@@ -67,23 +67,23 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove, hints, comboCo
                         onClick={() => { handleEntryMove(index, index - 1) }}
                         label='swap'
                         type="icon"
-                        icon={<ArrowsClockwiseIcon size={16} />} 
+                        icon={<ArrowsClockwiseIcon size={16} />}
                         hierarchy="secondary" />}
                     {index !== entryCount - 1 && <Button
                         className='no-print cmp-roll-table__button--move-down'
                         onClick={() => { handleEntryMove(index, index + 1) }}
                         label='swap'
                         type="icon"
-                        icon={<ArrowsClockwiseIcon size={16}/>}
-                        hierarchy="secondary"  />}
+                        icon={<ArrowsClockwiseIcon size={16} />}
+                        hierarchy="secondary" />}
                     <Button
                         className='no-print cmp-roll-table__button--delete'
                         onClick={() => { deleteEntry(index) }}
                         label={'Remove'}
                         type='icon'
                         icon={<XIcon size={16} />}
-                        hierarchy="secondary" 
-                        isWarning={true}/>
+                        hierarchy="secondary"
+                        isWarning={true} />
                 </div>
             );
         });
@@ -105,23 +105,23 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove, hints, comboCo
                         onClick={() => { handleEntryMove(index, index - 1) }}
                         label='swap'
                         type="icon"
-                        icon={<ArrowsClockwiseIcon size={16} />} 
+                        icon={<ArrowsClockwiseIcon size={16} />}
                         hierarchy="secondary" />}
                     {index !== entryCount - 1 && <Button
                         className='no-print cmp-roll-table__button--move-down'
                         onClick={() => { handleEntryMove(index, index + 1) }}
                         label='swap'
                         type="icon"
-                        icon={<ArrowsClockwiseIcon size={16}/>}
-                        hierarchy="secondary"  />}
-                    <Button
+                        icon={<ArrowsClockwiseIcon size={16} />}
+                        hierarchy="secondary" />}
+                    {entryCount > 2 && <Button
                         className='no-print cmp-roll-table__button--delete'
                         onClick={() => { deleteEntry(index) }}
                         label={'Remove'}
                         type='icon'
                         icon={<XIcon size={16} />}
-                        hierarchy="secondary" 
-                        isWarning={true}/>
+                        hierarchy="secondary"
+                        isWarning={true} />}
                 </div>
             )
         })
@@ -141,26 +141,47 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove, hints, comboCo
             <table>
                 <thead>
                     <tr>
-                        <th>Roll ${comboObj.diceString}</th>
-                        ${isProbabilityColumnVisible ? `<th>Probability</th>` : ''}
+                        ${comboObj && comboObj.diceString ? `<th>Roll ${comboObj.diceString}</th>` : '<th>Item</th>'}
+                        ${comboObj && isProbabilityColumnVisible ? `<th>Probability</th>` : ''}
                         <th>Value</th>
                     </tr>
                 </thead>
                 <tbody>
-                    ${Object.entries(comboObj.probabilities).map(([roll, prob], index) => {
+                    ${comboObj ? Object.entries(comboObj.probabilities).map(([roll, prob], index) => {
             return (`<tr>
                             <td>${roll}</td>
-                            ${isProbabilityColumnVisible ? `<td>${(prob * 100).toFixed(2)}</td>` : ''}
+                            ${isProbabilityColumnVisible ? `<td>${(prob * 100).toFixed(2)}%</td>` : ''}
                             <td>${entries[index]}</td>
                         </tr>`)
-        }).join('')}
+        }).join('')
+                :
+                entries.map((entry, index) => {
+                    return (`<tr>
+        <td>${index + 1}</td>
+        <td>${entry}</td>
+        </tr>`
+                    )
+                }).join('')}
                 </tbody>
             </table>`;
 
+            const markdown = `
+**${tableName}**
+${tableDescription}
+| **${comboObj && comboObj.diceString ? `Roll ${comboObj.diceString}` : 'Item'}** | **${comboObj && isProbabilityColumnVisible ? `Probability` : ''}** | **Value** |
+| ------------ | ${comboObj && isProbabilityColumnVisible ? `--------------- |` : ''} ----------------- |
+${comboObj ? Object.entries(comboObj.probabilities).map(([roll, prob], index) => {
+return (`| ${roll} | ${isProbabilityColumnVisible ? `${(prob * 100).toFixed(2)}% |` : ''} ${entries[index]} |`)
+}).join('')
+:
+entries.map((entry, index) => {
+return (`| ${index + 1} | ${entry} |  `)
+}).join('')}
+            `;
         try {
-            const type = "text/html";
             const clipboardItemData = {
-                [type]: new Blob([html], { type }),
+                ['text/html']: new Blob([html], { type: 'text/html' }),
+                [ 'text/plain' ]: new Blob([markdown], {type: 'text/plain'})
             };
             const clipboardItem = new ClipboardItem(clipboardItemData);
             await navigator.clipboard.write([clipboardItem]);
@@ -204,7 +225,6 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove, hints, comboCo
     }
 
     return (
-        <>
         <div>
             <div className='cmp-roll-table'>
                 <div className='cmp-roll-table__inner'
@@ -265,12 +285,12 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove, hints, comboCo
                                             className={'no-print'}
                                             icon={<FloppyDiskIcon size={16} />}
                                             type="icon"
-                                            onClick={() => { 
-                                                if(tableKey) {
+                                            onClick={() => {
+                                                if (tableKey) {
                                                     setSaveModalOpen(true);
                                                 }
                                                 else {
-                                                    handleSave(tableKey) 
+                                                    handleSave(tableKey)
                                                 }
                                             }}
                                             hierarchy={'tertiary'} />
@@ -294,8 +314,8 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove, hints, comboCo
                         </div>
                         <div className='cmp-roll-table__body'
                             ref={tableBody}>
-                            {comboObj ? 
-                                getProbabilityRows(comboObj.probabilities) 
+                            {comboObj ?
+                                getProbabilityRows(comboObj.probabilities)
                                 : getListRows()}
                         </div>
                     </div>
@@ -318,24 +338,23 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove, hints, comboCo
                     </div>}
                 </Accordion>}
             </div>
+            <Modal
+                className='modal--save'
+                modalOpen={saveModalOpen}
+                modalHandler={setSaveModalOpen}
+                heading={'Save'}>
+                <p>This table is already saved. Would you like to overwrite the existing save?</p>
+                <div className='cmp-modal__button-group'>
+                    <Button
+                        label='overwrite existing save'
+                        onClick={() => { handleSave(tableKey); setSaveModalOpen(false) }} />
+                    <Button
+                        label='save as new table'
+                        hierarchy={'secondary'}
+                        onClick={() => { handleSave(); setSaveModalOpen(false) }} />
+                </div>
+            </Modal>
         </div>
-        <Modal
-        className='modal--save'
-        modalOpen={saveModalOpen}
-        modalHandler={setSaveModalOpen}
-        heading={'Save'}>
-            <p>This table is already saved. Would you like to overwrite the existing save?</p>
-            <div className='cmp-modal__button-group'>
-                <Button
-                    label='overwrite existing save'
-                    onClick={() => {handleSave(tableKey); setSaveModalOpen(false)}} />
-                <Button
-                    label='save as new table'
-                    hierarchy={'secondary'}
-                    onClick={() => {handleSave(); setSaveModalOpen(false)}} />
-            </div>
-        </Modal>
-        </>
     )
 });
 

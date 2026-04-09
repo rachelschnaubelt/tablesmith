@@ -6,7 +6,7 @@ import useTableStore from "../../store/tableStore";
 
 const Carousel = ({ children }) => {
     const [index, setIndex] = useState(1);
-    const defaultIndex = useTableStore((store) => store.carouselIndex);
+    const carouselIndex = useTableStore((store) => store.carouselIndex);
     const buttonContainerRef = useRef(null);
     const entries = useTableStore((state) => state.entries);
     const setSidebarOpen = useTableStore((state) => state.setSidebarOpen);
@@ -61,9 +61,10 @@ const Carousel = ({ children }) => {
     }
 
     useEffect(() => {
-        setIndex(defaultIndex);
-        setActiveButton(defaultIndex);
-    }, [defaultIndex])
+        console.log('loaded');
+        setIndex(carouselIndex);
+        setActiveButton(carouselIndex);
+    }, [carouselIndex]);
 
     return (
         <div className="cmp-carousel">

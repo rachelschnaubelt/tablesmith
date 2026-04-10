@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-const defaultCount = 5;
+const defaultCount = 20;
 
 const options = {
   'd100': {

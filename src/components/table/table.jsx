@@ -9,6 +9,7 @@ import Accordion from '../accordion/accordion';
 import Tooltip from '../tooltip/tooltip';
 import { ArrowsClockwiseIcon, CopySimpleIcon, DiceOneIcon, DiceSixIcon, DotsThreeIcon, EraserIcon, FilePdfIcon, FloppyDiskIcon, PlusIcon, PrinterIcon, XIcon } from '@phosphor-icons/react';
 import Modal from '../modal/modal';
+import html2pdf from 'html2pdf.js';
 
 const Table = React.memo(({ comboObj, onEntryChange, onEntryMove, hints, comboCount }) => {
     const entries = useTableStore((store) => store.entries);
@@ -200,7 +201,8 @@ ${comboObj ? Object.entries(comboObj.probabilities).map(([roll, prob], index) =>
     }
 
     const handleSaveAsPDF = () => {
-        return;
+        // const element = document.querySelector('.cmp-roll-table');
+        // html2pdf().from(element).save()
     }
 
     const handleSave = (storageKey) => {
@@ -247,7 +249,9 @@ ${comboObj ? Object.entries(comboObj.probabilities).map(([roll, prob], index) =>
                 total
             })
 
-            diceRollsRef.current.style.height = `${diceRollsRef.current.scrollHeight}px`;
+            if (diceRollsRef.current) {
+                diceRollsRef.current.style.height = `${diceRollsRef.current.scrollHeight}px`;
+            }
         }
         else {
             const numItems = entries.length;
@@ -257,21 +261,25 @@ ${comboObj ? Object.entries(comboObj.probabilities).map(([roll, prob], index) =>
                 total
             })
         }
-        // find appropriate row
-            // clear selected rows
-            const previousSelect = tableBody.current.querySelectorAll('.cmp-roll-table__row.selected');
-            previousSelect.forEach(row => row.classList.remove('selected'));
 
-            const row = tableBody.current.querySelector(`.cmp-roll-table__row--${total}`);
-            row.classList.add('selected');
-            const rowY = row.getBoundingClientRect().y;
-            const windowHeight = window.innerHeight;
-            const bufferTop = 125;
-            const bufferBottom = 100;
-            if (rowY > windowHeight - bufferBottom || rowY < bufferTop) {
-                row.scrollIntoView({ block: 'center', behavior: 'smooth' });
-            }
-            setIsRowSelected(true);
+        const previousSelect = tableBody.current.querySelectorAll('.cmp-roll-table__row.selected');
+        previousSelect.forEach(row => row.classList.remove('selected'));
+
+        const row = tableBody.current.querySelector(`.cmp-roll-table__row--${total}`);
+        row.classList.add('selected');
+        const rowY = row.getBoundingClientRect().y;
+        const windowHeight = window.innerHeight;
+        const bufferTop = 125;
+        const bufferBottom = 100;
+        if (rowY > windowHeight - bufferBottom || rowY < bufferTop) {
+            row.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        }
+        setIsRowSelected(true);
+    }
+
+    const handleCloseRollMenu = () => {
+        setRollResults({});
+        handleClearSelection();
     }
 
     const handleClearSelection = () => {
@@ -323,6 +331,13 @@ ${comboObj ? Object.entries(comboObj.probabilities).map(([roll, prob], index) =>
                                         icon={<DiceSixIcon size={24} />} />
                                     {rollResults && rollResults.results &&
                                         <div className="cmp-roll-table__roll-menu__container">
+                                            <Button
+                                                className={'cmp-roll-table__roll-menu__close'}
+                                                icon={<XIcon size={16} />}
+                                                type='icon'
+                                                hierarchy={'secondary'}
+                                                isWarning={true} 
+                                                onClick={handleCloseRollMenu} />
                                             <p className='cmp-roll-table__roll-menu__heading'>Result: {rollResults.total}</p>
                                             <div className='cmp-roll-table__roll-menu__dice-rolls'
                                                 ref={diceRollsRef}>
@@ -353,7 +368,7 @@ ${comboObj ? Object.entries(comboObj.probabilities).map(([roll, prob], index) =>
                                             onClick={handleCopyTable}
                                             hierarchy={'tertiary'} />
                                         <Button
-                                            label={'print'}
+                                            label={'print/save as pdf'}
                                             className={'no-print'}
                                             icon={<PrinterIcon size={16} />}
                                             type="icon"
@@ -372,13 +387,6 @@ ${comboObj ? Object.entries(comboObj.probabilities).map(([roll, prob], index) =>
                                                     handleSave(tableKey)
                                                 }
                                             }}
-                                            hierarchy={'tertiary'} />
-                                        <Button
-                                            label={'save as pdf'}
-                                            className={'no-print'}
-                                            icon={<FilePdfIcon size={16} />}
-                                            type='icon'
-                                            onClick={handleSaveAsPDF}
                                             hierarchy={'tertiary'} />
                                         {isRowSelected && <Button
                                             label={'unmark selected row'}

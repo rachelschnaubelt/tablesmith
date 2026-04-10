@@ -286,6 +286,12 @@
             margin-top: 0.5rem;
             transition: 0.3s;
 
+            &:hover {
+                .cmp-roll-table__roll-menu__close {
+                    opacity: 1;
+                }
+            }
+
             &::after {
                 content: '';
                 display: block;
@@ -295,6 +301,14 @@
                 left: 0;
                 right: 0;
             }            
+        }
+
+        &__close {
+            position: absolute;
+            left: 100%;
+            bottom: 100%;
+            transform: translate(-50%, 60%) scale(0.8);
+            opacity: 0;
         }
 
         &__heading {
@@ -309,6 +323,8 @@
             height: 0 !important;
             overflow: hidden;
             transition: 0.3s;
+
+            
         }
 
         &__die-roll {

@@ -57,7 +57,7 @@ function App() {
   }
 
   const comboObjects = useMemo(() => getCombinationObjects(entryCount, selectedOptions), [entryCount, selectedOptions]);
-  const hints = useMemo(() => getHints(comboObjects, selectedOptions), [comboObjects]);
+  const hints = useMemo(() => getHints(comboObjects, selectedOptions), [comboObjects, selectedOptions]);
   const tables = comboObjects.length > 0 ? comboObjects.map((comboObj, index) => (
     <Table
       key={index}

@@ -249,15 +249,6 @@
 
     &__description {}
 
-    &__variance {
-        display: flex;
-        justify-content: center;
-
-        &>p {
-            width: fit-content;
-        }
-    }
-
     &__roll-menu {
         position: relative;
 
@@ -343,5 +334,33 @@
 
         &__result {
         }
+    }
+
+    &__advanced-stats {
+        display: flex;
+        justify-content: space-evenly;
+        gap: 2rem;
+        flex-wrap: wrap;
+    }
+
+    &__distribution-chart {
+        flex: 1 0 calc(50% - (2rem/2));
+        flex-shrink: 0;
+    }
+
+    &__roll-stats {
+        flex: 1 0 calc(50% - (2rem/2));
+    }
+
+    &__hints {
+        flex: 1 1 auto;
+    }
+
+    &__variance {
+
+    }
+
+    &__standard-deviation {
+
     }
 }

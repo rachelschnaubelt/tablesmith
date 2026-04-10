@@ -23,7 +23,7 @@ const Accordion = ({children, label, initialState}) => {
             const height = contentsRef.current.scrollHeight;
             setContentHeight(height);
         }
-    }, children)
+    }, [children])
 
     return (
         <div className={`cmp-accordion cmp-accordion--${isOpen ? 'open' : 'closed'}`}>

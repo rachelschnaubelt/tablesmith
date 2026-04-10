@@ -10,6 +10,7 @@ import Tooltip from '../tooltip/tooltip';
 import { ArrowsClockwiseIcon, CopySimpleIcon, DiceOneIcon, DiceSixIcon, DotsThreeIcon, EraserIcon, FilePdfIcon, FloppyDiskIcon, PlusIcon, PrinterIcon, XIcon } from '@phosphor-icons/react';
 import Modal from '../modal/modal';
 import html2pdf from 'html2pdf.js';
+import { getLeastLikelyRolls, getMostLikelyRolls } from '../../utils/calculations';
 
 const Table = React.memo(({ comboObj, onEntryChange, onEntryMove, hints, comboCount }) => {
     const entries = useTableStore((store) => store.entries);
@@ -31,6 +32,7 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove, hints, comboCo
     const [rollResults, setRollResults] = useState({});
     const diceRollsRef = useRef(null);
     const tableBody = useRef(null);
+    const lowestResult = comboObj.combination.length;
 
     const handleInputChange = (event, index) => {
         event.target.style.height = 'auto';
@@ -288,6 +290,14 @@ ${comboObj ? Object.entries(comboObj.probabilities).map(([roll, prob], index) =>
         setIsRowSelected(false);
     }
 
+    const evaluateRollLikelihood = (rolls) => {
+        if (rolls.length === comboObj.count) {
+            return <p>All outcomes are equally likely</p>
+        }
+
+        return <ul>{rolls.map((value) => <li key={value}>{value} {entries[value - lowestResult] ? `- ${entries[value - lowestResult]}`: ''}</li>)}</ul>;
+    }
+
     return (
         <div>
             <div className='cmp-roll-table'>
@@ -336,7 +346,7 @@ ${comboObj ? Object.entries(comboObj.probabilities).map(([roll, prob], index) =>
                                                 icon={<XIcon size={16} />}
                                                 type='icon'
                                                 hierarchy={'secondary'}
-                                                isWarning={true} 
+                                                isWarning={true}
                                                 onClick={handleCloseRollMenu} />
                                             <p className='cmp-roll-table__roll-menu__heading'>Result: {rollResults.total}</p>
                                             <div className='cmp-roll-table__roll-menu__dice-rolls'
@@ -418,18 +428,24 @@ ${comboObj ? Object.entries(comboObj.probabilities).map(([roll, prob], index) =>
                 {comboObj && <Accordion
                     label={'Advanced stats'}
                     initialState={false} >
-                    <DistributionChart comboObj={comboObj} />
-                    <div className='cmp-roll-table__variance'>
-                        <p>Variance: {comboObj.variance.toExponential(2)}</p>
-                        <Tooltip>
-                            <p>How evenly spread the probabilities are. A variance of 0 means every option is equally likely. The higher the number, the middle options will be more likely than the top or bottom of the table.</p>
-                        </Tooltip>
+                    <div className='cmp-roll-table__advanced-stats'>
+                        <div className='cmp-roll-table__distribution-chart'>
+                            <DistributionChart comboObj={comboObj} />
+                        </div>
+                        <div className='cmp-roll-table__roll-stats'>
+                            <p>Most likely to roll: </p>
+                            {evaluateRollLikelihood(getMostLikelyRolls(comboObj))}
+                            <p>Least likely to roll: </p>
+                            {evaluateRollLikelihood(getLeastLikelyRolls(comboObj))}
+                            <p className='cmp-roll-table__variance'>Variance: {comboObj.variance.toFixed(2)}</p>
+                            <p className='cmp-roll-table__standard-deviation'>Standard Deviation: {comboObj.standardDeviation.toFixed(2)}</p>
+                        </div>
+                        {hints && (Object.keys(hints).length != 0) && <div className='cmp-roll-table__hints'>
+                            {comboCount > 0 && <p>Want a more even distribution?</p>}
+                            {hints.closestMax && hints.maxDiff && <p><span className='action-text' onClick={() => {setEntries([...entries, ...Array(hints.maxDiff).fill('')])}}>Add another {hints.maxDiff > 1 && hints.maxDiff} option{hints.maxDiff > 1 && 's'}</span> to make a 1d{hints.closestMax} table</p>}
+                            {hints.closestMin && hints.minDiff && <p>{hints.closestMax && hints.maxDiff ? 'Or remove' : 'Remove'} {hints.minDiff > 1 ? hints.minDiff : 'an'} option{hints.minDiff > 1 && 's'} to make a 1d{hints.closestMin} table</p>}
+                        </div>}
                     </div>
-                    {hints && <div className='hints'>
-                        {comboCount > 0 && <p>Want a more even distribution?</p>}
-                        {hints.closestMax && hints.maxDiff && <p>Add another {hints.maxDiff > 1 && hints.maxDiff} option{hints.maxDiff > 1 && 's'} to make a 1d{hints.closestMax} table</p>}
-                        {hints.closestMin && hints.minDiff && <p>{hints.closestMax && hints.maxDiff ? 'Or remove' : 'Remove'} {hints.minDiff > 1 ? hints.minDiff : 'an'} option{hints.minDiff > 1 && 's'} to make a 1d{hints.closestMin} table</p>}
-                    </div>}
                 </Accordion>}
             </div>
             <Modal

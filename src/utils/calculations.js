@@ -68,14 +68,22 @@ const getCombinationProbabilities = (distribution, total) => {
   return probabilities;
 }
 
-const getCombinationVariance = (probabilities, count, total) => {
-  const avg = 1 / count;
-  let variance = 0;
-  for (const prob in probabilities) {
-    variance += (avg - probabilities[prob]) ** 2;
-    variance /= parseInt(prob);
+const getCombinationVariance = (probabilities) => {
+  let mean = 0;
+  for(const prob in probabilities) {
+    mean += prob * probabilities[prob];
   }
+
+  let variance = 0;
+  for(const prob in probabilities) {
+    variance += ((prob - mean) ** 2) * probabilities[prob];
+  }
+
   return variance;
+}
+
+const getCombinationStandardDeviation = (variance) => {
+  return Math.sqrt(variance);
 }
 
 const getDiceCounts = (combination) => {
@@ -109,8 +117,8 @@ const getCombinationObject = (combination, count, selectedOptions) => {
   const distribution = getCombinationDistribution(combination, selectedOptions);
   const total = combination.reduce((acc, curr) => acc * selectedOptions[curr].value, 1);
   const probabilities = getCombinationProbabilities(distribution, total);
-  const variance = getCombinationVariance(probabilities, count, total);
-  // entries
+  const variance = getCombinationVariance(probabilities);
+  const standardDeviation = getCombinationStandardDeviation(variance);
 
   return {
     count,
@@ -120,6 +128,7 @@ const getCombinationObject = (combination, count, selectedOptions) => {
     distribution,
     probabilities,
     variance,
+    standardDeviation,
     selectedOptions
   }
 }
@@ -139,7 +148,8 @@ const getHints = (comboObjs, selectedOptions) => {
     const { entries } = useTableStore.getState();
     const target = entries.length;
     const threshold = 8;
-    const singleDieSolutions = Object.values(selectedOptions).sort((a, b) => a.value - b.value);
+    const validOptions = Object.values(selectedOptions).filter(option => option.enabled);
+    const singleDieSolutions = validOptions.sort((a, b) => a.value - b.value);
 
     const closestMin = singleDieSolutions.findLast(die => die.value < target);
     const closestMax = singleDieSolutions.find(die => die.value > target);
@@ -155,6 +165,30 @@ const getHints = (comboObjs, selectedOptions) => {
   }
 }
 
+const getMostLikelyRolls = (comboObj) => {
+  let distribution = comboObj.distribution;
+  const sortedKeys = Object.keys(distribution).sort((a, b) => distribution[b] - distribution[a]);
+  const results = [sortedKeys[0]];
+  let i = 1; 
+  while(distribution[sortedKeys[i]] == distribution[results[0]]) {
+    results.push(sortedKeys[i]);
+    i++;
+  }
+  return results;
+}
+
+const getLeastLikelyRolls = (comboObj) => {
+  let distribution = comboObj.distribution;
+  const sortedKeys = Object.keys(distribution).sort((a, b) => distribution[a] - distribution[b]);
+  const results = [sortedKeys[0]];
+  let i = 1; 
+  while(distribution[sortedKeys[i]] == distribution[results[0]]) {
+    results.push(sortedKeys[i]);
+    i++;
+  }
+  return results;
+}
+
 export {
     getCombinations,
     getCombinationDistribution,
@@ -164,5 +198,8 @@ export {
     getDiceString,
     getCombinationObject,
     getCombinationObjects,
-    getHints
+    getHints,
+    getMostLikelyRolls,
+    getLeastLikelyRolls,
+    getCombinationStandardDeviation
 }

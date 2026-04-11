@@ -351,9 +351,9 @@ const Table = React.memo(({ comboObj, hints, comboCount }) => {
                                             <p className='cmp-roll-table__roll-menu__heading'>Result: {rollResults.total}</p>
                                             <div className='cmp-roll-table__roll-menu__dice-rolls'
                                                 ref={diceRollsRef}>
-                                                {rollResults.results.map(({ die, result }) => {
+                                                {rollResults.results.map(({ die, result }, index) => {
                                                     return (
-                                                        <div key={die} className='cmp-roll-table__roll-menu__die-roll'>
+                                                        <div key={index} className='cmp-roll-table__roll-menu__die-roll'>
                                                             <p className='cmp-roll-table__roll-menu__die'>{die}</p>
                                                             <p className='cmp-roll-table__roll-menu__result'>{result}</p>
                                                         </div>

@@ -5,12 +5,11 @@ import useTableStore from "../../store/tableStore";
 
 
 const Carousel = ({ children }) => {
+    const { setSidebarOpen, addEntry } = useTableStore.getState();
     const [index, setIndex] = useState(1);
     const carouselIndex = useTableStore((store) => store.carouselIndex);
     const buttonContainerRef = useRef(null);
-    const entries = useTableStore((state) => state.entries);
-    const setSidebarOpen = useTableStore((state) => state.setSidebarOpen);
-    const addEntry = useTableStore((state) => state.addEntry);
+    const entryCount = useTableStore((state) => state.entryCount);
 
     const setActiveButton = async (index) => {
         const buttonsContainer = buttonContainerRef.current;
@@ -52,7 +51,7 @@ const Carousel = ({ children }) => {
         setActiveButton(buttonIndex || 1);
         if (buttons.length <= 0) {
             return <div className="cmp-carousel__warning">
-                <p>There is no way to create a combination of the selected dice for {entries.length} items.</p>
+                <p>There is no way to create a combination of the selected dice for {entryCount} items.</p>
             <p><span className='action-text' onClick={() => {setSidebarOpen(true)}}>Change your selected dice</span>,&nbsp; 
             <span className="action-text" onClick={() => {addEntry()}}>add an item</span>, or remove an from the list.</p>
             </div>
@@ -61,7 +60,6 @@ const Carousel = ({ children }) => {
     }
 
     useEffect(() => {
-        console.log('loaded');
         setIndex(carouselIndex);
         setActiveButton(carouselIndex);
     }, [carouselIndex]);

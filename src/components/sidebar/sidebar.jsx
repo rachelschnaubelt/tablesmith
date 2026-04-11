@@ -5,13 +5,11 @@ import './sidebar.scss';
 import exampleTables from '../../content/exampleTables.json';
 import { loadTable } from '../../utils/tableManagement';
 import { DiceFourIcon, DiceSixIcon, DiceTwoIcon, NumberEightIcon, NumberFourIcon, NumberOneIcon, NumberSixIcon, NumberTwoIcon, NumberZeroIcon, XIcon } from '@phosphor-icons/react';
+import React from 'react';
 
-const Sidebar = ({ handleQuickSetup }) => {
+const Sidebar = React.memo(() => {
+    const { handleQuickSetup, setSidebarOpen, setSelectedOptions, setIsProbabilityColumnVisible, setTheme } = useTableStore.getState();
     const sidebarOpen = useTableStore((state) => state.sidebarOpen);
-    const setSidebarOpen = useTableStore((state) => state.setSidebarOpen);
-    const setSelectedOptions = useTableStore((state) => state.setSelectedOptions);
-    const setIsProbabilityColumnVisible = useTableStore((state) => state.setIsProbabilityColumnVisible);
-    const setTheme = useTableStore((state) => state.setTheme);
 
     const handleExampleSetup = (key) => {
         const table = exampleTables[key];
@@ -196,6 +194,6 @@ const Sidebar = ({ handleQuickSetup }) => {
             </div>
         </aside>
     );
-}
+})
 
 export default Sidebar;

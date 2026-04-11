@@ -11,37 +11,24 @@ import { ArrowsClockwiseIcon, CopySimpleIcon, DiceOneIcon, DiceSixIcon, DotsThre
 import Modal from '../modal/modal';
 import html2pdf from 'html2pdf.js';
 import { getLeastLikelyRolls, getMostLikelyRolls } from '../../utils/calculations';
+import EntryInput from '../entry-input/entry-input';
 
-const Table = React.memo(({ comboObj, onEntryChange, onEntryMove, hints, comboCount }) => {
-    const entries = useTableStore((store) => store.entries);
-    const entryCount = entries.length;
-    const addEntry = useTableStore((state) => state.addEntry);
-    const deleteEntry = useTableStore((store) => store.deleteEntry);
+const Table = React.memo(({ comboObj, hints, comboCount }) => {
+    const { addEntry, addEntries, deleteEntry, setTableName, setTableDescription, setSaveModalOpen, setTableKey, setEntries, handleEntryChange, handleChangeEntryIndex } = useTableStore.getState();
+    const entryCount = useTableStore((store) => store.entryCount);
     const tableName = useTableStore((store) => store.tableName);
-    const setTableName = useTableStore((store) => store.setTableName);
     const tableDescription = useTableStore((store) => store.tableDescription);
-    const setTableDescription = useTableStore((store) => store.setTableDescription);
     const saveModalOpen = useTableStore((store) => store.saveModalOpen);
-    const setSaveModalOpen = useTableStore((store) => store.setSaveModalOpen);
     const tableKey = useTableStore((store) => store.tableKey);
-    const setTableKey = useTableStore((store) => store.setTableKey);
-    const setEntries = useTableStore((store) => store.setEntries);
     const isProbabilityColumnVisible = useTableStore((state) => state.isProbabilityColumnVisible);
     const headerHeight = useTableStore((state) => state.headerHeight);
     const [isRowSelected, setIsRowSelected] = useState(false);
     const [rollResults, setRollResults] = useState({});
     const diceRollsRef = useRef(null);
     const tableBody = useRef(null);
-    const lowestResult = comboObj.combination.length;
-
-    const handleInputChange = (event, index) => {
-        event.target.style.height = 'auto';
-        event.target.style.height = event.target.scrollHeight + 3 + 'px';
-        onEntryChange(index, event.target.value);
-    }
 
     const handleEntryMove = (index1, index2) => {
-        onEntryMove(index1, index2);
+        handleChangeEntryIndex(index1, index2);
         const children = tableBody.current.children;
         const row1 = children[index1];
         const row2 = children[index2];
@@ -63,11 +50,8 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove, hints, comboCo
                     className={`cmp-roll-table__row cmp-roll-table__row--${roll}`}>
                     <p className='cmp-roll-table__column--number cmp-roll-table__cell'>{roll}</p>
                     {isProbabilityColumnVisible && <p className='cmp-roll-table__column--probability cmp-roll-table__cell'>{probAsPercent}%</p>}
-                    <textarea
-                        value={entries[index]}
-                        onChange={e => handleInputChange(e, index)}
-                        className='cmp-roll-table__input cmp-roll-table__column--value cmp-roll-table__cell'
-                    />
+                    <EntryInput
+                        index={index} />
                     {index !== 0 && <Button
                         className='no-print cmp-roll-table__button--move-up'
                         onClick={() => { handleEntryMove(index, index - 1) }}
@@ -96,16 +80,14 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove, hints, comboCo
     }
 
     const getListRows = () => {
-        return entries.map((entry, index) => {
-            return (
+        const rows = [];
+        for (let index = 0; index < entryCount; index++) {
+            rows.push(
                 <div key={index}
                     className={`cmp-roll-table__row cmp-roll-table__row--${index + 1}`}>
                     <p className='cmp-roll-table__column--number cmp-roll-table__cell'>{index + 1}</p>
-                    <textarea
-                        value={entries[index]}
-                        onChange={e => handleInputChange(e, index)}
-                        className='cmp-roll-table__input cmp-roll-table__column--value cmp-roll-table__cell'
-                    />
+                    <EntryInput
+                        index={index} />
                     {index !== 0 && <Button
                         className='no-print cmp-roll-table__button--move-up'
                         onClick={() => { handleEntryMove(index, index - 1) }}
@@ -130,71 +112,73 @@ const Table = React.memo(({ comboObj, onEntryChange, onEntryMove, hints, comboCo
                         isWarning={true} />}
                 </div>
             )
-        })
+        }
+        return rows;
     }
 
     const handleCopyTable = async () => {
-        const html = `
-            <style>
-                table, th, td {
-                    border: 1px solid black;
-                    border-collapse: collapse;
-                }
-                th, td { padding: 0 15px; }
-            </style>
-            <h1>${tableName}</h1>
-            <p>${tableDescription}</p>
-            <table>
-                <thead>
-                    <tr>
-                        ${comboObj && comboObj.diceString ? `<th>Roll ${comboObj.diceString}</th>` : '<th>Item</th>'}
-                        ${comboObj && isProbabilityColumnVisible ? `<th>Probability</th>` : ''}
-                        <th>Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${comboObj ? Object.entries(comboObj.probabilities).map(([roll, prob], index) => {
-            return (`<tr>
-                            <td>${roll}</td>
-                            ${isProbabilityColumnVisible ? `<td>${(prob * 100).toFixed(2)}%</td>` : ''}
-                            <td>${entries[index]}</td>
-                        </tr>`)
-        }).join('')
-                :
-                entries.map((entry, index) => {
+        const entries = useTableStore.getState().entries;
+                const html = `
+                    <style>
+                        table, th, td {
+                            border: 1px solid black;
+                            border-collapse: collapse;
+                        }
+                        th, td { padding: 0 15px; }
+                    </style>
+                    <h1>${tableName}</h1>
+                    <p>${tableDescription}</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                ${comboObj && comboObj.diceString ? `<th>Roll ${comboObj.diceString}</th>` : '<th>Item</th>'}
+                                ${comboObj && isProbabilityColumnVisible ? `<th>Probability</th>` : ''}
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${comboObj ? Object.entries(comboObj.probabilities).map(([roll, prob], index) => {
                     return (`<tr>
-        <td>${index + 1}</td>
-        <td>${entry}</td>
-        </tr>`
-                    )
-                }).join('')}
-                </tbody>
-            </table>`;
+                                    <td>${roll}</td>
+                                    ${isProbabilityColumnVisible ? `<td>${(prob * 100).toFixed(2)}%</td>` : ''}
+                                    <td>${entries[index]}</td>
+                                </tr>`)
+                }).join('')
+                        :
+                        entries.map((entry, index) => {
+                            return (`<tr>
+                <td>${index + 1}</td>
+                <td>${entry}</td>
+                </tr>`
+                            )
+                        }).join('')}
+                        </tbody>
+                    </table>`;
 
-        const markdown = `
-**${tableName}**
-${tableDescription}
-| **${comboObj && comboObj.diceString ? `Roll ${comboObj.diceString}` : 'Item'}** | **${comboObj && isProbabilityColumnVisible ? `Probability` : ''}** | **Value** |
-| ------------ | ${comboObj && isProbabilityColumnVisible ? `--------------- |` : ''} ----------------- |
-${comboObj ? Object.entries(comboObj.probabilities).map(([roll, prob], index) => {
-            return (`| ${roll} | ${isProbabilityColumnVisible ? `${(prob * 100).toFixed(2)}% |` : ''} ${entries[index]} |`)
-        }).join('')
-                :
-                entries.map((entry, index) => {
-                    return (`| ${index + 1} | ${entry} |  `)
-                }).join('')}
-            `;
-        try {
-            const clipboardItemData = {
-                ['text/html']: new Blob([html], { type: 'text/html' }),
-                ['text/plain']: new Blob([markdown], { type: 'text/plain' })
-            };
-            const clipboardItem = new ClipboardItem(clipboardItemData);
-            await navigator.clipboard.write([clipboardItem]);
-        }
-        catch (e) {
-            console.log(e);
-        }
+                const markdown = `
+        **${tableName}**
+        ${tableDescription}
+        | **${comboObj && comboObj.diceString ? `Roll ${comboObj.diceString}` : 'Item'}** | **${comboObj && isProbabilityColumnVisible ? `Probability` : ''}** | **Value** |
+        | ------------ | ${comboObj && isProbabilityColumnVisible ? `--------------- |` : ''} ----------------- |
+        ${comboObj ? Object.entries(comboObj.probabilities).map(([roll, prob], index) => {
+                    return (`| ${roll} | ${isProbabilityColumnVisible ? `${(prob * 100).toFixed(2)}% |` : ''} ${entries[index]} |`)
+                }).join('')
+                        :
+                        entries.map((entry, index) => {
+                            return (`| ${index + 1} | ${entry} |  `)
+                        }).join('')}
+                    `;
+                try {
+                    const clipboardItemData = {
+                        ['text/html']: new Blob([html], { type: 'text/html' }),
+                        ['text/plain']: new Blob([markdown], { type: 'text/plain' })
+                    };
+                    const clipboardItem = new ClipboardItem(clipboardItemData);
+                    await navigator.clipboard.write([clipboardItem]);
+                }
+                catch (e) {
+                    console.log(e);
+                }
     }
 
     const handlePrint = () => {
@@ -210,6 +194,7 @@ ${comboObj ? Object.entries(comboObj.probabilities).map(([roll, prob], index) =>
     const handleSave = (storageKey) => {
         const id = Date.now();
         const timestamp = new Date().toISOString();
+        const entries = useTableStore.getState().entries;
         const saveObj = {
             id: storageKey || id,
             tableName,
@@ -226,7 +211,7 @@ ${comboObj ? Object.entries(comboObj.probabilities).map(([roll, prob], index) =>
 
     const handleClear = () => {
         setTableKey('');
-        setEntries(Array(entries.length).fill(''));
+        setEntries(Array(entryCount).fill(''));
         setTableName('');
         setTableDescription('');
     }
@@ -256,8 +241,7 @@ ${comboObj ? Object.entries(comboObj.probabilities).map(([roll, prob], index) =>
             }
         }
         else {
-            const numItems = entries.length;
-            total = Math.ceil(Math.random() * numItems);
+            total = Math.ceil(Math.random() * entryCount);
             setRollResults({
                 results: [],
                 total
@@ -290,12 +274,27 @@ ${comboObj ? Object.entries(comboObj.probabilities).map(([roll, prob], index) =>
         setIsRowSelected(false);
     }
 
+    const RollLikelihoodEntry = React.memo(({ value, lowestResult }) => {
+        const entry = useTableStore((state) => state.entries[value - lowestResult]);
+        return <li key={value}>{value}{entry ? `- ${entry}` : ''}</li>;
+    });
+
     const evaluateRollLikelihood = (rolls) => {
+        const lowestResult = comboObj.combination.length;
+
         if (rolls.length === comboObj.count) {
             return <p>All outcomes are equally likely</p>
         }
 
-        return <ul>{rolls.map((value) => <li key={value}>{value} {entries[value - lowestResult] ? `- ${entries[value - lowestResult]}`: ''}</li>)}</ul>;
+        return <ul>
+            {rolls.map((value) => (
+                <RollLikelihoodEntry 
+                    key={value} 
+                    value={value} 
+                    lowestResult={lowestResult} 
+                />
+            ))}
+        </ul>;
     }
 
     return (
@@ -442,7 +441,7 @@ ${comboObj ? Object.entries(comboObj.probabilities).map(([roll, prob], index) =>
                         </div>
                         {hints && (Object.keys(hints).length != 0) && <div className='cmp-roll-table__hints'>
                             {comboCount > 0 && <p>Want a more even distribution?</p>}
-                            {hints.closestMax && hints.maxDiff && <p><span className='action-text' onClick={() => {setEntries([...entries, ...Array(hints.maxDiff).fill('')])}}>Add another {hints.maxDiff > 1 && hints.maxDiff} option{hints.maxDiff > 1 && 's'}</span> to make a 1d{hints.closestMax} table</p>}
+                            {hints.closestMax && hints.maxDiff && <p><span className='action-text' onClick={() => {addEntries(hints.maxDiff)}}>Add another {hints.maxDiff > 1 && hints.maxDiff} option{hints.maxDiff > 1 && 's'}</span> to make a 1d{hints.closestMax} table</p>}
                             {hints.closestMin && hints.minDiff && <p>{hints.closestMax && hints.maxDiff ? 'Or remove' : 'Remove'} {hints.minDiff > 1 ? hints.minDiff : 'an'} option{hints.minDiff > 1 && 's'} to make a 1d{hints.closestMin} table</p>}
                         </div>}
                     </div>

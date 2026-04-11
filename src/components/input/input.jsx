@@ -1,7 +1,7 @@
 import './input.scss';
 
 const Input = ({ className, value, placeholder, type = 'text', id, onChange }) => {
-    const classNameString = `cmp-input__input--${type} ${className}`
+    const classNameString = `cmp-input__input--${type} ${className}`;
 
     // there might be a better way to handle this through dynamic tags based on the type prop
 

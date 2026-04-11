@@ -1,6 +1,6 @@
 import './cumulative-probability-widget.scss';
 import Input from "../input/input";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const CumulativeProbabilityWidget = ({comboObj}) => {
     const minRange = comboObj.combination.length;
@@ -9,18 +9,23 @@ const CumulativeProbabilityWidget = ({comboObj}) => {
     const [maxValue, setMaxValue] = useState(maxRange);
 
     const handleChangeMin = (e) => {
-        const newValue = e.target.value;
+        const newValue = parseInt(e.target.value);
         if(newValue < maxValue) {
-            setMinValue(e.target.value);
+            setMinValue(newValue);
         }
     }
     
     const handleChangeMax = (e) => {
-        const newValue = e.target.value;
+        const newValue = parseInt(e.target.value);
         if(newValue > minValue) {
-            setMaxValue(e.target.value);
+            setMaxValue(newValue);
         }
     }
+
+    useEffect(() => {
+        setMinValue(minRange);
+        setMaxValue(maxRange);
+    }, [comboObj])
 
     const CumulativeProbability = React.memo(() => {
         let cumulativeProbability = 0;
@@ -30,14 +35,17 @@ const CumulativeProbabilityWidget = ({comboObj}) => {
         cumulativeProbability *= 100;
         cumulativeProbability = cumulativeProbability.toFixed(2);
         return (
-            <p>{cumulativeProbability}%</p>
+            <p className='cmp-cpw__cumulative-prob'>{cumulativeProbability}%</p>
         )
-    }, [minValue, maxValue, comboObj])
+    }, [minRange, maxRange, minValue, maxValue, comboObj])
 
 
     return (
         <div className="cmp-cpw">
-            <div className='cmp-cpw__inputs'>
+            <p className='cmp-cpw__heading'>Cumulative probability</p>
+            <div className='cmp-cpw__results'>
+                <p>The odds of rolling a value between</p> 
+                <div className='cmp-cpw__inputs'>
                 <Input
                     className={'cmp-cpw__min'}
                     type="number"
@@ -45,18 +53,16 @@ const CumulativeProbabilityWidget = ({comboObj}) => {
                     min={minRange}
                     max={maxRange}
                     value={minValue}
-                    onChange={handleChangeMin} />
-                <Input
+                    onChange={e => handleChangeMin(e)} /> 
+                    <Input
                     className={'cmp-cpw__max'}
                     type="number"
                     label="max"
                     min={minValue}
                     max={maxRange}
                     value={maxValue}
-                    onChange={(handleChangeMax)} />
-            </div>
-            <div className='cmp-cpw__results'>
-                <p>The odds of rolling a value between {minValue} and {maxValue} are</p>
+                    onChange={e => handleChangeMax(e)} /> 
+                    </div>
                 <CumulativeProbability />
             </div>
         </div>

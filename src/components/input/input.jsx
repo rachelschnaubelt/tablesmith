@@ -1,3 +1,4 @@
+import Button from '../button/button';
 import './input.scss';
 
 const Input = ({ className, value, placeholder, type = 'text', id, onChange, min, max, label }) => {
@@ -21,7 +22,8 @@ const Input = ({ className, value, placeholder, type = 'text', id, onChange, min
 
     if (type === 'number') {
         return (
-            <div className='cmp-input'>
+            <div className='cmp-input cmp-input--number'>
+                <label htmlFor={id}>{label}</label>
                 <input
                     type={type}
                     placeholder={placeholder}
@@ -31,7 +33,6 @@ const Input = ({ className, value, placeholder, type = 'text', id, onChange, min
                     min={min}
                     max={max}
                     onInput={onChange} />
-                <label htmlFor={id}>{label}</label>
             </div>
         )
     }
@@ -44,7 +45,7 @@ const Input = ({ className, value, placeholder, type = 'text', id, onChange, min
                 value={value}
                 className={classNameString}
                 id={id}
-                onChange={onChange} />
+                onChange={e => {onChange(e)}} />
         </div>
 
     );

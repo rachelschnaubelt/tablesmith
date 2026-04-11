@@ -51,16 +51,44 @@
         position: relative;
         transition: 0.3s;
         resize: none;
+    }
 
+    &--number {
+        position: relative;
+        margin-top: 0.5rem;
+        border-radius: 0.5rem;
+        transition: 0.3s;
+        background-color: $color-primary--light;
+        display: flex;
+        align-items: center;
+
+        &>input {
+            color: $text;
+            background-color: $color-primary--light;
+            padding: 0;
+            text-align: center;
+            border-radius: 0.5rem;
+        }
+
+        &>label {
+            position: relative;
+            left: 0.5rem;
+            z-index: 2
+        }
+
+        &:hover {
+            box-shadow: $shadow--button-hover;
+        }
+    }
+
+    &>input:not([type='number']), &>textarea {
         &:hover,
         &:active,
         &:focus {
             padding: 0 0.7rem;
-
         }
 
         &::placeholder {
-            // color: $color-gray--dark;
         }
     }
 }

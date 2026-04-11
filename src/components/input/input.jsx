@@ -1,6 +1,6 @@
 import './input.scss';
 
-const Input = ({ className, value, placeholder, type = 'text', id, onChange }) => {
+const Input = ({ className, value, placeholder, type = 'text', id, onChange, min, max, label }) => {
     const classNameString = `cmp-input__input--${type} ${className}`;
 
     // there might be a better way to handle this through dynamic tags based on the type prop
@@ -15,6 +15,23 @@ const Input = ({ className, value, placeholder, type = 'text', id, onChange }) =
                     id={id}
                     placeholder={placeholder}>
                 </textarea>
+            </div>
+        )
+    }
+
+    if (type === 'number') {
+        return (
+            <div className='cmp-input'>
+                <input
+                    type={type}
+                    placeholder={placeholder}
+                    value={value}
+                    className={classNameString}
+                    id={id}
+                    min={min}
+                    max={max}
+                    onInput={onChange} />
+                <label htmlFor={id}>{label}</label>
             </div>
         )
     }

@@ -12,6 +12,7 @@ import Modal from '../modal/modal';
 import html2pdf from 'html2pdf.js';
 import { getLeastLikelyRolls, getMostLikelyRolls } from '../../utils/calculations';
 import EntryInput from '../entry-input/entry-input';
+import CumulativeProbabilityWidget from '../cumulative-probability-widget/cumulative-probability-widget';
 
 const Table = React.memo(({ comboObj, hints, comboCount }) => {
     const { addEntry, addEntries, deleteEntry, setTableName, setTableDescription, setSaveModalOpen, setTableKey, setEntries, handleEntryChange, handleChangeEntryIndex } = useTableStore.getState();
@@ -444,6 +445,8 @@ const Table = React.memo(({ comboObj, hints, comboCount }) => {
                             {hints.closestMax && hints.maxDiff && <p><span className='action-text' onClick={() => {addEntries(hints.maxDiff)}}>Add another {hints.maxDiff > 1 && hints.maxDiff} option{hints.maxDiff > 1 && 's'}</span> to make a 1d{hints.closestMax} table</p>}
                             {hints.closestMin && hints.minDiff && <p>{hints.closestMax && hints.maxDiff ? 'Or remove' : 'Remove'} {hints.minDiff > 1 ? hints.minDiff : 'an'} option{hints.minDiff > 1 && 's'} to make a 1d{hints.closestMin} table</p>}
                         </div>}
+                        <CumulativeProbabilityWidget
+                            comboObj={comboObj} />
                     </div>
                 </Accordion>}
             </div>

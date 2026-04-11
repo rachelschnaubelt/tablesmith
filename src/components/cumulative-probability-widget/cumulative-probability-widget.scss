@@ -1,0 +1,9 @@
+.cmp-cpw {
+
+    .cmp-input {
+        &::before, &::after {
+            display: none;
+        }
+    }
+
+}

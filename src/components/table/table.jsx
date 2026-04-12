@@ -277,7 +277,7 @@ const Table = React.memo(({ comboObj, hints, comboCount }) => {
 
     const RollLikelihoodEntry = React.memo(({ value, lowestResult }) => {
         const entry = useTableStore((state) => state.entries[value - lowestResult]);
-        return <li key={value}>{value}{entry ? `- ${entry}` : ''}</li>;
+        return <li key={value}>{value}{entry ? ` - ${entry}` : ''}</li>;
     });
 
     const evaluateRollLikelihood = (rolls) => {
@@ -432,21 +432,27 @@ const Table = React.memo(({ comboObj, hints, comboCount }) => {
                         <div className='cmp-roll-table__distribution-chart'>
                             <DistributionChart comboObj={comboObj} />
                         </div>
-                        <div className='cmp-roll-table__roll-stats'>
-                            <p>Most likely to roll: </p>
-                            {evaluateRollLikelihood(getMostLikelyRolls(comboObj))}
-                            <p>Least likely to roll: </p>
-                            {evaluateRollLikelihood(getLeastLikelyRolls(comboObj))}
-                            <p className='cmp-roll-table__variance'>Variance: {comboObj.variance.toFixed(2)}</p>
-                            <p className='cmp-roll-table__standard-deviation'>Standard Deviation: {comboObj.standardDeviation.toFixed(2)}</p>
-                        </div>
+                        <CumulativeProbabilityWidget
+                            comboObj={comboObj} />
                         {hints && (Object.keys(hints).length != 0) && <div className='cmp-roll-table__hints'>
                             {comboCount > 0 && <p>Want a more even distribution?</p>}
                             {hints.closestMax && hints.maxDiff && <p><span className='action-text' onClick={() => {addEntries(hints.maxDiff)}}>Add another {hints.maxDiff > 1 && hints.maxDiff} option{hints.maxDiff > 1 && 's'}</span> to make a 1d{hints.closestMax} table</p>}
                             {hints.closestMin && hints.minDiff && <p>{hints.closestMax && hints.maxDiff ? 'Or remove' : 'Remove'} {hints.minDiff > 1 ? hints.minDiff : 'an'} option{hints.minDiff > 1 && 's'} to make a 1d{hints.closestMin} table</p>}
                         </div>}
-                        <CumulativeProbabilityWidget
-                            comboObj={comboObj} />
+                        <div className='cmp-roll-table__roll-stats'>
+                            <div className='cmp-roll-table__most-likely'>
+                                <p>Most likely to roll: </p>
+                                {evaluateRollLikelihood(getMostLikelyRolls(comboObj))}
+                            </div>
+                            <div className='cmp-roll-table__least-likely'>
+                                <p>Least likely to roll: </p>
+                                {evaluateRollLikelihood(getLeastLikelyRolls(comboObj))}
+                            </div>
+                            <div className='cmp-roll-table__statistical-measurements'>
+                                <p className='cmp-roll-table__variance'>Variance: {comboObj.variance.toFixed(2)}</p>
+                                <p className='cmp-roll-table__standard-deviation'>Standard Deviation: {comboObj.standardDeviation.toFixed(2)}</p>
+                            </div>
+                        </div>
                     </div>
                 </Accordion>}
             </div>

@@ -5,15 +5,21 @@ import { CaretDownIcon } from '@phosphor-icons/react';
 const Accordion = ({children, label, initialState}) => {
     const [isOpen, setIsOpen] = useState(initialState);
     const contentsRef = useRef(null);
-    const [contentHeight, setContentHeight] = useState(initialState ? 'auto' : 0);
+    const [contentStyle, setContentStyle] = useState({
+        height: initialState ? 'auto' : 0
+    })
 
     const handleToggle = () => {
         const height = contentsRef.current.scrollHeight;
         if(!isOpen) {
-            setContentHeight(height);
+            setContentStyle({
+                minHeight: `${height}px`
+            })
         }
         else {
-            setContentHeight(0);
+            setContentStyle({
+                height: 0
+            });
         }
         setIsOpen(!isOpen);
     }
@@ -21,7 +27,9 @@ const Accordion = ({children, label, initialState}) => {
     useEffect(() => {
         if(isOpen) {
             const height = contentsRef.current.scrollHeight;
-            setContentHeight(height);
+            setContentStyle({
+                minHeight: `${height}px`
+            });
         }
     }, [children])
 
@@ -33,7 +41,7 @@ const Accordion = ({children, label, initialState}) => {
                 <div 
                     className="cmp-accordion__contents"
                     ref={contentsRef}
-                    style={{height: `${contentHeight}px`}}>
+                    style={contentStyle}>
                     {children}
                 </div>
         </div>

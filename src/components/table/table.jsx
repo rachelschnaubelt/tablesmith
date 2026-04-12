@@ -3,20 +3,17 @@ import Button from "../button/button";
 import DistributionChart from '../distribution-chart/distribution-chart';
 import React, { useRef, useState } from 'react';
 import useTableStore from '../../store/tableStore';
-import { snakeCaseString } from '../../utils/stringUtils';
-import Input from '../input/input';
 import Accordion from '../accordion/accordion';
-import Tooltip from '../tooltip/tooltip';
 import { ArrowsClockwiseIcon, CopySimpleIcon, DiceOneIcon, DiceSixIcon, DotsThreeIcon, EraserIcon, FilePdfIcon, FloppyDiskIcon, PlusIcon, PrinterIcon, XIcon } from '@phosphor-icons/react';
 import Modal from '../modal/modal';
-import html2pdf from 'html2pdf.js';
 import { getLeastLikelyRolls, getMostLikelyRolls } from '../../utils/calculations';
 import EntryInput from '../entry-input/entry-input';
 import CumulativeProbabilityWidget from '../cumulative-probability-widget/cumulative-probability-widget';
 import TableHeader from '../table-header/table-header';
+import { clearTable, copyTable, printTable, saveTable } from '../../utils/tableManagement';
 
 const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }) => {
-    const { addEntry, addEntries, deleteEntry, setTableName, setTableDescription, setSaveModalOpen, setTableKey, setEntries, handleEntryChange, handleChangeEntryIndex } = useTableStore.getState();
+    const { addEntry, addEntries, deleteEntry, setSaveModalOpen, handleChangeEntryIndex } = useTableStore.getState();
     const entryCount = useTableStore((store) => store.entryCount);
     const saveModalOpen = useTableStore((store) => store.saveModalOpen);
     const tableKey = useTableStore((store) => store.tableKey);
@@ -119,106 +116,6 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }) => {
         return rows;
     }
 
-    const handleCopyTable = async () => {
-        const entries = useTableStore.getState().entries;
-                const html = `
-                    <style>
-                        table, th, td {
-                            border: 1px solid black;
-                            border-collapse: collapse;
-                        }
-                        th, td { padding: 0 15px; }
-                    </style>
-                    <h1>${tableName}</h1>
-                    <p>${tableDescription}</p>
-                    <table>
-                        <thead>
-                            <tr>
-                                ${comboObj && comboObj.diceString ? `<th>Roll ${comboObj.diceString}</th>` : '<th>Item</th>'}
-                                ${comboObj && isProbabilityColumnVisible ? `<th>Probability</th>` : ''}
-                                <th>Value</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${comboObj ? Object.entries(comboObj.probabilities).map(([roll, prob], index) => {
-                    return (`<tr>
-                                    <td>${roll}</td>
-                                    ${isProbabilityColumnVisible ? `<td>${(prob * 100).toFixed(2)}%</td>` : ''}
-                                    <td>${entries[index]}</td>
-                                </tr>`)
-                }).join('')
-                        :
-                        entries.map((entry, index) => {
-                            return (`<tr>
-                <td>${index + 1}</td>
-                <td>${entry}</td>
-                </tr>`
-                            )
-                        }).join('')}
-                        </tbody>
-                    </table>`;
-
-                const markdown = `
-        **${tableName}**
-        ${tableDescription}
-        | **${comboObj && comboObj.diceString ? `Roll ${comboObj.diceString}` : 'Item'}** | **${comboObj && isProbabilityColumnVisible ? `Probability` : ''}** | **Value** |
-        | ------------ | ${comboObj && isProbabilityColumnVisible ? `--------------- |` : ''} ----------------- |
-        ${comboObj ? Object.entries(comboObj.probabilities).map(([roll, prob], index) => {
-                    return (`| ${roll} | ${isProbabilityColumnVisible ? `${(prob * 100).toFixed(2)}% |` : ''} ${entries[index]} |`)
-                }).join('')
-                        :
-                        entries.map((entry, index) => {
-                            return (`| ${index + 1} | ${entry} |  `)
-                        }).join('')}
-                    `;
-                try {
-                    const clipboardItemData = {
-                        ['text/html']: new Blob([html], { type: 'text/html' }),
-                        ['text/plain']: new Blob([markdown], { type: 'text/plain' })
-                    };
-                    const clipboardItem = new ClipboardItem(clipboardItemData);
-                    await navigator.clipboard.write([clipboardItem]);
-                }
-                catch (e) {
-                    console.log(e);
-                }
-    }
-
-    const handlePrint = () => {
-        window.scrollTo(0, 0);
-        window.print();
-    }
-
-    const handleSaveAsPDF = () => {
-        // const element = document.querySelector('.cmp-roll-table');
-        // html2pdf().from(element).save()
-    }
-
-    const handleSave = (storageKey) => {
-        const id = Date.now();
-        const timestamp = new Date().toISOString();
-        const entries = useTableStore.getState().entries;
-        const saveObj = {
-            id: storageKey || id,
-            tableName,
-            tableDescription,
-            comboObj,
-            entries,
-            savedAt: localStorage.getItem(storageKey)?.savedAt || timestamp,
-            updatedAt: timestamp
-        }
-
-        localStorage.setItem(storageKey || id, JSON.stringify(saveObj));
-        setTableKey(storageKey || id);
-    }
-
-    const handleClear = () => {
-        setTableKey('');
-        setEntries(Array(entryCount).fill(''));
-        setTableName('');
-        setTableDescription('');
-    }
-
     const handleRoll = () => {
         let total = 0;
         if (comboObj) {
@@ -291,10 +188,10 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }) => {
 
         return <ul>
             {rolls.map((value) => (
-                <RollLikelihoodEntry 
-                    key={value} 
-                    value={value} 
-                    lowestResult={lowestResult} 
+                <RollLikelihoodEntry
+                    key={value}
+                    value={value}
+                    lowestResult={lowestResult}
                 />
             ))}
         </ul>;
@@ -306,7 +203,6 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }) => {
                 <div className='cmp-roll-table__inner'
                     data-table-key={tableKey}>
                     <TableHeader />
-
                     <div className="cmp-roll-table__table">
                         <div className='cmp-roll-table__row cmp-roll-table__row--header' style={{ 'top': `${headerHeight}px` }}>
                             <p className='cmp-roll-table__column--number cmp-roll-table__cell'>{comboObj ? `Roll ${comboObj?.diceString}` : 'Item'}</p>
@@ -363,14 +259,14 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }) => {
                                             className={'no-print'}
                                             icon={<CopySimpleIcon size={16} />}
                                             type="icon"
-                                            onClick={handleCopyTable}
+                                            onClick={() => { copyTable(comboObj) }}
                                             hierarchy={'tertiary'} />
                                         <Button
                                             label={'print/save as pdf'}
                                             className={'no-print'}
                                             icon={<PrinterIcon size={16} />}
                                             type="icon"
-                                            onClick={handlePrint}
+                                            onClick={printTable}
                                             hierarchy={'tertiary'} />
                                         <Button
                                             label={'save'}
@@ -382,7 +278,7 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }) => {
                                                     setSaveModalOpen(true);
                                                 }
                                                 else {
-                                                    handleSave(tableKey)
+                                                    saveTable(comboObj, tableKey)
                                                 }
                                             }}
                                             hierarchy={'tertiary'} />
@@ -398,7 +294,7 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }) => {
                                             className={'no-print'}
                                             icon={<EraserIcon size={16} />}
                                             type='icon'
-                                            onClick={handleClear}
+                                            onClick={clearTable}
                                             hierarchy={'tertiary'} />
                                     </div>
                                 </div>
@@ -412,7 +308,6 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }) => {
                         </div>
                     </div>
                 </div>
-
                 {comboObj && <Accordion
                     label={'Advanced stats'}
                     initialState={false} >
@@ -424,7 +319,7 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }) => {
                             comboObj={comboObj} />
                         {hints && (Object.keys(hints).length != 0) && <div className='cmp-roll-table__hints'>
                             {comboCount > 0 && <p>Want a more even distribution?</p>}
-                            {hints.closestMax && hints.maxDiff && <p><span className='action-text' onClick={() => {addEntries(hints.maxDiff)}}>Add another {hints.maxDiff > 1 && hints.maxDiff} option{hints.maxDiff > 1 && 's'}</span> to make a 1d{hints.closestMax} table</p>}
+                            {hints.closestMax && hints.maxDiff && <p><span className='action-text' onClick={() => { addEntries(hints.maxDiff) }}>Add another {hints.maxDiff > 1 && hints.maxDiff} option{hints.maxDiff > 1 && 's'}</span> to make a 1d{hints.closestMax} table</p>}
                             {hints.closestMin && hints.minDiff && <p>{hints.closestMax && hints.maxDiff ? 'Or remove' : 'Remove'} {hints.minDiff > 1 ? hints.minDiff : 'an'} option{hints.minDiff > 1 && 's'} to make a 1d{hints.closestMin} table</p>}
                         </div>}
                         <div className='cmp-roll-table__roll-stats'>
@@ -453,11 +348,11 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }) => {
                 <div className='cmp-modal__button-group'>
                     <Button
                         label='overwrite existing save'
-                        onClick={() => { handleSave(tableKey); setSaveModalOpen(false) }} />
+                        onClick={() => { saveTable(comboObj, tableKey); setSaveModalOpen(false) }} />
                     <Button
                         label='save as new table'
                         hierarchy={'secondary'}
-                        onClick={() => { handleSave(); setSaveModalOpen(false) }} />
+                        onClick={() => { saveTable(comboObj); setSaveModalOpen(false) }} />
                 </div>
             </Modal>
         </div>

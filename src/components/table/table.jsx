@@ -13,12 +13,11 @@ import html2pdf from 'html2pdf.js';
 import { getLeastLikelyRolls, getMostLikelyRolls } from '../../utils/calculations';
 import EntryInput from '../entry-input/entry-input';
 import CumulativeProbabilityWidget from '../cumulative-probability-widget/cumulative-probability-widget';
+import TableHeader from '../table-header/table-header';
 
 const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }) => {
     const { addEntry, addEntries, deleteEntry, setTableName, setTableDescription, setSaveModalOpen, setTableKey, setEntries, handleEntryChange, handleChangeEntryIndex } = useTableStore.getState();
     const entryCount = useTableStore((store) => store.entryCount);
-    const tableName = useTableStore((store) => store.tableName);
-    const tableDescription = useTableStore((store) => store.tableDescription);
     const saveModalOpen = useTableStore((store) => store.saveModalOpen);
     const tableKey = useTableStore((store) => store.tableKey);
     const isProbabilityColumnVisible = useTableStore((state) => state.isProbabilityColumnVisible);
@@ -306,21 +305,7 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }) => {
             <div className='cmp-roll-table'>
                 <div className='cmp-roll-table__inner'
                     data-table-key={tableKey}>
-                    <div className='cmp-roll-table__heading'>
-                        <Input
-                            className='cmp-roll-table__title'
-                            value={tableName}
-                            placeholder={'Name'}
-                            id='table-name'
-                            onChange={(e) => { setTableName(e.target.value) }} />
-                        <Input
-                            className='cmp-roll-table__description'
-                            value={tableDescription}
-                            placeholder={'Description'}
-                            type='textarea'
-                            id='table-description'
-                            onChange={(e) => { setTableDescription(e.target.value) }} />
-                    </div>
+                    <TableHeader />
 
                     <div className="cmp-roll-table__table">
                         <div className='cmp-roll-table__row cmp-roll-table__row--header' style={{ 'top': `${headerHeight}px` }}>

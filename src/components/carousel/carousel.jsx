@@ -5,8 +5,7 @@ import useTableStore from "../../store/tableStore";
 
 
 const Carousel = ({ children }) => {
-    const { setSidebarOpen, addEntry } = useTableStore.getState();
-    const [index, setIndex] = useState(1);
+    const { setSidebarOpen, addEntry, setCarouselIndex } = useTableStore.getState();
     const carouselIndex = useTableStore((store) => store.carouselIndex);
     const buttonContainerRef = useRef(null);
     const entryCount = useTableStore((state) => state.entryCount);
@@ -26,7 +25,7 @@ const Carousel = ({ children }) => {
     }
 
     const handleUpdateIndex = (idx) => {
-        setIndex(idx);
+        setCarouselIndex(idx);
         setActiveButton(idx);
     }
 
@@ -43,10 +42,10 @@ const Carousel = ({ children }) => {
                 )
             }
         })
-        let buttonIndex = index;
-        if (buttons.length < index) {
+        let buttonIndex = carouselIndex;
+        if (buttons.length < carouselIndex) {
             buttonIndex = buttons.length;
-            setIndex(buttonIndex);
+            setCarouselIndex(buttonIndex);
         }
         setActiveButton(buttonIndex || 1);
         if (buttons.length <= 0) {
@@ -60,7 +59,6 @@ const Carousel = ({ children }) => {
     }
 
     useEffect(() => {
-        setIndex(carouselIndex);
         setActiveButton(carouselIndex);
     }, [carouselIndex]);
 
@@ -74,7 +72,7 @@ const Carousel = ({ children }) => {
                     {getChildrenButtons()}
                 </div>
             </div>
-            <div className={`cmp-carousel__items selected-${index || 1}`}>
+            <div className={`cmp-carousel__items selected-${carouselIndex || 1}`}>
                 {children}
             </div>
         </div>

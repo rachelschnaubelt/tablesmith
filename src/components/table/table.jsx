@@ -14,7 +14,7 @@ import { getLeastLikelyRolls, getMostLikelyRolls } from '../../utils/calculation
 import EntryInput from '../entry-input/entry-input';
 import CumulativeProbabilityWidget from '../cumulative-probability-widget/cumulative-probability-widget';
 
-const Table = React.memo(({ comboObj, hints, comboCount }) => {
+const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }) => {
     const { addEntry, addEntries, deleteEntry, setTableName, setTableDescription, setSaveModalOpen, setTableKey, setEntries, handleEntryChange, handleChangeEntryIndex } = useTableStore.getState();
     const entryCount = useTableStore((store) => store.entryCount);
     const tableName = useTableStore((store) => store.tableName);
@@ -23,10 +23,12 @@ const Table = React.memo(({ comboObj, hints, comboCount }) => {
     const tableKey = useTableStore((store) => store.tableKey);
     const isProbabilityColumnVisible = useTableStore((state) => state.isProbabilityColumnVisible);
     const headerHeight = useTableStore((state) => state.headerHeight);
+    const carouselIndex = useTableStore((state) => state.carouselIndex);
     const [isRowSelected, setIsRowSelected] = useState(false);
     const [rollResults, setRollResults] = useState({});
     const diceRollsRef = useRef(null);
     const tableBody = useRef(null);
+    const isActive = tableIndex === carouselIndex;
 
     const handleEntryMove = (index1, index2) => {
         handleChangeEntryIndex(index1, index2);
@@ -52,7 +54,8 @@ const Table = React.memo(({ comboObj, hints, comboCount }) => {
                     <p className='cmp-roll-table__column--number cmp-roll-table__cell'>{roll}</p>
                     {isProbabilityColumnVisible && <p className='cmp-roll-table__column--probability cmp-roll-table__cell'>{probAsPercent}%</p>}
                     <EntryInput
-                        index={index} />
+                        index={index}
+                        isActive={isActive} />
                     {index !== 0 && <Button
                         className='no-print cmp-roll-table__button--move-up'
                         onClick={() => { handleEntryMove(index, index - 1) }}

@@ -24,6 +24,7 @@ function App() {
       key={index}
       comboObj={comboObj}
       hints={hints}
+      tableIndex={index + 1}
       comboCount = {comboObjects.length}
     />
   )) : 

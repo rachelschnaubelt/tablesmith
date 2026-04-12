@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { getCombinationObjects } from '../utils/calculations';
 
-const defaultCount = 4;
+const defaultCount = 10;
 
 const options = {
   'd100': {

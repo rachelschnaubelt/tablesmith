@@ -50,7 +50,7 @@ const useTableStore = create((set) => ({
   saveModalOpen: '',
   tableKey: '',
   isProbabilityColumnVisible: true,
-  theme: '',
+  theme: 'theme--modern--light',
   headerHeight: 0,
   entryCount: defaultCount,
 

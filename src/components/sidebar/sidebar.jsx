@@ -4,12 +4,22 @@ import Checkbox from '../checkbox/checkbox';
 import './sidebar.scss';
 import exampleTables from '../../content/exampleTables.json';
 import { loadTable } from '../../utils/tableManagement';
-import { DiceFourIcon, DiceSixIcon, DiceTwoIcon, NumberEightIcon, NumberFourIcon, NumberOneIcon, NumberSixIcon, NumberTwoIcon, NumberZeroIcon, XIcon } from '@phosphor-icons/react';
+import D2Icon from '../../assets/icons/dice/d2.svg?react';
+import D4Icon from '../../assets/icons/dice/d4.svg?react';
+import D6Icon from '../../assets/icons/dice/d6.svg?react';
+import D8Icon from '../../assets/icons/dice/d8.svg?react';
+import D10Icon from '../../assets/icons/dice/d10.svg?react';
+import D12Icon from '../../assets/icons/dice/d12.svg?react';
+import D20Icon from '../../assets/icons/dice/d20.svg?react';
+import D100Icon from '../../assets/icons/dice/d100.svg?react';
+
+import { XIcon } from '@phosphor-icons/react';
 import React from 'react';
 
 const Sidebar = React.memo(() => {
     const { handleQuickSetup, setSidebarOpen, setSelectedOptions, setIsProbabilityColumnVisible, setTheme } = useTableStore.getState();
     const sidebarOpen = useTableStore((state) => state.sidebarOpen);
+    const theme = useTableStore((state) => state.theme);
 
     const handleExampleSetup = (key) => {
         const table = exampleTables[key];
@@ -40,7 +50,7 @@ const Sidebar = React.memo(() => {
                             isChecked={false}
                             onChange={setSelectedOptions}
                             type="icon"
-                            icon={<DiceTwoIcon size={32} />} />
+                            icon={<D2Icon />} />
                         <Checkbox
                             id="d4"
                             name="dice"
@@ -49,7 +59,7 @@ const Sidebar = React.memo(() => {
                             isChecked={true}
                             onChange={setSelectedOptions}
                             type="icon"
-                            icon={<DiceFourIcon size={32} />} />
+                            icon={<D4Icon />} />
                         <Checkbox
                             id="d6"
                             name="dice"
@@ -58,7 +68,7 @@ const Sidebar = React.memo(() => {
                             isChecked={true}
                             onChange={setSelectedOptions}
                             type="icon"
-                            icon={<DiceSixIcon size={32} />} />
+                            icon={<D6Icon />} />
                         <Checkbox
                             id="d8"
                             name="dice"
@@ -67,7 +77,7 @@ const Sidebar = React.memo(() => {
                             isChecked={true}
                             onChange={setSelectedOptions}
                             type="icon"
-                            icon={<DiceSixIcon size={32} />} />
+                            icon={<D8Icon />} />
                         <Checkbox
                             id="d10"
                             name="dice"
@@ -76,7 +86,7 @@ const Sidebar = React.memo(() => {
                             isChecked={true}
                             onChange={setSelectedOptions}
                             type="icon"
-                            icon={<DiceSixIcon size={32} />} />
+                            icon={<D10Icon />} />
                         <Checkbox
                             id="d12"
                             name="dice"
@@ -85,7 +95,7 @@ const Sidebar = React.memo(() => {
                             isChecked={true}
                             onChange={setSelectedOptions}
                             type="icon"
-                            icon={<DiceSixIcon size={32} />} />
+                            icon={<D12Icon />} />
                         <Checkbox
                             id="d20"
                             name="dice"
@@ -94,7 +104,7 @@ const Sidebar = React.memo(() => {
                             isChecked={true}
                             onChange={setSelectedOptions}
                             type="icon"
-                            icon={<DiceSixIcon size={32} />} />
+                            icon={<D20Icon />} />
                         <Checkbox
                             id="d100"
                             name="dice"
@@ -103,7 +113,7 @@ const Sidebar = React.memo(() => {
                             isChecked={true}
                             onChange={setSelectedOptions}
                             type="icon"
-                            icon={<DiceSixIcon size={32} />} />
+                            icon={<D100Icon />} />
                     </div>
                 </div>
                 <div className='settings-menu__quick-setup settings-menu__section'>
@@ -184,11 +194,13 @@ const Sidebar = React.memo(() => {
                         <Button
                             label={'Modern Light'}
                             onClick={() => { setTheme('theme--modern--light') }}
-                            hierarchy={'secondary'} />
+                            hierarchy={'secondary'}
+                            className={theme === 'theme--modern--light' ? 'active' : ''} />
                         <Button
                             label={'Modern Dark'}
                             onClick={() => { setTheme('theme--modern--dark') }}
-                            hierarchy={'secondary'} />
+                            hierarchy={'secondary'}
+                            className={theme === 'theme--modern--dark' ? 'active' : ''} />
                     </div>
                 </div>
             </div>

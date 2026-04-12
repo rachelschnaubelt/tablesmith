@@ -54,6 +54,9 @@
         &::before {
             content: none;
         }
+
+
+
         .cmp-checkbox {
             &__checkbox {
                 width: 0;
@@ -110,6 +113,8 @@
                         opacity: 1;
                     }
                 }
+
+                
             }
 
             &__checked-icon {

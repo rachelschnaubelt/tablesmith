@@ -3,11 +3,13 @@ import { getCombinationObjects } from '../utils/calculations';
 
 const defaultCount: number = 10;
 
-interface DiceOptions {
-  [key: string]: {
+interface DiceOption {
     value: number,
     enabled: boolean
-  }
+}
+
+interface DiceOptions {
+    [key: string]: DiceOption
 }
 
 const options: DiceOptions = {
@@ -46,8 +48,8 @@ const options: DiceOptions = {
 }
 
 enum AvailableThemes {
-    Admin = "theme--modern--light",
-    User = "theme--modern--dark"
+    ModernLight = "theme--modern--light",
+    ModernDark = "theme--modern--dark"
 }
 
 interface TableState {

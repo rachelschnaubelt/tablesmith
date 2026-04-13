@@ -70,7 +70,7 @@ interface TableState {
   setTableKey: (tableKey: string) => void,
   setTheme: (theme: `${AvailableThemes}`) => void,
   setHeaderHeight: (headerHeight: number) => void,
-  setIsProbabilityColumnVisible: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  setIsProbabilityColumnVisible: (checked: boolean) => void,
   addEntry: () => void,
   addEntries: (count: number) => void,
   deleteEntry: (index: number) => void,
@@ -78,7 +78,7 @@ interface TableState {
   setLoadModalOpen: (loadModalOpen: boolean) => void,
   setSaveModalOpen: (saveModalOpen: boolean) => void,
   setTableName: (tableName: string) => void,
-  setSelectedOptions: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  setSelectedOptions: (id: string, checked: boolean) => void,
   setCarouselIndex: (carouselIndex: number) => void,
   setTableDescription: (tableDescription: string) => void,
   handleEntryChange: (index: number, value: string) => void,
@@ -110,8 +110,8 @@ const useTableStore = create<TableState>((set) => ({
   setTableKey: (tableKey: string) => set({ tableKey }),
   setTheme: (theme) => set({ theme }),
   setHeaderHeight: (headerHeight: number) => set({ headerHeight }),
-  setIsProbabilityColumnVisible: (event: React.ChangeEvent<HTMLInputElement>) => set(() => {
-    return ({ isProbabilityColumnVisible: event.target.checked })
+  setIsProbabilityColumnVisible: (checked: boolean) => set(() => {
+    return ({ isProbabilityColumnVisible: checked })
   }),
   addEntry: () => set((state) => ({
     entries: [...state.entries, ''],
@@ -141,9 +141,7 @@ const useTableStore = create<TableState>((set) => ({
 
   setTableName: (tableName: string) => set({ tableName }),
 
-  setSelectedOptions: (event: React.ChangeEvent<HTMLInputElement>) => set((state) => {
-    const id = event.target.id;
-    const checked = event.target.checked;
+  setSelectedOptions: (id: string, checked: boolean) => set((state) => {
     const newOptions = { ...state.selectedOptions };
     newOptions[id].enabled = checked;
     return ({ selectedOptions: newOptions })

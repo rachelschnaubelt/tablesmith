@@ -48,7 +48,7 @@ const Sidebar = React.memo(() => {
                             value="2"
                             label="d2"
                             isChecked={false}
-                            onChange={setSelectedOptions}
+                            onChange={(e) => setSelectedOptions("d2", e.target.checked)}
                             type="icon"
                             icon={<D2Icon />} />
                         <Checkbox
@@ -57,7 +57,7 @@ const Sidebar = React.memo(() => {
                             value="4"
                             label="d4"
                             isChecked={true}
-                            onChange={setSelectedOptions}
+                            onChange={(e) => setSelectedOptions("d4", e.target.checked)}
                             type="icon"
                             icon={<D4Icon />} />
                         <Checkbox
@@ -66,7 +66,7 @@ const Sidebar = React.memo(() => {
                             value="6"
                             label="d6"
                             isChecked={true}
-                            onChange={setSelectedOptions}
+                            onChange={(e) => setSelectedOptions("d6", e.target.checked)}
                             type="icon"
                             icon={<D6Icon />} />
                         <Checkbox
@@ -75,7 +75,7 @@ const Sidebar = React.memo(() => {
                             value="8"
                             label="d8"
                             isChecked={true}
-                            onChange={setSelectedOptions}
+                            onChange={(e) => setSelectedOptions("d8", e.target.checked)}
                             type="icon"
                             icon={<D8Icon />} />
                         <Checkbox
@@ -84,7 +84,7 @@ const Sidebar = React.memo(() => {
                             value="10"
                             label="d10"
                             isChecked={true}
-                            onChange={setSelectedOptions}
+                            onChange={(e) => setSelectedOptions("d10", e.target.checked)}
                             type="icon"
                             icon={<D10Icon />} />
                         <Checkbox
@@ -93,7 +93,7 @@ const Sidebar = React.memo(() => {
                             value="12"
                             label="d12"
                             isChecked={true}
-                            onChange={setSelectedOptions}
+                            onChange={(e) => setSelectedOptions("d12", e.target.checked)}
                             type="icon"
                             icon={<D12Icon />} />
                         <Checkbox
@@ -102,7 +102,7 @@ const Sidebar = React.memo(() => {
                             value="20"
                             label="d20"
                             isChecked={true}
-                            onChange={setSelectedOptions}
+                            onChange={(e) => setSelectedOptions("d20", e.target.checked)}
                             type="icon"
                             icon={<D20Icon />} />
                         <Checkbox
@@ -111,7 +111,7 @@ const Sidebar = React.memo(() => {
                             value="100"
                             label="d100"
                             isChecked={true}
-                            onChange={setSelectedOptions}
+                            onChange={(e) => setSelectedOptions("d100", e.target.checked)}
                             type="icon"
                             icon={<D100Icon />} />
                     </div>
@@ -185,7 +185,7 @@ const Sidebar = React.memo(() => {
                             value="prob-visibility"
                             label="Show probability column"
                             isChecked={true}
-                            onChange={setIsProbabilityColumnVisible} />
+                            onChange={(e) => setIsProbabilityColumnVisible(e.target.checked)} />
                     </div>
                 </div>
                 <div className='settings-menu__theme settings-menu__section'>

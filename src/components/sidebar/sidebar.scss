@@ -50,6 +50,10 @@
         gap: 0.5rem 1rem;
         flex-wrap: wrap;
         padding-left: 1rem;
+
+        &>div {
+            flex: 1;
+        }
     }
 
     &__quick-setup {

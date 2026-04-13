@@ -1,5 +1,5 @@
 import useTableStore from "../../store/tableStore";
-import Input from "../input/input";
+import Input from "../input/input.tsx";
 
 const TableHeader = () => {
     const { setTableName, setTableDescription } = useTableStore.getState();

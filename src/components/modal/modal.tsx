@@ -1,13 +1,21 @@
 import './modal.scss';
-import Button from '../button/button';
+import Button from '../button/button.tsx';
 import { XIcon } from '@phosphor-icons/react';
-import { useEffect, useRef } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
 
-const Modal = ({ children, modalOpen, heading, className, modalHandler }) => {
-    const modalRef = useRef(null);
+interface ModalProps {
+    children: ReactNode,
+    modalOpen: boolean,
+    heading: string,
+    className: string,
+    modalHandler: (input: boolean) => void
+}
+
+const Modal = ({ children, modalOpen, heading, className, modalHandler }: ModalProps) => {
+    const modalRef = useRef<HTMLDialogElement>(null);
 
     useEffect(() => {
-        if (modalOpen) {
+        if (modalOpen && modalRef?.current) {
             modalRef.current.focus();
         }
     }, [modalOpen]);

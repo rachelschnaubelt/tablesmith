@@ -1,7 +1,18 @@
-import Button from '../button/button';
 import './input.scss';
 
-const Input = ({ className, value, placeholder, type = 'text', id, onChange, min, max, label }) => {
+interface InputProps {
+    className: string,
+    value: string,
+    placeholder: string,
+    type: string, // limit options
+    id: string,
+    onChange: () => void,
+    min: number,
+    max: number,
+    label: string
+}
+
+const Input = ({ className, value, placeholder, type = 'text', id, onChange, min, max, label }: InputProps) => {
     const classNameString = `cmp-input__input--${type} ${className}`;
 
     // there might be a better way to handle this through dynamic tags based on the type prop
@@ -45,7 +56,7 @@ const Input = ({ className, value, placeholder, type = 'text', id, onChange, min
                 value={value}
                 className={classNameString}
                 id={id}
-                onChange={e => {onChange(e)}} />
+                onChange={onChange} />
         </div>
 
     );

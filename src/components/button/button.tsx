@@ -1,6 +1,17 @@
+import { ReactNode } from 'react';
 import './button.scss';
 
-const Button = ({ label, onClick, className, type, icon, hierarchy, isWarning }) => {
+interface ButtonProps {
+    label: string,
+    onClick: () => void,
+    className: string,
+    icon: string | ReactNode
+    type: string, // limit options here
+    hierarchy?: string, //same
+    isWarning?: boolean
+}
+
+const Button = ({ label, onClick, className, type, icon, hierarchy, isWarning }: ButtonProps) => {
     const propClasses = className ? className.split(' ') : [];
     const classNameArray = [
         'cmp-button',

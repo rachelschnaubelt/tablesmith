@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import useTableStore from "../../store/tableStore";
-import Button from "../button/button";
+import Button from "../button/button.tsx";
 import './header.scss';
 import { GearIcon, TableIcon } from "@phosphor-icons/react";
 
@@ -8,12 +8,14 @@ const Header = () => {
     const setLoadModalOpen = useTableStore((state) => state.setLoadModalOpen);
     const setSidebarOpen = useTableStore((state) => state.setSidebarOpen);
     const setHeaderHeight = useTableStore((state) => state.setHeaderHeight);
-    const headerRef = useRef(null);
+    const headerRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
-        const height = headerRef.current?.clientHeight;
-        if(height) {
-            setHeaderHeight(height);
+        if(headerRef?.current) {
+            const height = headerRef.current.clientHeight;
+            if(height) {
+                setHeaderHeight(height);
+            }
         }
     }, []);
 

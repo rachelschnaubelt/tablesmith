@@ -1,11 +1,22 @@
-import { CheckFatIcon, CheckIcon, ChecksIcon } from '@phosphor-icons/react';
+import { CheckFatIcon } from '@phosphor-icons/react';
 import './checkbox.scss';
-import { useState } from "react";
+import React, { ReactNode, useState } from "react";
 
-const Checkbox = ({ id, name, value, label, isChecked, onChange, type, icon }) => {
+interface CheckboxProps {
+    id: string,
+    name: string,
+    value: string,
+    label: string,
+    isChecked: boolean,
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    type: string,
+    icon: string | ReactNode
+}
+
+const Checkbox = ({ id, name, value, label, isChecked, onChange, type, icon }: CheckboxProps) => {
     const [checked, setChecked] = useState(isChecked);
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setChecked(e.target.checked);
         onChange(e);
     }

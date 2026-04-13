@@ -1,5 +1,5 @@
 import useTableStore from '../../store/tableStore';
-import Button from '../button/button';
+import Button from '../button/button.tsx';
 import Checkbox from '../checkbox/checkbox';
 import './sidebar.scss';
 import exampleTables from '../../content/exampleTables.json';

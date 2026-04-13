@@ -1,4 +1,4 @@
-const snakeCaseString = (string) => {
+const snakeCaseString = (string: string) => {
     return string.toLowerCase().replaceAll(/[\/|\\|\<|\>|\:|\"|\||\?|\*\s+]/g, '-');
 }
 

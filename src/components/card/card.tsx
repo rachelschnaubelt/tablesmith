@@ -1,6 +1,13 @@
+import { ReactNode } from 'react';
 import './card.scss';
 
-const Card = ({ heading, children, cta }) => {
+interface CardProps {
+    heading: string,
+    children: ReactNode,
+    cta: ReactNode
+}
+
+const Card = ({ heading, children, cta }: CardProps) => {
 
     return (
         <div className='cmp-card'>

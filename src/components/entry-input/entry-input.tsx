@@ -1,16 +1,23 @@
 import './entry-input.scss';
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import useTableStore from "../../store/tableStore";
 
-const EntryInput = ({index, isActive}) => {
+interface EntryInputProps {
+    index: number,
+    isActive: boolean
+}
+
+const EntryInput = ({index, isActive}: EntryInputProps) => {
     const value = useTableStore((state) => state.entries[index]);
     const { handleEntryChange } = useTableStore.getState();
-    const inputRef = useRef(null);
+    const inputRef = useRef<HTMLTextAreaElement>(null);
 
-    const handleChange = (index, e) => {
+    const handleChange = (index: number, e: React.ChangeEvent<HTMLTextAreaElement>) => {
         handleEntryChange(index, e.target.value);
-        inputRef.current.style.height = 'auto';
-        inputRef.current.style.height = `${inputRef.current.scrollHeight}px`;
+        if(inputRef?.current) {
+            inputRef.current.style.height = 'auto';
+            inputRef.current.style.height = `${inputRef.current.scrollHeight}px`;
+        }
     }
 
     useEffect(() => {

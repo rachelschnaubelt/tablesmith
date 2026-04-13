@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import Carousel from './components/carousel/carousel';
 import Table from './components/table/table';
 import Sidebar from './components/sidebar/sidebar';
-import Modal from './components/modal/modal';
+import Modal from './components/modal/modal.tsx';
 import Gallery from './components/gallery/gallery';
 import useTableStore from './store/tableStore';
 import { getCombinationObjects, getHints } from './utils/calculations'

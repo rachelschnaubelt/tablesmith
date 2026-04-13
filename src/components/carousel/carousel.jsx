@@ -1,6 +1,6 @@
 import { useEffect, useState, Children, useRef } from "react";
 import './carousel.scss';
-import Button from "../button/button";
+import Button from "../button/button.tsx";
 import useTableStore from "../../store/tableStore";
 
 

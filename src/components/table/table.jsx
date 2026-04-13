@@ -1,11 +1,11 @@
 import './table.scss';
-import Button from "../button/button";
+import Button from "../button/button.tsx";
 import DistributionChart from '../distribution-chart/distribution-chart';
 import React, { useRef, useState } from 'react';
 import useTableStore from '../../store/tableStore';
 import Accordion from '../accordion/accordion';
 import { ArrowsClockwiseIcon, CopySimpleIcon, DiceOneIcon, DiceSixIcon, DotsThreeIcon, EraserIcon, FilePdfIcon, FloppyDiskIcon, PlusIcon, PrinterIcon, XIcon } from '@phosphor-icons/react';
-import Modal from '../modal/modal';
+import Modal from '../modal/modal.tsx';
 import { getLeastLikelyRolls, getMostLikelyRolls } from '../../utils/calculations';
 import EntryInput from '../entry-input/entry-input';
 import CumulativeProbabilityWidget from '../cumulative-probability-widget/cumulative-probability-widget';

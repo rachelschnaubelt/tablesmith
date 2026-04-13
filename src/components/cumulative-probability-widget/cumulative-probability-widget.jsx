@@ -1,5 +1,5 @@
 import './cumulative-probability-widget.scss';
-import Input from "../input/input";
+import Input from "../input/input.tsx";
 import React, { useEffect, useState } from 'react';
 
 const CumulativeProbabilityWidget = ({comboObj}) => {

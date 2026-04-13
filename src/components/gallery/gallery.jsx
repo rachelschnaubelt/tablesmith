@@ -1,9 +1,9 @@
 import './gallery.scss';
 import { useEffect, useState } from "react";
 import useTableStore from '../../store/tableStore';
-import Button from '../button/button';
+import Button from '../button/button.tsx';
 import { loadTable } from '../../utils/tableManagement';
-import Card from '../card/card';
+import Card from '../card/card.tsx';
 
 const Gallery = ({ }) => {
     const [cards, setCards] = useState([]);

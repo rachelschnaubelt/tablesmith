@@ -11,16 +11,24 @@ const Header = () => {
     const headerRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
-        if(headerRef?.current) {
-            const height = headerRef.current.clientHeight;
-            if(height) {
-                setHeaderHeight(height);
+        const updateHeight = () => {
+            if (headerRef?.current) {
+                const height = headerRef.current.clientHeight;
+                if (height) {
+                    setHeaderHeight(height);
+                }
             }
+
         }
+        updateHeight();
+
+        window.addEventListener('resize', updateHeight);
+
+        return () => window.removeEventListener('resize', updateHeight);
     }, []);
 
     return (
-        <header 
+        <header
             className="cmp-header no-print"
             ref={headerRef}>
             <div className="cmp-header__inner">

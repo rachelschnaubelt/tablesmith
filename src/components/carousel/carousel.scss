@@ -24,16 +24,15 @@
 
     &__buttons {
         display: flex;
-        gap: 0.5rem;
-        padding: 0.5rem 1rem;
+        gap: $spacing--medium;
+        padding: $spacing--medium $spacing--large;
         background-color: $color-primary;
-        // border: 3px solid $color-primary;
-        border-radius: 5rem;
+        border-radius: $border-radius--pill;
         flex-wrap: wrap;
         margin-top: 0.1rem;
     }
 
     &__warning {
-        padding: 0 0.5rem;
+        padding: 0 $spacing--medium;
     }
 }

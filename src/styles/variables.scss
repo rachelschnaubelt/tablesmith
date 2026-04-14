@@ -1,39 +1,207 @@
 :root {
+  // Colors
   --background-color: #fff2e0;
   --text-color: #4B3660;
   --modal-bg: #fff2e0;
   --sidebar-bg: #fff2e0;
-  --font-family: Arial, Helvetica, sans-serif;
-  --max-width: 1000px;
-  --page-padding: 1rem;
   --color-primary: #c68efd;
   --color-primary--light: #e9a5f1;
   --color-higlight: #f5d7f9;
   --color-gray--light: #ccc;
   --color-gray--dark: #333;
   --color-warning: #E63946;
+  --color-transparent: transparent;
+
+  // Gradients
+  --gradient--row-highlight: linear-gradient(63deg, var(--color-primary--light), var(--color-higlight));
+  
+
+  // Fonts
+  --font-family: Arial, Helvetica, sans-serif;
+  --font-bold: bold;
+  --font-normal: normal;
+  --font-size--small: 0.75rem;
+  --font-size--heading: 1.25rem;
+  --font-size--title: 2rem;
+  
+
+  // Borders
+  --border-radius--pill: 10rem;
+  --border-radius--small: 0.3rem;
+  --border-radius--medium: 0.5rem;
+  --border-radius--large: 1rem;
+  --border--light-weight: 1px solid var(--color-primary);
+  --border--medium-weight: 2px solid var(--color-primary);
+  --border--medium-weight--light: 2px solid var(--color-primary--light);
+  --border--light-weight--text: 1px solid var(--text-color);
+  --border--heavy-weight--text: 3px solid var(--text-color);
+  --border--none: none;
+
+  // Spacings
+  --max-width: 1000px;
+  --page-padding: 1rem;
+  --spacing--x-small: 0.2rem;
+  --spacing--small: 0.3rem;
+  --spacing--medium: 0.5rem;
+  --spacing--large: 1rem;
+  --spacing--x-large: 1rem;
+
+
+  // Shadows
   --shadow--button-hover: 0.3rem 0.3rem 0.8rem rgba(0,0,0,0.3),
                           0.1rem 0.1rem 0.6rem rgba(0,0,0,0.5);
+  --shadow--checkbox-active: 0.1rem 0.1rem 0.3rem rgba(0,0,0,0.3) inset;
+  --shadow--row-action-button: 0.1rem 0.1rem 0.3rem rgba(0,0,0,0.3) inset; // not sold on this
+
+
+  // Transitions/Animations
+  --transition-duration--fast: 0.3s;
+
+  // Z-index
+  --z-index-1: 1;
+  --z-index-2: 2;
+  --z-index-beneath: -1;
+  --z-index-header: 3;
+  --z-index-sidebar: 4;
+  --z-index-top: 100;
+
+
+  // Breakpoints
+
+
+
+  // Sizing
+
+
+  // Opacity
+  --opacity--visible: 1;
+  --opacity--transparent: 0;
+
+  // Cursor
+  --cursor--pointer: pointer;
+  
 }
 
 .theme--modern--dark {
+    // Colors
   --background-color: black;
   --text-color: #fff2e0;
   --modal-bg: black;
   --sidebar-bg: #333;
+  
+
+  // Fonts
+
+
+  // Borders
+
+
+  // Spacings
+  
+  
+  // Shadows
+  
+  
+  // Transitions/Animations
+
+
+  // Z-index
+
+
+
+  // Breakpoints
+
+
+
+  // Sizing
+
+
+  // Opacity
+
 }
 
+// ***************
+// SASS Variables
+// ***************
+
+// Colors
 $bg: var(--background-color);
 $text: var(--text-color);
 $modal-bg: var(--modal-bg);
 $sidebar-bg: var(--sidebar-bg);
-$font-family: var(--font-family);
-$max-width: var(--max-width);
-$page-padding: var(--page-padding);
 $color-primary: var(--color-primary);
 $color-primary--light: var(--color-primary--light);
 $color-gray--light: var(--color-gray--light);
 $color-gray--dark: var(--color-gray--dark);
 $color-highlight: var(--color-higlight);
 $color-warning: var(--color-warning);
+$color-transparent: var(--color-transparent);
+
+// Gradients
+$gradient--row-highlight: var(--gradient--row-highlight);
+
+// Fonts
+$font-family: var(--font-family);
+$font-bold: var(--font-bold);
+$font-normal: var(--font-normal);
+$font-size--heading: var(--font-size--heading);
+$font-size--title: var(--font-size--title);
+$font-size--small: var(--font-size--small);
+
+
+// Borders
+$border-radius--pill: var(--border-radius--pill);
+$border-radius--small: var(--border-radius--small);
+$border-radius--medium: var(--border-radius--medium);
+$border-radius--large: var(--border-radius--large);
+$border--light-weight: var(--border--light-weight);
+$border--medium-weight: var(--border--medium-weight);
+$border--medium-weight--light: var(--border--medium-weight--light);
+$border--light-weight--text: var(--border--light-weight--text);
+$border--heavy-weight--text: var(--border--heavy-weight--text);
+$border--none: var(--border--none);
+
+
+// Spacings
+$page-padding: var(--page-padding);
+$max-width: var(--max-width);
+$spacing--x-small: var(--spacing--x-small);
+$spacing--small: var(--spacing--small);
+$spacing--medium: var(--spacing--medium);
+$spacing--large: var(--spacing--large);
+$spacing--x-large: var(--spacing--x-large);
+
+
+
+// Shadows
 $shadow--button-hover: var(--shadow--button-hover);
+$shadow--checkbox-active: var(--shadow--checkbox-active);
+$shadow--row-action-button: var(--shadow--row-action-button);
+
+
+
+// Transitions/animations
+$transition-duration--fast: var(--transition-duration--fast);
+
+// Z-index
+$z-index-1: var(--z-index-1);
+$z-index-2: var(--z-index-2);
+$z-index-beneath: var(--z-index-beneath);
+$z-index-header: var(--z-index-header);
+$z-index-sidebar: var(--z-index-sidebar);
+$z-index-top: var(--z-index-top);
+
+
+// Breakpoints
+
+
+// Sizing
+
+
+// Opacity
+$opacity--transparent: var(--opacity--transparent);
+$opacity--visible: var(--opacity--visible);
+
+
+// Cursor
+$cursor--pointer: var(--cursor--pointer);

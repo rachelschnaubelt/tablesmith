@@ -1,54 +1,26 @@
 @import '../../styles/variables.scss';
 
 .cmp-cpw {
-
     background-color: $color-primary;
-    border-radius: 1rem;
-    padding: 0.5rem 1rem;
+    border-radius: $border-radius--large;
+    padding: $spacing--medium $spacing--large;
 
-    
     .cmp-input {
         display: flex;
         &::before, &::after {
             display: none;
         }
-        
-        &:hover {
-            
-        }
     }
     
     &__heading {
-        font-weight: bold;
-    }
-
-    &__inputs {
-        // display: flex;
-        // align-items: center;
-        // justify-content: space-around;
-    }
-
-    // &__min, &__max {
-    //     display: inline-block;
-    // }
-
-    &__min {
-
-    }
-
-    &__max {
-
-    }
-
-    &__results {
-
+        font-weight: $font-bold;
     }
 
     &__cumulative-prob {
         display: flex;
         justify-content: center;
         font-weight: bold;
-        border-top: 2px solid $color-primary--light;
-        margin-top: 0.5rem;
+        border-top: $border--medium-weight--light;
+        margin-top: $spacing--medium;
     }
 }

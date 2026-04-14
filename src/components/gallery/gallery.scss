@@ -1,15 +1,17 @@
+@use '../../styles/variables.scss' as *;
+
 .cmp-gallery {
 
     &__heading {
         display: flex;
         justify-content: center;
-        padding: 0 0 1rem;
-        font-size: 1.25rem;
+        padding: 0 0 $spacing--large;
+        font-size: $font-size--heading;
     }
 
     &__contents {
         display: flex;
-        gap: 1rem;
+        gap: $spacing--large;
         flex-wrap: wrap;
 
         & > * {

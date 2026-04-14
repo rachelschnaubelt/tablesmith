@@ -1,10 +1,10 @@
 @use '../../styles/variables.scss' as *;
 
 .cmp-roll-table {
-    margin-top: 1rem;
+    margin-top: $spacing--large;
     display: flex;
     flex-direction: column;
-    row-gap: 1rem;
+    row-gap: $spacing--large;
 
     @media print {
         display: block;
@@ -13,16 +13,16 @@
     &__cell {
         flex-grow: 0;
         border: none;
-        border: 1px solid $text;
+        border: $border--light-weight--text;
         display: flex;
         align-items: center;
-        padding: 0.2rem 0.5rem;
+        padding: $spacing--x-small $spacing--medium;
     }
 
     &__row {
         display: flex;
         align-items: stretch;
-        transition: 0.3s;
+        transition: $transition-duration--fast;
         position: relative;
 
         &:nth-of-type(even) {
@@ -30,30 +30,30 @@
 
         &:hover {
             background-color: $color-highlight;
-            background: linear-gradient(63deg, $color-primary--light, $color-highlight);
+            background: $gradient--row-highlight;
 
             .cmp-roll-table__button {
 
                 &--move-up,
                 &--move-down,
                 &--delete {
-                    opacity: 1;
+                    opacity: $opacity--visible;
                     pointer-events: auto;
                 }
             }
         }
 
         &--header {
-            font-weight: bold;
+            font-weight: $font-bold;
             position: sticky;
-            padding-bottom: 0.5rem;
-            z-index: 2;
+            padding-bottom: $spacing--medium;
+            padding-top: $spacing--medium;
+            z-index: $z-index-2;
             align-items: flex-end;
             background: $bg;
-            padding-top: 0.5rem;
 
             .cmp-roll-table__cell {
-                border: none;
+                border: $border--none;
             }
 
             &:hover {
@@ -63,7 +63,7 @@
 
         &.selected {
             background-color: $color-highlight;
-            background: linear-gradient(63deg, $color-primary--light, $color-highlight);
+            background: $gradient--row-highlight;
         }
     }
 
@@ -84,14 +84,14 @@
             display: flex;
             width: 0;
             overflow: hidden;
-            transition: 0.3s;
+            transition: $transition-duration--fast;
         }
     }
 
     &__body {
-        border: 3px solid $text;
-        border-radius: 1rem;
-        margin-top: 0.5rem;
+        border: $border--heavy-weight--text;
+        border-radius: $border-radius--large;
+        margin-top: $spacing--medium;
 
         .cmp-roll-table {
             &__row {
@@ -132,8 +132,8 @@
         &--move-down {
             position: absolute;
             left: 50%;
-            z-index: 1;
-            opacity: 0;
+            z-index: $z-index-1;
+            opacity: $opacity--transparent;
             pointer-events: none;
 
             .cmp-button__icon {
@@ -145,7 +145,7 @@
         &--move-down,
         &--delete {
             line-height: 1;
-            box-shadow: 0.1rem 0.1rem 0.3rem rgba(0,0,0,0.3) inset; // not sold on this
+            box-shadow: $shadow--row-action-button
         }
 
         &--move-up {
@@ -172,14 +172,14 @@
     }
 
     &__table {
-        margin-top: 1rem;
+        margin-top: $spacing--large;
     }
 
     &__actions {
         display: flex;
         justify-content: flex-end;
         align-items: center;
-        column-gap: 0.3rem;
+        column-gap: $spacing--small;
 
         &__menu {
             position: relative;
@@ -188,11 +188,11 @@
                 display: flex;
                 flex-direction: column;
                 display: none;
-                row-gap: 0.3rem;
+                row-gap: $spacing--small;
                 position: absolute;
                 right: 0;
                 background-color: $bg;
-                border-radius: 1rem;
+                border-radius: $border-radius--large;
                 box-shadow: $shadow--button-hover;
                 transform: translateY(0.5rem);
                 &::before {
@@ -212,7 +212,7 @@
                     &__actions__menu {
                         &__dropdown {
                             display: flex;
-                            padding: 0.5rem;
+                            padding: $spacing--medium;
                         }
                     }
                 }
@@ -233,7 +233,7 @@
         align-items: center;
         width: 60%;
         margin: 0 auto;
-        row-gap: 1rem;
+        row-gap: $spacing--large;
 
         &>* {
             width: 100%;
@@ -243,7 +243,7 @@
     &__title {
         letter-spacing: 2px;
         font-weight: 600;
-        font-size: 1.5rem;
+        font-size: $font-size--heading;
     }
 
     &__description {}
@@ -253,8 +253,8 @@
 
         &:hover {
             .cmp-roll-table__roll-menu__container {
-                padding-bottom: 0.5rem;
-                padding-top: 0.5rem;
+                padding-bottom: $spacing--medium;
+                padding-top: $spacing--medium;
             }
                 .cmp-roll-table__roll-menu__dice-rolls {
                     height: initial !important;
@@ -270,15 +270,15 @@
             top: 100%;
             right: 0;
             background-color: $bg;
-            padding: 0.2rem 0.5rem;
-            border-radius: 1rem;
+            padding: $spacing--x-small $spacing--medium;
+            border-radius: $border-radius--large;
             box-shadow: $shadow--button-hover;
-            margin-top: 0.5rem;
-            transition: 0.3s;
+            margin-top: $spacing--medium;
+            transition: $transition-duration--fast;
 
             &:hover {
                 .cmp-roll-table__roll-menu__close {
-                    opacity: 1;
+                    opacity: $opacity--visible;
                 }
             }
 
@@ -308,37 +308,34 @@
 
         &__dice-rolls {
             display: flex;
-            column-gap: 0.3rem;
+            column-gap: $spacing--small;
             justify-content: space-evenly;
             height: 0 !important;
             overflow: hidden;
-            transition: 0.3s;
+            transition: $transition-duration--fast;
 
             
         }
 
         &__die-roll {
             border: 1px solid $color-primary;
-            padding: 0.2rem 0.5rem;
-            border-radius: 0.3rem;
+            padding: $spacing--x-small $spacing--medium;
+            border-radius: $border-radius--small;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
         &__die {
-            border-bottom: 1px solid $color-primary;
-            font-size: 0.75rem;
-        }
-
-        &__result {
+            border-bottom: $border--light-weight;
+            font-size: $font-size--small;
         }
     }
 
     &__advanced-stats {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 2rem;
+        gap: $spacing--x-large;
 
         .cmp-cpw {
             & + .cmp-roll-table__roll-stats {

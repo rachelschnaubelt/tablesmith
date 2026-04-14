@@ -1,9 +1,11 @@
+@use '../../styles/variables.scss' as *;
+
 .cmp-card {
     display: flex;
     flex-direction: column;
 
     &__heading {
-        font-weight: bold;
+        font-weight: $font-bold;
     }
 
     &__contents {
@@ -12,7 +14,7 @@
     &__ctas {
         display: flex;
         justify-self: flex-end;
-        padding-top: 1rem;
+        padding-top: $spacing--large;
         margin-top: auto;
     }
 

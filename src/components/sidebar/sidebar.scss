@@ -3,9 +3,9 @@
 .cmp-sidebar {
     position: fixed;
     inset: 0;
-    z-index: 10;
+    z-index: $z-index-sidebar;
     transform: translateX(-100%);
-    transition: 0.3s ease;
+    transition: $transition-duration--fast;
     background-color: $sidebar-bg;
 
     &--open {
@@ -19,27 +19,26 @@
 
     &__close {
         position: absolute;
-        top: 1rem;
-        right: 1rem;
+        top: $spacing--large;
+        right: $spacing--large;
     }
 }
 
 .settings-menu {
     display: flex;
     flex-direction: column;
-    row-gap: 1rem;
-    padding: 1rem 0;
+    row-gap: $spacing--large;
+    padding: $spacing--large 0;
 
     &__heading {
         align-self: center;
-        font-size: 1.5rem;
+        font-size: $font-size--title;
 
     }
 
     &__section {
-
         &__heading {
-            margin-bottom: 0.5rem;
+            margin-bottom: $spacing--medium;
             font-weight: bold;
         }
 
@@ -47,28 +46,12 @@
 
     &__options {
         display: flex;
-        gap: 0.5rem 1rem;
+        gap: $spacing--medium $spacing--large;
         flex-wrap: wrap;
-        padding-left: 1rem;
+        padding-left: $spacing--large;
 
         &>div {
             flex: 1;
         }
-    }
-
-    &__quick-setup {
-
-    }
-
-    &__dice {
-
-    }
-
-    &__examples {
-
-    }
-
-    &__misc {
-
     }
 }

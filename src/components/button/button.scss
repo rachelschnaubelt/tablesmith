@@ -2,13 +2,12 @@
 
 .cmp-button {
     cursor: pointer;
-    border-radius: 5rem;
+    border-radius: $border-radius--pill;
     padding: 0.2rem 0.8rem;
-    transition: 0.3s;
+    transition: $transition-duration--fast;
     text-wrap: nowrap;
-    font-weight: normal;
-    border: 2px solid $color-primary;
-    // box-shadow: 0.1rem 0.1rem 0.4rem rgba(0,0,0,0.3);
+    font-weight: $font-normal;
+    border: $border--medium-weight;
     background-color: $color-primary;
     color: $text;
 
@@ -17,7 +16,7 @@
     color: $bg;
     border-color: $color-primary--light;
     box-shadow: $shadow--button-hover;
-    z-index: 1;
+    z-index: $z-index-1;
     }
 
     &--primary {
@@ -62,7 +61,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        column-gap: 0.3rem;
+        column-gap: $spacing--small;
 
         .cmp-button {
             &__icon,
@@ -70,38 +69,5 @@
                 flex-shrink: 0;
             }
         }
-
-        // width: fit-content;
-        // border-radius: 3rem;
-        // width: 2em;
-        // height: 2em;
-        // padding: 0.3rem;
-
-
-        
-        // .cmp-button {
-        //     &__label {
-    //             display: inline-block;
-    //             overflow: hidden;
-    //             transition: 0.3s;
-    //             text-wrap: nowrap;
-    //             width: 0;
-            // }
-            
-    //         &__icon {
-    //         }
-    //     }
-        
-    //     &:hover, &:active, &:target, &:focus {
-    //         aspect-ratio: 0;
-    //         width: auto;
-    //         column-gap: 0.3rem;
-
-    //         .cmp-button {
-    //             &__label {
-    //                 width: auto;
-    //             }
-    //         }
-    //     }
     }
 }

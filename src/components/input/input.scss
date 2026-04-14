@@ -23,7 +23,7 @@
         height: 2px;
         width: 100%;
         background-color: $color-primary;
-        transition: 0.3s;
+        transition: $transition-duration--fast;
     }
 
     &:hover,
@@ -32,32 +32,32 @@
     &:focus-within {
         &::after {
             height: 100%;
-            border-radius: 0.5rem;
+            border-radius: $border-radius--medium;
             background-color: $color-primary--light;
         }
     }
 
     @media print {
-        border-bottom: 2px solid $color-primary;
+        border-bottom: $border--medium-weight;
     }
 
     &>input, &>textarea {
         width: 100%;
-        z-index: 1;
-        background-color: transparent;
+        z-index: $z-index-1;
+        background-color: $color-transparent;
         border: none;
-        padding: 0rem 0.3rem;
+        padding: 0rem $spacing--small;
         outline: none;
         position: relative;
-        transition: 0.3s;
+        transition: $transition-duration--fast;
         resize: none;
     }
 
     &--number {
         position: relative;
-        margin-top: 0.5rem;
-        border-radius: 0.5rem;
-        transition: 0.3s;
+        margin-top: $spacing--medium;
+        border-radius: $border-radius--medium;
+        transition: $transition-duration--fast;
         background-color: $color-primary--light;
         display: flex;
         align-items: center;
@@ -67,13 +67,13 @@
             background-color: $color-primary--light;
             padding: 0;
             text-align: center;
-            border-radius: 0.5rem;
+            border-radius: $border-radius--medium;
         }
 
         &>label {
             position: relative;
-            left: 0.5rem;
-            z-index: 2
+            left: $spacing--medium;
+            z-index: $z-index-2;
         }
 
         &:hover {

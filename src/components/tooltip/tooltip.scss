@@ -6,14 +6,14 @@
     bottom: 100%;
     max-width: 30rem;
     background-color: $bg;
-    animation-duration: 0.3s;
+    animation-duration: $transition-duration--fast;
     animation-delay: 0.8s;
     animation-timing-function: ease;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
-    padding: 0.5rem 1rem;
-    border: 2px solid $color-primary;
-    border-radius: 0.3rem;
+    padding: $spacing--medium $spacing--large;
+    border: $border--medium-weight;
+    border-radius: $border-radius--small;
     transform: scale(0);
     transform-origin: bottom center;
 
@@ -29,11 +29,11 @@
 
 @keyframes tooltipDisplay {
     from {
-        opacity: 0;
+        opacity: $opacity--transparent;
         transform: scale(0);
     }
     to {
-        opacity: 1;
+        opacity: $opacity--visible;
         transform: scale(1);
     }
 }

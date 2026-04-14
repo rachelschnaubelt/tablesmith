@@ -11,7 +11,7 @@ body {
   font-family: $font-family;
   max-width: $max-width;
   margin: 0 auto;
-  padding-bottom: 3rem;
+  padding-bottom: $spacing--x-large;
 
   &>* {
     padding-left: $page-padding;
@@ -34,8 +34,8 @@ body {
 
 .action-text {
   text-decoration: underline;
-  cursor: pointer;
-  transition: 0.3s;
+  cursor: $cursor--pointer;
+  transition: $transition-duration--fast;
 
   &:hover {
     color: $color-highlight;

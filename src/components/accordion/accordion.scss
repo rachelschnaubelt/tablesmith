@@ -2,15 +2,15 @@
 
 .cmp-accordion {
     &__heading {
-        cursor: pointer;
-        font-weight: 600;
+        cursor: $cursor--pointer;
+        font-weight: $font-bold;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0.3rem 0.5rem;
-        border-radius: 5rem;
+        padding: $spacing--small $spacing--medium;
+        border-radius: $border-radius--pill;
         background-color: $color-primary;
-        transition: 0.3s;
+        transition: $transition-duration--fast;
 
         &:hover {
             background-color: $color-primary--light;
@@ -20,12 +20,12 @@
 
     &__contents {
         overflow: hidden;
-        transition: 0.3s;
-        margin-top: 1rem;
+        transition: $transition-duration--fast;
+        margin-top: $spacing--large;
     }
 
     &__arrow {
-        transition: 0.3s;
+        transition: $transition-duration--fast;
     }
     
     &--open {

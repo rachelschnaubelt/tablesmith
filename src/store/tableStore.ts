@@ -1,16 +1,8 @@
 import { create } from 'zustand';
 import { getCombinationObjects } from '../utils/calculations';
+import { DiceOptions } from '../types/types';
 
 const defaultCount: number = 10;
-
-interface DiceOption {
-    value: number,
-    enabled: boolean
-}
-
-interface DiceOptions {
-    [key: string]: DiceOption
-}
 
 const options: DiceOptions = {
   'd100': {
@@ -72,7 +64,7 @@ interface TableState {
   setHeaderHeight: (headerHeight: number) => void,
   setIsProbabilityColumnVisible: (checked: boolean) => void,
   addEntry: () => void,
-  addEntries: (count: number) => void,
+  addEntries: (count: number | undefined) => void,
   deleteEntry: (index: number) => void,
   setSidebarOpen: (sidebarOpen: boolean) => void,
   setLoadModalOpen: (loadModalOpen: boolean) => void,
@@ -117,10 +109,14 @@ const useTableStore = create<TableState>((set) => ({
     entries: [...state.entries, ''],
     entryCount: state.entries.length + 1
   })),
-  addEntries: (count: number) => set((state) => ({
-    entries: [...state.entries, ...Array(count).fill('')],
-    entryCount: state.entries.length + count
-  })),
+  addEntries: (count: number | undefined) => {
+    if (count) {
+      set((state) => ({
+        entries: [...state.entries, ...Array(count).fill('')],
+        entryCount: state.entries.length + count
+      }))
+    }
+  },
   deleteEntry: (index: number) => set((state) => {
     const newEntries = [...state.entries];
     newEntries.splice(index, 1);

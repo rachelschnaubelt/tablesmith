@@ -1,9 +1,9 @@
-import useTableStore from '../../store/tableStore';
+import useTableStore from '../../store/tableStore.ts';
 import Button from '../button/button.tsx';
-import Checkbox from '../checkbox/checkbox';
+import Checkbox from '../checkbox/checkbox.tsx';
 import './sidebar.scss';
 import exampleTables from '../../content/exampleTables.json';
-import { loadTable } from '../../utils/tableManagement';
+import { loadTable } from '../../utils/tableManagement.js';
 import D2Icon from '../../assets/icons/dice/d2.svg?react';
 import D4Icon from '../../assets/icons/dice/d4.svg?react';
 import D6Icon from '../../assets/icons/dice/d6.svg?react';
@@ -15,13 +15,14 @@ import D100Icon from '../../assets/icons/dice/d100.svg?react';
 
 import { XIcon } from '@phosphor-icons/react';
 import React from 'react';
+import { JSONEntry } from '../../types/types.tsx';
 
 const Sidebar = React.memo(() => {
     const { handleQuickSetup, setSidebarOpen, setSelectedOptions, setIsProbabilityColumnVisible, setTheme } = useTableStore.getState();
     const sidebarOpen = useTableStore((state) => state.sidebarOpen);
     const theme = useTableStore((state) => state.theme);
 
-    const handleExampleSetup = (key) => {
+    const handleExampleSetup = (key: keyof typeof exampleTables) => {
         const table = exampleTables[key];
         loadTable(table);
         setSidebarOpen(false);

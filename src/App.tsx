@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
-import Carousel from './components/carousel/carousel';
-import Table from './components/table/table';
-import Sidebar from './components/sidebar/sidebar';
+import Carousel from './components/carousel/carousel.tsx';
+import Table from './components/table/table.tsx';
+import Sidebar from './components/sidebar/sidebar.tsx';
 import Modal from './components/modal/modal.tsx';
-import Gallery from './components/gallery/gallery';
-import useTableStore from './store/tableStore';
-import { getCombinationObjects, getHints } from './utils/calculations'
-import Header from './components/header/header';
+import Gallery from './components/gallery/gallery.tsx';
+import useTableStore from './store/tableStore.ts';
+import { getCombinationObjects, getHints } from './utils/calculations.js'
+import Header from './components/header/header.tsx';
 
 function App() {
   const { setLoadModalOpen } = useTableStore.getState();

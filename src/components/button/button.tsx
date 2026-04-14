@@ -2,11 +2,11 @@ import { ReactNode } from 'react';
 import './button.scss';
 
 interface ButtonProps {
-    label: string,
-    onClick: () => void,
-    className: string,
-    icon: string | ReactNode
-    type: string, // limit options here
+    label?: string,
+    onClick?: () => void,
+    className?: string,
+    icon?: string | ReactNode
+    type?: string, // limit options here
     hierarchy?: string, //same
     isWarning?: boolean
 }
@@ -28,7 +28,7 @@ const Button = ({ label, onClick, className, type, icon, hierarchy, isWarning }:
         return (
             <button
             className={classNameArray.join(' ')}
-            onClick={() => { onClick() }}>
+            onClick={onClick}>
                 <span className='cmp-button__icon'>{icon}</span>
                 {label && <span className='cmp-button__label'>
                     {label}
@@ -41,7 +41,7 @@ const Button = ({ label, onClick, className, type, icon, hierarchy, isWarning }:
     return (
         <button
             className={classNameArray.join(' ')}
-            onClick={() => { onClick() }}>
+            onClick={onClick}>
             <span className='cmp-button__label'>
                 {label}
             </span>

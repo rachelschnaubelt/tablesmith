@@ -1,17 +1,28 @@
-import { useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import './accordion.scss';
 import { CaretDownIcon } from '@phosphor-icons/react';
 
-const Accordion = ({children, label, initialState}) => {
+interface AccordionProps {
+    children: ReactNode,
+    label: string,
+    initialState: boolean
+}
+
+interface ContentStyle {
+    height?: string | number,
+    minHeight?: string | number
+}
+
+const Accordion = ({children, label, initialState}: AccordionProps) => {
     const [isOpen, setIsOpen] = useState(initialState);
-    const contentsRef = useRef(null);
-    const [contentStyle, setContentStyle] = useState({
+    const contentsRef = useRef<HTMLDivElement>(null);
+    const [contentStyle, setContentStyle] = useState<ContentStyle>({
         height: initialState ? 'auto' : 0
     })
 
     const handleToggle = () => {
-        const height = contentsRef.current.scrollHeight;
-        if(!isOpen) {
+        if(!isOpen && contentsRef.current) {
+            const height = contentsRef.current.scrollHeight;
             setContentStyle({
                 minHeight: `${height}px`
             })
@@ -25,7 +36,7 @@ const Accordion = ({children, label, initialState}) => {
     }
 
     useEffect(() => {
-        if(isOpen) {
+        if(isOpen && contentsRef.current) {
             const height = contentsRef.current.scrollHeight;
             setContentStyle({
                 minHeight: `${height}px`

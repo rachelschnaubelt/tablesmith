@@ -9,8 +9,8 @@ interface CheckboxProps {
     label: string,
     isChecked: boolean,
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
-    type: string,
-    icon: string | ReactNode
+    type?: string,
+    icon?: string | ReactNode
 }
 
 const Checkbox = ({ id, name, value, label, isChecked, onChange, type, icon }: CheckboxProps) => {

@@ -1,16 +1,15 @@
-import { useEffect, useState, Children, useRef } from "react";
+import { useEffect, useState, Children, useRef, ReactNode, ReactElement } from "react";
 import './carousel.scss';
 import Button from "../button/button.tsx";
-import useTableStore from "../../store/tableStore";
+import useTableStore from "../../store/tableStore.ts";
 
-
-const Carousel = ({ children }) => {
+const Carousel = ({ children }: {children: ReactNode}) => {
     const { setSidebarOpen, addEntry, setCarouselIndex } = useTableStore.getState();
     const carouselIndex = useTableStore((store) => store.carouselIndex);
-    const buttonContainerRef = useRef(null);
+    const buttonContainerRef = useRef<HTMLDivElement>(null);
     const entryCount = useTableStore((state) => state.entryCount);
 
-    const setActiveButton = async (index) => {
+    const setActiveButton = async (index: number) => {
         const buttonsContainer = buttonContainerRef.current;
         if (buttonsContainer) {
             const buttons = await buttonsContainer.children;
@@ -24,15 +23,15 @@ const Carousel = ({ children }) => {
         }
     }
 
-    const handleUpdateIndex = (idx) => {
+    const handleUpdateIndex = (idx: number) => {
         setCarouselIndex(idx);
         setActiveButton(idx);
     }
 
     const getChildrenButtons = () => {
-        const buttons = [];
-        Children.forEach(children, (child, index) => {
-            if (child.props.comboObj) {
+        const buttons: ReactNode[] = [];
+        Children.forEach(children, (child: any, index: number) => {
+            if (child?.props.comboObj) {
                 buttons.push(
                     <Button
                         label={child.props.comboObj.diceString}

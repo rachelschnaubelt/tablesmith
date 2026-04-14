@@ -2,14 +2,14 @@ import './input.scss';
 
 interface InputProps {
     className: string,
-    value: string,
-    placeholder: string,
-    type: string, // limit options
-    id: string,
-    onChange: () => void,
-    min: number,
-    max: number,
-    label: string
+    value: string | number,
+    placeholder?: string,
+    type?: string, // limit options
+    id?: string,
+    onChange: (() => void) | ((e: React.ChangeEvent<any>) => void),
+    min?: number,
+    max?: number,
+    label?: string
 }
 
 const Input = ({ className, value, placeholder, type = 'text', id, onChange, min, max, label }: InputProps) => {

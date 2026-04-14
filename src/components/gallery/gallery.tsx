@@ -1,22 +1,25 @@
 import './gallery.scss';
-import { useEffect, useState } from "react";
-import useTableStore from '../../store/tableStore';
+import { ReactNode, useEffect, useState } from "react";
+import useTableStore from '../../store/tableStore.ts';
 import Button from '../button/button.tsx';
-import { loadTable } from '../../utils/tableManagement';
+import { loadTable } from '../../utils/tableManagement.js';
 import Card from '../card/card.tsx';
+import { JSONEntry } from '../../types/types.tsx';
 
-const Gallery = ({ }) => {
-    const [cards, setCards] = useState([]);
+
+
+const Gallery = () => {
+    const [cards, setCards] = useState<ReactNode>([]);
     const loadModalOpen = useTableStore((state) => state.loadModalOpen);
     const setLoadModalOpen = useTableStore((state) => state.setLoadModalOpen);
     const [entryDeleted, setEntryDeleted] = useState(false);
 
-    const handleLoadTable = (jsonEntry) => {
+    const handleLoadTable = (jsonEntry: JSONEntry) => {
         loadTable(jsonEntry);
         setLoadModalOpen(false);
     }
 
-    const handleDeleteTable = (key) => {
+    const handleDeleteTable = (key: string) => {
         localStorage.removeItem(key);
         setEntryDeleted(true);
     }
@@ -26,11 +29,21 @@ const Gallery = ({ }) => {
             if (localStorage.length === 0) {
                 setCards([<p>No tables saved yet. Create a table and save it for it to appear here!</p>]);
             } else {
-                const entries = [];
+                const entries: string[] = [];
                 for (let i = 0; i < localStorage.length; i++) {
-                    entries.push(localStorage.getItem(localStorage.key(i)));
+                    const key = localStorage.key(i);
+                    if (key) {
+                        const storedItem = localStorage.getItem(key);
+                        if (storedItem) {
+                            entries.push(storedItem);
+                        }
+                    }
                 }
-                const sortedEntries = entries.sort((a, b) => parseInt(localStorage.key(entries.indexOf(a)) - parseInt(localStorage.key(entries.indexOf(b)))));
+                const sortedEntries = [...entries].sort((a, b) => {
+                    const tableA = JSON.parse(localStorage.getItem(a) ?? '{}');
+                    const tableB = JSON.parse(localStorage.getItem(b) ?? '{}');
+                    return new Date(tableA.createdAt).getTime() - new Date(tableB.createdAt).getTime();
+                });
                 const cardList = sortedEntries.map((entry, index) => {
                     const jsonEntry = JSON.parse(entry);
                     return (
@@ -47,7 +60,7 @@ const Gallery = ({ }) => {
                             <p>{jsonEntry.tableDescription}</p>
                             <ul>
                                 {/* optimize this to not continue after the fourth entry */}
-                                {jsonEntry.entries.map((entry, index) => {
+                                {jsonEntry.entries.map((entry: string[], index: number) => {
                                     if (index < 3) {
                                         return <li key={index}>{entry}</li>
                                     } else if (index === 3) {

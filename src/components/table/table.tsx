@@ -1,18 +1,43 @@
 import './table.scss';
 import Button from "../button/button.tsx";
-import DistributionChart from '../distribution-chart/distribution-chart';
+import DistributionChart from '../distribution-chart/distribution-chart.tsx';
 import React, { useRef, useState } from 'react';
-import useTableStore from '../../store/tableStore';
-import Accordion from '../accordion/accordion';
+import useTableStore from '../../store/tableStore.ts';
+import Accordion from '../accordion/accordion.tsx';
 import { ArrowsClockwiseIcon, CopySimpleIcon, DiceOneIcon, DiceSixIcon, DotsThreeIcon, EraserIcon, FilePdfIcon, FloppyDiskIcon, PlusIcon, PrinterIcon, XIcon } from '@phosphor-icons/react';
 import Modal from '../modal/modal.tsx';
-import { getLeastLikelyRolls, getMostLikelyRolls } from '../../utils/calculations';
-import EntryInput from '../entry-input/entry-input';
-import CumulativeProbabilityWidget from '../cumulative-probability-widget/cumulative-probability-widget';
-import TableHeader from '../table-header/table-header';
-import { clearTable, copyTable, printTable, saveTable } from '../../utils/tableManagement';
+import { getLeastLikelyRolls, getMostLikelyRolls } from '../../utils/calculations.js';
+import EntryInput from '../entry-input/entry-input.tsx';
+import CumulativeProbabilityWidget from '../cumulative-probability-widget/cumulative-probability-widget.tsx';
+import TableHeader from '../table-header/table-header.tsx';
+import { clearTable, copyTable, printTable, saveTable } from '../../utils/tableManagement.js';
+import { ComboObject, Probability } from '../../types/types.tsx';
 
-const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }) => {
+interface Hints {
+    minDiff?: number
+    maxDiff?: number
+    closestMin?: number
+    closestMax?: number
+}
+
+interface TableProps {
+    comboObj?: ComboObject,
+    hints?: Hints | undefined,
+    comboCount?: number,
+    tableIndex?: number
+}
+
+interface DieResult {
+    die: string, 
+    result: number
+}
+
+interface RollResults {
+    results: DieResult[],
+    total: number
+}
+
+const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProps) => {
     const { addEntry, addEntries, deleteEntry, setSaveModalOpen, handleChangeEntryIndex } = useTableStore.getState();
     const entryCount = useTableStore((store) => store.entryCount);
     const saveModalOpen = useTableStore((store) => store.saveModalOpen);
@@ -21,27 +46,32 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }) => {
     const headerHeight = useTableStore((state) => state.headerHeight);
     const carouselIndex = useTableStore((state) => state.carouselIndex);
     const [isRowSelected, setIsRowSelected] = useState(false);
-    const [rollResults, setRollResults] = useState({});
-    const diceRollsRef = useRef(null);
-    const tableBody = useRef(null);
+    const [rollResults, setRollResults] = useState<RollResults | null>(null);
+    const diceRollsRef = useRef<HTMLDivElement>(null);
+    const tableBody = useRef<HTMLDivElement>(null);
     const isActive = tableIndex === carouselIndex;
 
-    const handleEntryMove = (index1, index2) => {
+    const handleEntryMove = (index1: number, index2: number) => {
         handleChangeEntryIndex(index1, index2);
-        const children = tableBody.current.children;
-        const row1 = children[index1];
-        const row2 = children[index2];
-        if (row1 && row2) {
-            const textarea1 = row1.querySelector('textarea');
-            const textarea2 = row2.querySelector('textarea');
-            const ta1scrollHeight = textarea1.scrollHeight;
-            const ta2scrollHeight = textarea2.scrollHeight;
-            textarea1.style.height = ta2scrollHeight + 1 + 'px';
-            textarea2.style.height = ta1scrollHeight + 1 + 'px';
+        if(tableBody.current) {
+
+            const children = tableBody.current.children;
+            const row1 = children[index1];
+            const row2 = children[index2];
+            if (row1 && row2) {
+                const textarea1 = row1.querySelector('textarea');
+                const textarea2 = row2.querySelector('textarea');
+                if(textarea1 && textarea2) {
+                    const ta1scrollHeight = textarea1.scrollHeight;
+                    const ta2scrollHeight = textarea2.scrollHeight;
+                    textarea1.style.height = ta2scrollHeight + 1 + 'px';
+                    textarea2.style.height = ta1scrollHeight + 1 + 'px';
+                }
+            }
         }
     }
 
-    const getProbabilityRows = (probabilities) => {
+    const getProbabilityRows = (probabilities: Probability) => {
         return Object.entries(probabilities).map(([roll, prob], index) => {
             const probAsPercent = (prob * 100).toFixed(2);
             return (
@@ -120,7 +150,7 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }) => {
         let total = 0;
         if (comboObj) {
             const combination = comboObj.combination;
-            const results = [];
+            const results: DieResult[] = [];
             combination.map(die => {
                 const faces = parseInt(die.substring(1));
                 const result = Math.ceil(Math.random() * faces);
@@ -148,38 +178,45 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }) => {
             })
         }
 
-        const previousSelect = tableBody.current.querySelectorAll('.cmp-roll-table__row.selected');
-        previousSelect.forEach(row => row.classList.remove('selected'));
-
-        const row = tableBody.current.querySelector(`.cmp-roll-table__row--${total}`);
-        row.classList.add('selected');
-        const rowY = row.getBoundingClientRect().y;
-        const windowHeight = window.innerHeight;
-        const bufferTop = 125;
-        const bufferBottom = 100;
-        if (rowY > windowHeight - bufferBottom || rowY < bufferTop) {
-            row.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        if(tableBody.current) {
+            const previousSelect = tableBody.current.querySelectorAll('.cmp-roll-table__row.selected');
+            previousSelect.forEach(row => row.classList.remove('selected'));
+            
+            const row = tableBody.current.querySelector(`.cmp-roll-table__row--${total}`);
+            if(row) {
+                row.classList.add('selected');
+                const rowY = row.getBoundingClientRect().y;
+                const windowHeight = window.innerHeight;
+                const bufferTop = 125;
+                const bufferBottom = 100;
+                if (rowY > windowHeight - bufferBottom || rowY < bufferTop) {
+                    row.scrollIntoView({ block: 'center', behavior: 'smooth' });
+                }
+                setIsRowSelected(true);
+            }
         }
-        setIsRowSelected(true);
     }
 
     const handleCloseRollMenu = () => {
-        setRollResults({});
+        setRollResults(null);
         handleClearSelection();
     }
 
     const handleClearSelection = () => {
-        const previousSelect = tableBody.current.querySelectorAll('.cmp-roll-table__row.selected');
-        previousSelect.forEach(row => row.classList.remove('selected'));
-        setIsRowSelected(false);
+        if(tableBody.current) {
+            const previousSelect = tableBody.current.querySelectorAll('.cmp-roll-table__row.selected');
+            previousSelect.forEach(row => row.classList.remove('selected'));
+            setIsRowSelected(false);
+        }
     }
 
-    const RollLikelihoodEntry = React.memo(({ value, lowestResult }) => {
+    const RollLikelihoodEntry = React.memo(({ value, lowestResult }: {value: number, lowestResult: number}) => {
         const entry = useTableStore((state) => state.entries[value - lowestResult]);
         return <li key={value}>{value}{entry ? ` - ${entry}` : ''}</li>;
     });
 
-    const evaluateRollLikelihood = (rolls) => {
+    const evaluateRollLikelihood = (rolls: string[]) => {
+        if(comboObj) {
         const lowestResult = comboObj.combination.length;
 
         if (rolls.length === comboObj.count) {
@@ -187,14 +224,17 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }) => {
         }
 
         return <ul>
-            {rolls.map((value) => (
+            {rolls.map((value: string) => {
+                const parsedValue = parseInt(value);
+                return(
                 <RollLikelihoodEntry
-                    key={value}
-                    value={value}
+                    key={parsedValue}
+                    value={parsedValue}
                     lowestResult={lowestResult}
                 />
-            ))}
+            )})}
         </ul>;
+        }
     }
 
     return (
@@ -318,7 +358,7 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }) => {
                         <CumulativeProbabilityWidget
                             comboObj={comboObj} />
                         {hints && (Object.keys(hints).length != 0) && <div className='cmp-roll-table__hints'>
-                            {comboCount > 0 && <p>Want a more even distribution?</p>}
+                            {comboCount && comboCount > 0 && <p>Want a more even distribution?</p>}
                             {hints.closestMax && hints.maxDiff && <p><span className='action-text' onClick={() => { addEntries(hints.maxDiff) }}>Add another {hints.maxDiff > 1 && hints.maxDiff} option{hints.maxDiff > 1 && 's'}</span> to make a 1d{hints.closestMax} table</p>}
                             {hints.closestMin && hints.minDiff && <p>{hints.closestMax && hints.maxDiff ? 'Or remove' : 'Remove'} {hints.minDiff > 1 ? hints.minDiff : 'an'} option{hints.minDiff > 1 && 's'} to make a 1d{hints.closestMin} table</p>}
                         </div>}

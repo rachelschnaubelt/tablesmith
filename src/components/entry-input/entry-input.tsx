@@ -4,7 +4,7 @@ import useTableStore from "../../store/tableStore";
 
 interface EntryInputProps {
     index: number,
-    isActive: boolean
+    isActive?: boolean
 }
 
 const EntryInput = ({index, isActive}: EntryInputProps) => {

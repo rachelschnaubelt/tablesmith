@@ -1,4 +1,4 @@
-import useTableStore from "../../store/tableStore";
+import useTableStore from "../../store/tableStore.ts";
 import Input from "../input/input.tsx";
 
 const TableHeader = () => {

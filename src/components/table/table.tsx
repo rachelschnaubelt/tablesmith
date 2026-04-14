@@ -6,11 +6,11 @@ import useTableStore from '../../store/tableStore.ts';
 import Accordion from '../accordion/accordion.tsx';
 import { ArrowsClockwiseIcon, CopySimpleIcon, DiceOneIcon, DiceSixIcon, DotsThreeIcon, EraserIcon, FilePdfIcon, FloppyDiskIcon, PlusIcon, PrinterIcon, XIcon } from '@phosphor-icons/react';
 import Modal from '../modal/modal.tsx';
-import { getLeastLikelyRolls, getMostLikelyRolls } from '../../utils/calculations.js';
+import { getLeastLikelyRolls, getMostLikelyRolls } from '../../utils/calculations.ts';
 import EntryInput from '../entry-input/entry-input.tsx';
 import CumulativeProbabilityWidget from '../cumulative-probability-widget/cumulative-probability-widget.tsx';
 import TableHeader from '../table-header/table-header.tsx';
-import { clearTable, copyTable, printTable, saveTable } from '../../utils/tableManagement.js';
+import { clearTable, copyTable, printTable, saveTable } from '../../utils/tableManagement.ts';
 import { ComboObject, Probability } from '../../types/types.tsx';
 
 interface Hints {
@@ -299,7 +299,7 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
                                             className={'no-print'}
                                             icon={<CopySimpleIcon size={16} />}
                                             type="icon"
-                                            onClick={() => { copyTable(comboObj) }}
+                                            onClick={() => { comboObj && copyTable(comboObj) }}
                                             hierarchy={'tertiary'} />
                                         <Button
                                             label={'print/save as pdf'}
@@ -318,7 +318,7 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
                                                     setSaveModalOpen(true);
                                                 }
                                                 else {
-                                                    saveTable(comboObj, tableKey)
+                                                    comboObj && saveTable(comboObj, tableKey)
                                                 }
                                             }}
                                             hierarchy={'tertiary'} />
@@ -388,11 +388,11 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
                 <div className='cmp-modal__button-group'>
                     <Button
                         label='overwrite existing save'
-                        onClick={() => { saveTable(comboObj, tableKey); setSaveModalOpen(false) }} />
+                        onClick={() => { comboObj && saveTable(comboObj, tableKey); setSaveModalOpen(false) }} />
                     <Button
                         label='save as new table'
                         hierarchy={'secondary'}
-                        onClick={() => { saveTable(comboObj); setSaveModalOpen(false) }} />
+                        onClick={() => { comboObj && saveTable(comboObj); setSaveModalOpen(false) }} />
                 </div>
             </Modal>
         </div>

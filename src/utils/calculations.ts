@@ -1,12 +1,15 @@
 import useTableStore from "../store/tableStore";
+import { ComboObject, DiceCount, DiceOptions, Distribution, Probability } from "../types/types";
 
-const getCombinations = (count, selectedOptions) => {
+
+
+const getCombinations = (count: number, selectedOptions: DiceOptions) => {
   const target = count - 1;
-  const combinations = [];
+  const combinations: string[][] = [];
   const max_depth = 10;
   const comboSet = new Set();
 
-  const search = (remaining, currentCombo) => {
+  const search = (remaining: number, currentCombo: string[]) => {
     if (remaining === 0) {
       const comboString = currentCombo.sort().join(',');
       if (!comboSet.has(comboString)) {
@@ -42,16 +45,16 @@ const getCombinations = (count, selectedOptions) => {
   return combinations;
 }
 
-const getCombinationDistribution = (combination, selectedOptions) => {
-  let distribution = {
+const getCombinationDistribution = (combination: string[], selectedOptions: DiceOptions) => {
+  let distribution: Distribution = {
     0: 1
   };
   for (const die of combination) {
-    const newDistribution = {};
+    const newDistribution: Distribution = {};
     for (const value in distribution) {
       const valueInt = parseInt(value);
       for (let face = 1; face <= selectedOptions[die].value; face++) {
-        const key = valueInt + face;
+        const key: number = valueInt + face;
         newDistribution[key] = (newDistribution[key] || 0) + distribution[valueInt];
       }
     }
@@ -60,45 +63,45 @@ const getCombinationDistribution = (combination, selectedOptions) => {
   return distribution;
 }
 
-const getCombinationProbabilities = (distribution, total) => {
-  const probabilities = {};
+const getCombinationProbabilities = (distribution: Distribution, total: number) => {
+  const probabilities: Probability = {};
   for (const sum in distribution) {
     probabilities[sum] = distribution[sum] / total;
   }
   return probabilities;
 }
 
-const getCombinationVariance = (probabilities) => {
+const getCombinationVariance = (probabilities: Probability) => {
   let mean = 0;
   for(const prob in probabilities) {
-    mean += prob * probabilities[prob];
+    mean += parseInt(prob) * probabilities[prob];
   }
 
   let variance = 0;
   for(const prob in probabilities) {
-    variance += ((prob - mean) ** 2) * probabilities[prob];
+    variance += ((parseInt(prob) - mean) ** 2) * probabilities[prob];
   }
 
   return variance;
 }
 
-const getCombinationStandardDeviation = (variance) => {
+const getCombinationStandardDeviation = (variance: number) => {
   return Math.sqrt(variance);
 }
 
-const getDiceCounts = (combination) => {
-  const diceCounts = {};
+const getDiceCounts = (combination: string[]) => {
+  const diceCounts: DiceCount = {};
   for (const die of combination) {
     diceCounts[die] = (diceCounts[die] + 1) || 1;
   }
   return diceCounts;
 }
 
-const getDiceString = (diceCounts) => {
+const getDiceString = (diceCounts: DiceCount) => {
   const diceStrings = [];
-  const sortDice = (a, b) => parseInt(b.substring(1)) - parseInt(a.substring(1));
+  const sortDice = (a: string, b: string) => parseInt(b.substring(1)) - parseInt(a.substring(1));
   const sortedCounts = Object.keys(diceCounts).sort(sortDice).reduce(
-    (obj, key) => {
+    (obj: DiceCount, key) => {
       obj[key] = diceCounts[key];
       return obj;
     },
@@ -111,7 +114,7 @@ const getDiceString = (diceCounts) => {
   return diceStrings.join(' + ');
 }
 
-const getCombinationObject = (combination, count, selectedOptions) => {
+const getCombinationObject = (combination: string[], count: number, selectedOptions: DiceOptions) => {
   const diceCounts = getDiceCounts(combination);
   const diceString = getDiceString(diceCounts);
   const distribution = getCombinationDistribution(combination, selectedOptions);
@@ -133,7 +136,7 @@ const getCombinationObject = (combination, count, selectedOptions) => {
   }
 }
 
-const getCombinationObjects = (count, selectedOptions) => {
+const getCombinationObjects = (count: number, selectedOptions: DiceOptions) => {
   const combinations = getCombinations(count, selectedOptions);
   const comboObjects = [];
   for (const combo of combinations) {
@@ -142,7 +145,7 @@ const getCombinationObjects = (count, selectedOptions) => {
   return comboObjects;
 }
 
-const getHints = (comboObjs, selectedOptions) => {
+const getHints = (comboObjs: ComboObject[], selectedOptions: DiceOptions) => {
   const isSingleDie = comboObjs.find(combo => combo.combination.length === 1);
   if (!isSingleDie) {
     const { entries } = useTableStore.getState();
@@ -157,16 +160,16 @@ const getHints = (comboObjs, selectedOptions) => {
     const maxDiff = closestMax && closestMax.value - target;
 
     return {
-      ...(minDiff < threshold && { closestMin: closestMin.value }),
-      ...(minDiff < threshold && { minDiff }),
-      ...(maxDiff < threshold && { closestMax: closestMax.value }),
-      ...(maxDiff < threshold && { maxDiff })
+      ...(minDiff && minDiff < threshold && { closestMin: closestMin.value }),
+      ...(minDiff && minDiff < threshold && { minDiff }),
+      ...(maxDiff && maxDiff < threshold && { closestMax: closestMax.value }),
+      ...(maxDiff && maxDiff < threshold && { maxDiff })
     }
   }
 }
 
-const getMostLikelyRolls = (comboObj) => {
-  let distribution = comboObj.distribution;
+const getMostLikelyRolls = (comboObj: ComboObject) => {
+  let distribution: Distribution = comboObj.distribution;
   const sortedKeys = Object.keys(distribution).sort((a, b) => distribution[b] - distribution[a]);
   const results = [sortedKeys[0]];
   let i = 1; 
@@ -177,8 +180,8 @@ const getMostLikelyRolls = (comboObj) => {
   return results;
 }
 
-const getLeastLikelyRolls = (comboObj) => {
-  let distribution = comboObj.distribution;
+const getLeastLikelyRolls = (comboObj: ComboObject) => {
+  let distribution: Distribution = comboObj.distribution;
   const sortedKeys = Object.keys(distribution).sort((a, b) => distribution[a] - distribution[b]);
   const results = [sortedKeys[0]];
   let i = 1; 

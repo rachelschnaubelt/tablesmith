@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { getCombinationObjects } from '../utils/calculations';
+import { getCombinationObjects } from '../utils/calculations.ts';
 import { DiceOptions } from '../types/types';
 
 const defaultCount: number = 10;

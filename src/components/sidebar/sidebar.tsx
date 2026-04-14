@@ -3,7 +3,7 @@ import Button from '../button/button.tsx';
 import Checkbox from '../checkbox/checkbox.tsx';
 import './sidebar.scss';
 import exampleTables from '../../content/exampleTables.json';
-import { loadTable } from '../../utils/tableManagement.js';
+import { loadTable } from '../../utils/tableManagement.ts';
 import D2Icon from '../../assets/icons/dice/d2.svg?react';
 import D4Icon from '../../assets/icons/dice/d4.svg?react';
 import D6Icon from '../../assets/icons/dice/d6.svg?react';

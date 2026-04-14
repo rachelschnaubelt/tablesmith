@@ -6,15 +6,14 @@ export interface JSONEntry {
     entries: string[],
     savedAt: string,
     updatedAt: string
-
 }
 
-interface DiceCount {
+export interface DiceCount {
     [key: string]: number
 }
 
 export interface Distribution {
-    [key: string]: number
+    [key: string | number]: number
 }
 
 export interface Probability {
@@ -29,20 +28,6 @@ interface DiceOption {
 export interface DiceOptions {
     [key: string]: DiceOption
 }
-
-// (parameter) comboObj: {
-//     count: any;
-//     diceCounts: {};
-//     diceString: string;
-//     combination: any;
-//     distribution: {
-//         0: number;
-//     };
-//     probabilities: {};
-//     variance: number;
-//     standardDeviation: number;
-//     selectedOptions: any;
-// }
 
 export interface ComboObject {
     count: number,

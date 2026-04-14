@@ -2,7 +2,7 @@ import './gallery.scss';
 import { ReactNode, useEffect, useState } from "react";
 import useTableStore from '../../store/tableStore.ts';
 import Button from '../button/button.tsx';
-import { loadTable } from '../../utils/tableManagement.js';
+import { loadTable } from '../../utils/tableManagement.ts';
 import Card from '../card/card.tsx';
 import { JSONEntry } from '../../types/types.tsx';
 

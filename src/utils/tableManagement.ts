@@ -1,20 +1,21 @@
-import useTableStore from "../store/tableStore";
-import { getCombinationObjects } from "./calculations";
+import useTableStore from "../store/tableStore.ts";
+import { ComboObject, JSONEntry } from "../types/types.tsx";
+import { getCombinationObjects } from "./calculations.ts";
 
-const loadTable = (tableData) => {
+const loadTable = (tableData: JSONEntry) => {
     const { setTableName, setTableDescription, setEntries, setCarouselIndex, setTableKey } = useTableStore.getState();
     setTableName(tableData.tableName);
     setTableDescription(tableData.tableDescription);
     setEntries(tableData.entries);
     const comboObjects = getCombinationObjects(tableData.entries.length, tableData.comboObj.selectedOptions);
-    const findCombo = (combo) => combo.diceString === tableData.comboObj.diceString;
+    const findCombo = (combo: ComboObject) => combo.diceString === tableData.comboObj.diceString;
     const tableIndex = comboObjects.findIndex(findCombo);
     setCarouselIndex(tableIndex + 1);
     setTableKey(tableData.id);
 }
 
 
-    const copyTable = async (comboObj) => {
+    const copyTable = async (comboObj: ComboObject) => {
         const {entries, tableName, tableDescription, isProbabilityColumnVisible} = useTableStore.getState();
                 const html = `
                     <style>
@@ -84,21 +85,30 @@ const loadTable = (tableData) => {
         window.print();
     }
 
-    const saveTable = (comboObj, storageKey) => {
+    const saveTable = (comboObj: ComboObject, storageKey?: string) => {
         const { tableName, tableDescription, entries, setTableKey } = useTableStore.getState();
-        const id = Date.now();
+        let id = Date.now().toString();
         const timestamp = new Date().toISOString();
+        const item = storageKey && localStorage.getItem(storageKey);
+        let savedAt = timestamp;
+        if(item) {
+            savedAt = JSON.parse(item)?.savedAt;
+        }
         const saveObj = {
             id: storageKey || id,
             tableName,
             tableDescription,
             comboObj,
             entries,
-            savedAt: localStorage.getItem(storageKey)?.savedAt || timestamp,
+            savedAt,
             updatedAt: timestamp
         }
 
-        localStorage.setItem(storageKey || id, JSON.stringify(saveObj));
+        if(storageKey) {
+            id = storageKey;
+        }
+
+        localStorage.setItem(id, JSON.stringify(saveObj));
         setTableKey(storageKey || id);
     }
 

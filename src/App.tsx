@@ -5,7 +5,7 @@ import Sidebar from './components/sidebar/sidebar.tsx';
 import Modal from './components/modal/modal.tsx';
 import Gallery from './components/gallery/gallery.tsx';
 import useTableStore from './store/tableStore.ts';
-import { getCombinationObjects, getHints } from './utils/calculations.js'
+import { getCombinationObjects, getHints } from './utils/calculations.ts'
 import Header from './components/header/header.tsx';
 
 function App() {

@@ -27,24 +27,23 @@
 
         &::before {
             content: '';
-            display: 'block';
+            display: block;
             position: absolute;
             inset: 0;
             background: $gradient--row-highlight;
-            z-index: -1;
-            opacity: 0;
+            z-index: $z-index-beneath;
+            opacity: $opacity--transparent;
             transition: $transition-duration--fast;
         }
 
         &:hover {
-            z-index:1;
+            z-index: $z-index-1;
 
             &::before {
-                opacity: 1;
+                opacity: $opacity--visible;
             }
 
             .cmp-roll-table__button {
-
                 &--move-up,
                 &--move-down,
                 &--delete {
@@ -152,7 +151,6 @@
     }
 
     &__button {
-
         &--move-up,
         &--move-down {
             position: absolute;
@@ -172,6 +170,7 @@
             line-height: 1;
             box-shadow: $shadow--row-action-button;
             background-color: $bg;
+            transition: none;
         }
 
         &--move-up {
@@ -286,10 +285,6 @@
                     height: initial !important;
                 }
             }
-
-        &__button {
-
-        }
 
         &__container {
             position: absolute;

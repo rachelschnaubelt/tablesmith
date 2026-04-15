@@ -50,13 +50,17 @@ const Input = ({ className, value, placeholder, type = 'text', id, onChange, min
 
     return (
         <div className='cmp-input'>
+            <label htmlFor={id}
+                className='cmp-input__label'>{label}</label>
             <input
                 type={type}
                 placeholder={placeholder}
                 value={value}
                 className={classNameString}
                 id={id}
-                onChange={onChange} />
+                onChange={onChange} >
+
+                </input>
         </div>
 
     );

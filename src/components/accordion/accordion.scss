@@ -11,6 +11,7 @@
         border-radius: $border-radius--pill;
         background-color: $color-primary;
         transition: $transition-duration--fast;
+        color: $bg;
 
         &:hover {
             background-color: $color-primary--light;

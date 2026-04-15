@@ -14,12 +14,14 @@ const TableHeader = () => {
                 value={tableName}
                 placeholder={'Name'}
                 id='table-name'
+                label='table-name'
                 onChange={(e) => { setTableName(e.target.value) }} />
             <Input
                 className='cmp-roll-table__description'
                 value={tableDescription}
                 placeholder={'Description'}
                 type='textarea'
+                label='table-description'
                 id='table-description'
                 onChange={(e) => { setTableDescription(e.target.value) }} />
         </div>

@@ -9,7 +9,7 @@
     font-weight: $font-normal;
     border: $border--medium-weight;
     background-color: $color-primary;
-    color: $text;
+    color: $bg;
 
     &:hover, &:active, &:target, &:focus {
     background-color: $color-primary--light;

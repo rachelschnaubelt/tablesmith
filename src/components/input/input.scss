@@ -55,6 +55,10 @@
         color: inherit;
     }
 
+    &__label {
+        display: none;
+    }
+
     &--number {
         position: relative;
         margin-top: $spacing--medium;
@@ -63,9 +67,10 @@
         background-color: $color-primary--light;
         display: flex;
         align-items: center;
+        color: $bg;
 
         &>input {
-            color: $text;
+            color: $bg;
             background-color: $color-primary--light;
             padding: 0;
             text-align: center;

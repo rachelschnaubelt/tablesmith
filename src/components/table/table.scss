@@ -34,6 +34,7 @@
             z-index: $z-index-beneath;
             opacity: $opacity--transparent;
             transition: $transition-duration--fast;
+            border-radius: inherit;
         }
 
         &:hover {
@@ -113,11 +114,6 @@
                     border-top-left-radius: 0.8rem;
                     border-top-right-radius: 0.8rem;
 
-                    &::before {
-                        border-top-left-radius: 0.8rem;
-                        border-top-right-radius: 0.8rem;
-                    }
-
                     .cmp-roll-table__cell {
                         border-top: none;
                     }
@@ -126,11 +122,6 @@
                 &:nth-last-of-type(1) {
                     border-bottom-left-radius: 0.8rem;
                     border-bottom-right-radius: 0.8rem;
-                    
-                    &::before {
-                        border-bottom-left-radius: 0.8rem;
-                        border-bottom-right-radius: 0.8rem;
-                    }
 
                     .cmp-roll-table__cell {
                         border-bottom: none;

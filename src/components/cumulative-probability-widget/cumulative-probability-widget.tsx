@@ -54,7 +54,8 @@ const CumulativeProbabilityWidget = ({comboObj}: {comboObj: ComboObject}) => {
                     min={minRange}
                     max={maxRange}
                     value={minValue}
-                    onChange={e => handleChangeMin(e)} /> 
+                    onChange={e => handleChangeMin(e)}
+                    id="cmp-cpw__min" /> 
                 <Input
                     className={'cmp-cpw__max'}
                     type="number"
@@ -62,7 +63,8 @@ const CumulativeProbabilityWidget = ({comboObj}: {comboObj: ComboObject}) => {
                     min={minValue}
                     max={maxRange}
                     value={maxValue}
-                    onChange={e => handleChangeMax(e)} /> 
+                    onChange={e => handleChangeMax(e)}
+                    id="cmp-cpw__max"/> 
                     </div>
                 {CumulativeProbability}
             </div>

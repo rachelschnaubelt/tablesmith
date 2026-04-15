@@ -3,9 +3,20 @@
 .cmp-card {
     display: flex;
     flex-direction: column;
+    padding: $spacing--large;
+    border: $border--medium-weight;
+    border-radius: $border-radius--medium;
+    transition: $transition-duration--fast;
+    color: $text;
+
+    &:hover {
+        box-shadow: $shadow--button-hover;
+        transform: scale(1.03);
+    }
 
     &__heading {
         font-weight: $font-bold;
+        text-align: center;
     }
 
     &__contents {
@@ -16,6 +27,21 @@
         justify-self: flex-end;
         padding-top: $spacing--large;
         margin-top: auto;
+        justify-content: flex-end;
+        column-gap: $spacing--medium;
     }
 
+
+
+    // Load cards
+    // load-table-card__dice-count'>Dice: {jsonEntry?.comboObj?.diceString}</p>
+    //                         <p className='load-table-card__entry-count'>{jsonEntry?.comboObj?.count} entries</p>
+    //                         <p className="load-table-card__description">{jsonEntry.tableDescription}</p>
+    //                         <ul className='load-table-card__entry-list
+
+    .load-table-card {
+        &__dice-count, &__entry-count {
+            font-size: $font-size--small;
+        }
+    }
 }

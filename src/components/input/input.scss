@@ -2,6 +2,7 @@
 
 .cmp-input {
     position: relative;
+    color: $text;
 
     &::before {
         content: '';
@@ -33,7 +34,7 @@
         &::after {
             height: 100%;
             border-radius: $border-radius--medium;
-            background-color: $color-primary--light;
+            background: $gradient--row-highlight;
         }
     }
 
@@ -51,6 +52,7 @@
         position: relative;
         transition: $transition-duration--fast;
         resize: none;
+        color: inherit;
     }
 
     &--number {
@@ -89,6 +91,8 @@
         }
 
         &::placeholder {
+            color: $text;
+            opacity: $opacity--half;
         }
     }
 }

@@ -52,13 +52,18 @@ const Gallery = () => {
                             heading={jsonEntry.tableName}
                             cta={[<Button
                                 label='load'
-                                onClick={() => handleLoadTable(jsonEntry)} />,
+                                onClick={() => handleLoadTable(jsonEntry)}
+                                />,
                             <Button
                                 label='delete'
-                                onClick={() => handleDeleteTable(jsonEntry.id)} />]}>
-                            <p>{jsonEntry?.comboObj?.diceString}</p>
-                            <p>{jsonEntry.tableDescription}</p>
-                            <ul>
+                                onClick={() => handleDeleteTable(jsonEntry.id)}
+                                hierarchy='secondary'
+                                isWarning={true} />
+                                ]}>
+                            <p className='load-table-card__dice-count'>Dice: {jsonEntry?.comboObj?.diceString}</p>
+                            <p className='load-table-card__entry-count'>{jsonEntry?.comboObj?.count} entries</p>
+                            <p className="load-table-card__description">{jsonEntry.tableDescription}</p>
+                            <ul className='load-table-card__entry-list'>
                                 {/* optimize this to not continue after the fourth entry */}
                                 {jsonEntry.entries.map((entry: string[], index: number) => {
                                     if (index < 3) {

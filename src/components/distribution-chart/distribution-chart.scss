@@ -1,3 +1,13 @@
+@import '../../styles/variables.scss';
+
 .cmp-distribution-chart {
     margin: 0 auto;
+
+    .custom-tooltip {
+                        border: $border--medium-weight;
+                        background-color: $bg;
+                        padding: $spacing--medium;
+                        border-radius: $border-radius--small;
+                        box-shadow: $shadow--button-hover;
+                    }
 }

@@ -100,7 +100,20 @@ const useTableStore = create<TableState>((set) => ({
       ...(entries.length !== state.entries.length && { entryCount: entries.length })
   })),
   setTableKey: (tableKey: string) => set({ tableKey }),
-  setTheme: (theme) => set({ theme }),
+  setTheme: (theme) => {
+    const html = document.querySelector('html');
+    if(html) {
+      const classList = html.classList;
+      const classesArray = Array.from(classList);
+      classesArray.forEach((cls) => {
+        if(cls.startsWith('theme')) {
+          classList.remove(cls);
+        }
+      })
+      classList.add(theme);
+    }
+
+    set({ theme })},
   setHeaderHeight: (headerHeight: number) => set({ headerHeight }),
   setIsProbabilityColumnVisible: (checked: boolean) => set(() => {
     return ({ isProbabilityColumnVisible: checked })

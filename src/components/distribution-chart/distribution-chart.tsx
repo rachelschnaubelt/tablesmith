@@ -6,7 +6,8 @@ import { ComboObject } from '../../types/types';
 
 const DistributionChart = React.memo(({ comboObj }: {comboObj: ComboObject}) => {
 
-    const data = Object.keys(comboObj.probabilities).map(key => {
+    const data = Object.keys(comboObj.probabilities).map((key) => {
+        if(key) {}
         return {
             name: key,
             uv: (comboObj.probabilities[key] * 100).toFixed(2)
@@ -17,19 +18,11 @@ const DistributionChart = React.memo(({ comboObj }: {comboObj: ComboObject}) => 
         if (active && payload && payload.length) {
             return (
                 <div
-                    className="custom-tooltip"
-                    style={{
-                        border: '1px solid #d88488',
-                        backgroundColor: '#fff2e0',
-                        padding: '10px',
-                        borderRadius: '5px',
-                        boxShadow: '1px 1px 2px #d88488',
-                    }}
-                >
-                    <p className="desc" style={{ margin: '0', borderTop: '1px dashed #f5f5f5' }}>
+                    className="custom-tooltip">
+                    <p className="desc">
                         Probability: {payload[0].value}%
                     </p>
-                    <p className="desc" style={{ margin: '0', borderTop: '1px dashed #f5f5f5' }}>
+                    <p className="desc">
                         Number of ways to roll: {label && comboObj.distribution[label]}
                     </p>
                 </div>

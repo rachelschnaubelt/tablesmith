@@ -4,17 +4,18 @@
   --text-color: #4B3660;
   --modal-bg: #fff2e0;
   --sidebar-bg: #fff2e0;
+  --color-primary--dark: #3b2b4c;
   --color-primary: #c68efd;
   --color-primary--light: #e9a5f1;
-  --color-higlight: #f5d7f9;
+  --color-highlight: #f5d7f9;
   --color-gray--light: #ccc;
   --color-gray--dark: #333;
   --color-warning: #E63946;
   --color-transparent: transparent;
 
   // Gradients
-  --gradient--row-highlight: linear-gradient(63deg, var(--color-primary--light), var(--color-higlight));
-  
+  --gradient--row-highlight: linear-gradient(63deg, var(--color-primary--light), var(--color-highlight));
+
 
   // Fonts
   --font-family: Arial, Helvetica, sans-serif;
@@ -23,7 +24,7 @@
   --font-size--small: 0.75rem;
   --font-size--heading: 1.25rem;
   --font-size--title: 2rem;
-  
+
 
   // Borders
   --border-radius--pill: 10rem;
@@ -48,10 +49,10 @@
 
 
   // Shadows
-  --shadow--button-hover: 0.3rem 0.3rem 0.8rem rgba(0,0,0,0.3),
-                          0.1rem 0.1rem 0.6rem rgba(0,0,0,0.5);
-  --shadow--checkbox-active: 0.1rem 0.1rem 0.3rem rgba(0,0,0,0.3) inset;
-  --shadow--row-action-button: 0.1rem 0.1rem 0.3rem rgba(0,0,0,0.3) inset; // not sold on this
+  --shadow--button-hover: 0.3rem 0.3rem 0.8rem rgba(0, 0, 0, 0.3),
+    0.1rem 0.1rem 0.6rem rgba(0, 0, 0, 0.5);
+  --shadow--checkbox-active: 0.1rem 0.1rem 0.3rem rgba(0, 0, 0, 0.3) inset;
+  --shadow--row-action-button: 0.1rem 0.1rem 0.3rem rgba(0, 0, 0, 0.3) inset; // not sold on this
 
 
   // Transitions/Animations
@@ -76,32 +77,61 @@
   // Opacity
   --opacity--visible: 1;
   --opacity--transparent: 0;
+  --opacity--half: 0.5;
 
   // Cursor
   --cursor--pointer: pointer;
-  
+
+
+  @media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition: none !important;
+      animation-play-state: paused !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 .theme--modern--dark {
-    // Colors
-  --background-color: black;
+  // Colors
+  --background-color: #20172a;
   --text-color: #fff2e0;
-  --modal-bg: black;
-  --sidebar-bg: #333;
-  
+  --modal-bg: #20172a;
+  --sidebar-bg: #20172a;
+  --color-primary: #7d53a7;
+  --color-primary--light: #ab69b2;
+  --color-highlight: #f5d7f9;
+  --color-gray--light: #ccc;
+  --color-gray--dark: #333;
+  --color-warning: #aa2a34;
+
+  // Gradients
+  --gradient--row-highlight: linear-gradient(63deg, var(--color-primary--dark), var(--color-primary));
+
+
 
   // Fonts
 
 
   // Borders
-
+  --border--light-weight: 1px solid var(--color-primary);
+  --border--medium-weight: 2px solid var(--color-primary);
+  --border--medium-weight--light: 2px solid var(--color-primary--light);
+  --border--light-weight--text: 1px solid var(--text-color);
+  --border--heavy-weight--text: 3px solid var(--text-color);
 
   // Spacings
-  
-  
+
+
   // Shadows
-  
-  
+  --shadow--button-hover: 0.3rem 0.3rem 0.8rem rgba(19, 19, 19, 0.5),
+    0.1rem 0.1rem 0.6rem rgba(19, 19, 19, 0.7);
+
+
   // Transitions/Animations
 
 
@@ -130,10 +160,11 @@ $text: var(--text-color);
 $modal-bg: var(--modal-bg);
 $sidebar-bg: var(--sidebar-bg);
 $color-primary: var(--color-primary);
+$color-primary--dark: var(--color-primary--dark);
 $color-primary--light: var(--color-primary--light);
 $color-gray--light: var(--color-gray--light);
 $color-gray--dark: var(--color-gray--dark);
-$color-highlight: var(--color-higlight);
+$color-highlight: var(--color-highlight);
 $color-warning: var(--color-warning);
 $color-transparent: var(--color-transparent);
 
@@ -201,6 +232,7 @@ $z-index-top: var(--z-index-top);
 // Opacity
 $opacity--transparent: var(--opacity--transparent);
 $opacity--visible: var(--opacity--visible);
+$opacity--half: var(--opacity--half);
 
 
 // Cursor

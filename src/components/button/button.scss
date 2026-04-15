@@ -24,7 +24,7 @@
     }
 
     &--secondary {
-        background-color: $bg;
+        background-color: $color-transparent;
         color: $color-primary;
 
         &:hover {
@@ -48,6 +48,7 @@
     &--warning {
         &:hover {
             background-color: $color-warning;
+            color: $bg;
         }
     }
 

@@ -14,6 +14,8 @@
     border-color: $text;
     border-radius: $border-radius--large;
     box-shadow: $shadow--button-hover;
+    padding: 0;
+    padding-top: $spacing--medium;
 
     &__heading {
         display: flex;
@@ -23,6 +25,7 @@
         right: 0;
         background-color: $modal-bg;
         padding-bottom: $spacing--medium;
+        color: $text;
     }
 
     &__title {

@@ -10,13 +10,10 @@
     }
 
     &__contents {
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
         gap: $spacing--large;
-        flex-wrap: wrap;
-
-        & > * {
-            flex: 1 0 10rem;
-        }
+        margin-top: $spacing--small;
     }
 
 }

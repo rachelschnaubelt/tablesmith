@@ -13,7 +13,6 @@ function App() {
   const entryCount = useTableStore((state) => state.entryCount);
   const selectedOptions = useTableStore((state) => state.selectedOptions);
   const loadModalOpen = useTableStore((state) => state.loadModalOpen);
-  const theme = useTableStore((state) => state.theme);
   const headerHeight = useTableStore((state) => state.headerHeight);
 
   const comboObjects = useMemo(() => getCombinationObjects(entryCount, selectedOptions), [entryCount, selectedOptions]);
@@ -32,7 +31,7 @@ function App() {
 
   return (
     <div 
-      className={`cmp-app ${theme}`}
+      className={`cmp-app`}
       style={{marginTop: `${headerHeight + 16}px`}}>
       <Header />
       <Sidebar />

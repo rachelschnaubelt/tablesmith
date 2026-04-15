@@ -26,6 +26,10 @@
     &--secondary {
         background-color: $color-transparent;
         color: $color-primary;
+        
+        &--filled {
+            background-color: $bg;
+        }
 
         &:hover {
             background-color: $color-primary--light;

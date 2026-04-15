@@ -269,7 +269,7 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
                                                 className={'cmp-roll-table__roll-menu__close'}
                                                 icon={<XIcon size={16} />}
                                                 type='icon'
-                                                hierarchy={'secondary'}
+                                                hierarchy={'secondary--filled'}
                                                 isWarning={true}
                                                 onClick={handleCloseRollMenu} />
                                             <p className='cmp-roll-table__roll-menu__heading'>Result: {rollResults.total}</p>

@@ -1,7 +1,6 @@
 @use '../../styles/variables.scss' as *;
 
 .cmp-roll-table {
-    margin-top: $spacing--large;
     display: flex;
     flex-direction: column;
     row-gap: $spacing--large;
@@ -37,7 +36,7 @@
             border-radius: inherit;
         }
 
-        &:hover {
+        &:hover, &:focus-within {
             z-index: $z-index-1;
 
             &::before {
@@ -59,12 +58,25 @@
             position: sticky;
             padding-bottom: $spacing--medium;
             padding-top: $spacing--medium;
-            z-index: $z-index-2;
+            z-index: $z-index-2 !important;
             align-items: flex-end;
             background: $bg;
 
             &::before {
                 content: none;
+            }
+
+            &::after {
+                content: '';
+                display: block;
+                position: absolute;
+                right: 0;
+                top: 0;
+                background-color: $bg;
+                height: 100%;
+                width: 1rem;
+                transform: translateX(100%);
+                z-index: $z-index-beneath;
             }
 
             .cmp-roll-table__cell {
@@ -223,7 +235,7 @@
                 }
             }
 
-            &:hover {
+            &:hover, &:focus, &:focus-within {
                 .cmp-roll-table {
                     &__actions__menu {
                         &__dropdown {
@@ -250,6 +262,7 @@
         width: 60%;
         margin: 0 auto;
         row-gap: $spacing--large;
+        margin-top: $spacing--large;
 
         &>* {
             width: 100%;

@@ -5,11 +5,13 @@
     inset: 0;
     z-index: $z-index-sidebar;
     transform: translateX(-100%);
-    transition: $transition-duration--fast;
+    transition: transform $transition-duration--fast;
     background-color: $sidebar-bg;
+    visibility: hidden;
 
     &--open {
         transform: translateX(0);
+        visibility: visible;
     }
 
     &__inputs {
@@ -48,7 +50,9 @@
         display: flex;
         gap: $spacing--medium $spacing--large;
         flex-wrap: wrap;
+        padding: 0;
         padding-left: $spacing--large;
+        border: none;
 
         &>div {
             flex: 1;

@@ -20,6 +20,8 @@ const Input = ({ className, value, placeholder, type = 'text', id, onChange, min
     if (type === 'textarea') {
         return (
             <div className='cmp-input'>
+                <label htmlFor={id}
+                    className='cmp-input__label'>{label}</label>
                 <textarea
                     className={classNameString}
                     onChange={onChange}
@@ -58,11 +60,8 @@ const Input = ({ className, value, placeholder, type = 'text', id, onChange, min
                 value={value}
                 className={classNameString}
                 id={id}
-                onChange={onChange} >
-
-                </input>
+                onChange={onChange} / >
         </div>
-
     );
 }
 

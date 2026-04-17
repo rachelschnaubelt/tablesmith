@@ -51,10 +51,12 @@ const Gallery = () => {
                             key={`card-${index}`}
                             heading={jsonEntry.tableName}
                             cta={[<Button
+                                key={`card-load-button-${index}`}
                                 label='load'
                                 onClick={() => handleLoadTable(jsonEntry)}
                                 />,
                             <Button
+                                key={`card-delete-button-${index}`}
                                 label='delete'
                                 onClick={() => handleDeleteTable(jsonEntry.id)}
                                 hierarchy='secondary'

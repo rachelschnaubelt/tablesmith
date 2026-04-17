@@ -9,7 +9,6 @@ import Modal from '../modal/modal.tsx';
 import { getLeastLikelyRolls, getMostLikelyRolls } from '../../utils/calculations.ts';
 import EntryInput from '../entry-input/entry-input.tsx';
 import CumulativeProbabilityWidget from '../cumulative-probability-widget/cumulative-probability-widget.tsx';
-import TableHeader from '../table-header/table-header.tsx';
 import { clearTable, copyTable, printTable, saveTable } from '../../utils/tableManagement.ts';
 import { ComboObject, Probability } from '../../types/types.tsx';
 
@@ -76,26 +75,31 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
             const probAsPercent = (prob * 100).toFixed(2);
             return (
                 <div key={roll}
-                    className={`cmp-roll-table__row cmp-roll-table__row--${roll}`}>
-                    <p className='cmp-roll-table__column--number cmp-roll-table__cell'>{roll}</p>
-                    {isProbabilityColumnVisible && <p className='cmp-roll-table__column--probability cmp-roll-table__cell'>{probAsPercent}%</p>}
+                    className={`cmp-roll-table__row cmp-roll-table__row--${roll}`}
+                    role="row">
+                    <p className='cmp-roll-table__column--number cmp-roll-table__cell' role="rowheader">{roll}</p>
+                    {isProbabilityColumnVisible && <p className='cmp-roll-table__column--probability cmp-roll-table__cell' role="cell">{probAsPercent}%</p>}
                     <EntryInput
                         index={index}
-                        isActive={isActive} />
+                        isActive={isActive}
+                        id={`cmp-roll-table-${tableIndex}__entry--${index}`}
+                        role="cell" />
                     {index !== 0 && <Button
                         className='no-print cmp-roll-table__button--move-up'
                         onClick={() => { handleEntryMove(index, index - 1) }}
                         label='swap'
                         type="icon"
                         icon={<ArrowsClockwiseIcon size={16} />}
-                        hierarchy="secondary" />}
+                        hierarchy="secondary"
+                        ariaLabel='Swap up' />}
                     {index !== entryCount - 1 && <Button
                         className='no-print cmp-roll-table__button--move-down'
                         onClick={() => { handleEntryMove(index, index + 1) }}
                         label='swap'
                         type="icon"
                         icon={<ArrowsClockwiseIcon size={16} />}
-                        hierarchy="secondary" />}
+                        hierarchy="secondary" 
+                        ariaLabel='Swap down'/>}
                     <Button
                         className='no-print cmp-roll-table__button--delete'
                         onClick={() => { deleteEntry(index) }}
@@ -103,7 +107,8 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
                         type='icon'
                         icon={<XIcon size={16} />}
                         hierarchy="secondary"
-                        isWarning={true} />
+                        isWarning={true}
+                        ariaLabel='Delete row' />
                 </div>
             );
         });
@@ -115,9 +120,11 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
             rows.push(
                 <div key={index}
                     className={`cmp-roll-table__row cmp-roll-table__row--${index + 1}`}>
-                    <p className='cmp-roll-table__column--number cmp-roll-table__cell'>{index + 1}</p>
+                    <p className='cmp-roll-table__column--number cmp-roll-table__cell' role="rowheader">{index + 1}</p>
                     <EntryInput
-                        index={index} />
+                        index={index}
+                        id={`cmp-roll-table__entry--${index}`}
+                        role="cell" />
                     {index !== 0 && <Button
                         className='no-print cmp-roll-table__button--move-up'
                         onClick={() => { handleEntryMove(index, index - 1) }}
@@ -238,16 +245,22 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
     }
 
     return (
-        <div>
+        <div aria-hidden={!isActive}>
             <div className='cmp-roll-table'>
                 <div className='cmp-roll-table__inner'
                     data-table-key={tableKey}>
-                    <TableHeader />
-                    <div className="cmp-roll-table__table">
-                        <div className='cmp-roll-table__row cmp-roll-table__row--header' style={{ 'top': `${headerHeight}px` }}>
-                            <p className='cmp-roll-table__column--number cmp-roll-table__cell'>{comboObj ? `Roll ${comboObj?.diceString}` : 'Item'}</p>
-                            {comboObj && isProbabilityColumnVisible && <p className='cmp-roll-table__column--probability cmp-roll-table__cell'>Probability</p>}
-                            <p className='cmp-roll-table__column--value cmp-roll-table__cell'>Value</p>
+                    <div 
+                        className="cmp-roll-table__table"
+                        role="table">
+                        <div 
+                            className='cmp-roll-table__row cmp-roll-table__row--header' 
+                            style={{ 'top': `${headerHeight}px` }}
+                            role="row">
+                            <p className='cmp-roll-table__column--number cmp-roll-table__cell' role="columnheader">
+                                {comboObj ? `Roll ${comboObj?.diceString}` : 'Item'}
+                            </p>
+                            {comboObj && isProbabilityColumnVisible && <p className='cmp-roll-table__column--probability cmp-roll-table__cell' role="columnheader">Probability</p>}
+                            <p className='cmp-roll-table__column--value cmp-roll-table__cell' role="columnheader">Value</p>
                             <div className='cmp-roll-table__actions'>
                                 <p className='cmp-roll-table__entry-count no-print'>{entryCount} Entries</p>
                                 <Button
@@ -264,14 +277,16 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
                                         type="icon"
                                         icon={<DiceSixIcon size={24} />} />
                                     {rollResults && rollResults.results &&
-                                        <div className="cmp-roll-table__roll-menu__container">
+                                        <div className="cmp-roll-table__roll-menu__container"
+                                            aria-atomic="true">
                                             <Button
                                                 className={'cmp-roll-table__roll-menu__close'}
                                                 icon={<XIcon size={16} />}
                                                 type='icon'
                                                 hierarchy={'secondary--filled'}
                                                 isWarning={true}
-                                                onClick={handleCloseRollMenu} />
+                                                onClick={handleCloseRollMenu}
+                                                ariaLabel='Close' />
                                             <p className='cmp-roll-table__roll-menu__heading'>Result: {rollResults.total}</p>
                                             <div className='cmp-roll-table__roll-menu__dice-rolls'
                                                 ref={diceRollsRef}>

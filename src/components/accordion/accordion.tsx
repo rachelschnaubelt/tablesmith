@@ -1,6 +1,7 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import './accordion.scss';
 import { CaretDownIcon } from '@phosphor-icons/react';
+import Button from '../button/button';
 
 interface AccordionProps {
     children: ReactNode,
@@ -10,7 +11,8 @@ interface AccordionProps {
 
 interface ContentStyle {
     height?: string | number,
-    minHeight?: string | number
+    minHeight?: string | number,
+    visibility?: 'hidden' | 'visible'
 }
 
 const Accordion = ({children, label, initialState}: AccordionProps) => {
@@ -24,12 +26,14 @@ const Accordion = ({children, label, initialState}: AccordionProps) => {
         if(!isOpen && contentsRef.current) {
             const height = contentsRef.current.scrollHeight;
             setContentStyle({
-                minHeight: `${height}px`
+                minHeight: `${height}px`,
+                visibility: 'visible'
             })
         }
         else {
             setContentStyle({
-                height: 0
+                height: 0,
+                visibility: 'hidden'
             });
         }
         setIsOpen(!isOpen);
@@ -46,13 +50,19 @@ const Accordion = ({children, label, initialState}: AccordionProps) => {
 
     return (
         <div className={`cmp-accordion cmp-accordion--${isOpen ? 'open' : 'closed'}`}>
-                <p 
+                <Button
+                    label={label}
+                    type="accordion"
                     className="cmp-accordion__heading"
-                    onClick={handleToggle}>{label}<span className='cmp-accordion__arrow'><CaretDownIcon size={32} /></span></p>
+                    onClick={handleToggle}
+                    icon={<CaretDownIcon size={32} />}
+                    ariaControls={`${label}-accordion-contents`}
+                    ariaExpanded={isOpen} />
                 <div 
                     className="cmp-accordion__contents"
                     ref={contentsRef}
-                    style={contentStyle}>
+                    style={contentStyle}
+                    id={`${label}-accordion-contents`}>
                     {children}
                 </div>
         </div>

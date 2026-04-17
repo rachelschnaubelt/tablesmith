@@ -2,4 +2,10 @@
 
 .cmp-entry-input {
     color: $text;
+
+    &__label {
+        max-width: 0;
+        max-height: 0;
+        overflow: hidden;
+    }
 }

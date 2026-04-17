@@ -15,9 +15,19 @@ const Modal = ({ children, modalOpen, heading, className, modalHandler }: ModalP
     const modalRef = useRef<HTMLDialogElement>(null);
 
     useEffect(() => {
+        const escapeHandler = (e: KeyboardEvent) => {
+            if(e.key === 'Escape') {
+                modalHandler(false);
+                console.log('escape');
+            }
+        }
+
         if (modalOpen && modalRef?.current) {
             modalRef.current.focus();
+            document.addEventListener('keydown', escapeHandler)
         }
+
+        return () => document.removeEventListener('keydown', escapeHandler);
     }, [modalOpen]);
 
     return (

@@ -16,6 +16,8 @@
     box-shadow: $shadow--button-hover;
     padding: 0;
     padding-top: $spacing--medium;
+    width: auto;
+    margin: 0;
 
     &__heading {
         display: flex;

@@ -13,7 +13,7 @@
 
     &:hover, &:active, &:target, &:focus {
     background-color: $color-primary--light;
-    color: $bg;
+    color: $text;
     border-color: $color-primary--light;
     box-shadow: $shadow--button-hover;
     z-index: $z-index-1;
@@ -33,7 +33,7 @@
 
         &:hover {
             background-color: $color-primary--light;
-            color: $bg;
+            color: $text;
         }
     }
 
@@ -45,7 +45,7 @@
         &:hover {
             border-color: $color-primary;
             background-color: $bg;
-            color: $color-primary;
+            color: $text;
         }
     }
 
@@ -56,10 +56,20 @@
         }
     }
 
+    &--accordion {
+        width: 100%;
+        font-weight: $font-bold;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: $spacing--small $spacing--medium;    
+    }
+
     &.active {
         background-color: $color-primary--light;
-        color: $bg;
+        color: $text;
         border-color: $color-primary--light;
+        box-shadow: $shadow--button-hover;
     }
 
     &--icon {

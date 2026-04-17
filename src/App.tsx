@@ -7,6 +7,7 @@ import Gallery from './components/gallery/gallery.tsx';
 import useTableStore from './store/tableStore.ts';
 import { getCombinationObjects, getHints } from './utils/calculations.ts'
 import Header from './components/header/header.tsx';
+import TableHeader from './components/table-header/table-header.tsx';
 
 function App() {
   const { setLoadModalOpen } = useTableStore.getState();

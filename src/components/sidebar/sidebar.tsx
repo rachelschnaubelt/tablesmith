@@ -14,13 +14,13 @@ import D20Icon from '../../assets/icons/dice/d20.svg?react';
 import D100Icon from '../../assets/icons/dice/d100.svg?react';
 
 import { XIcon } from '@phosphor-icons/react';
-import React from 'react';
-import { JSONEntry } from '../../types/types.tsx';
+import React, { useEffect, useRef } from 'react';
 
 const Sidebar = React.memo(() => {
     const { handleQuickSetup, setSidebarOpen, setSelectedOptions, setIsProbabilityColumnVisible, setTheme } = useTableStore.getState();
     const sidebarOpen = useTableStore((state) => state.sidebarOpen);
     const theme = useTableStore((state) => state.theme);
+    const sidebarRef = useRef<HTMLElement>(null);
 
     const handleExampleSetup = (key: keyof typeof exampleTables) => {
         const table = exampleTables[key];
@@ -28,8 +28,29 @@ const Sidebar = React.memo(() => {
         setSidebarOpen(false);
     }
 
+    useEffect(() => {
+
+const escapeHandler = (e: KeyboardEvent) => {
+            if(e.key === 'Escape') {
+                setSidebarOpen(false);
+                console.log('escape');
+            }
+        }
+        
+        if (sidebarOpen && sidebarRef?.current) {
+            document.addEventListener('keydown', escapeHandler)
+            sidebarRef.current.focus();
+        }
+
+        return () => {
+            document.querySelector('.settings-button')?.focus();
+            document.removeEventListener('keydown', escapeHandler)};
+    }, [sidebarOpen]);
+
     return (
-        <aside className={`cmp-sidebar cmp-sidebar--${sidebarOpen ? 'open' : 'closed'}`}>
+        <aside className={`cmp-sidebar cmp-sidebar--${sidebarOpen ? 'open' : 'closed'}`}
+            aria-hidden={!sidebarOpen}
+            ref={sidebarRef}>
             <Button
                 label={'close'}
                 className={'cmp-sidebar__close'}
@@ -42,7 +63,7 @@ const Sidebar = React.memo(() => {
                 </div>
                 <div className='settings-menu__dice settings-menu__section'>
                     <p className='settings-menu__section__heading'>Available dice</p>
-                    <div className='settings-menu__options'>
+                    <fieldset className='settings-menu__options'>
                         <Checkbox
                             id="d2"
                             name="dice"
@@ -115,12 +136,11 @@ const Sidebar = React.memo(() => {
                             onChange={(e) => setSelectedOptions("d100", e.target.checked)}
                             type="icon"
                             icon={<D100Icon />} />
-                    </div>
+                        </fieldset>
                 </div>
                 <div className='settings-menu__quick-setup settings-menu__section'>
                     <p className='settings-menu__section__heading'>Quick Setup</p>
-                    <div className='settings-menu__options'>
-
+                    <fieldset className='settings-menu__options'>
                         <Button
                             label={'1d4'}
                             onClick={() => { handleQuickSetup(4, '1d4') }}
@@ -161,12 +181,11 @@ const Sidebar = React.memo(() => {
                             label={'1d100'}
                             onClick={() => { handleQuickSetup(100, '1d100') }}
                             hierarchy={'secondary'} />
-                    </div>
+                    </fieldset>
                 </div>
                 <div className='settings-menu__examples settings-menu__section'>
                     <p className='settings-menu__section__heading'>Example tables</p>
-                    <div className='settings-menu__options'>
-
+                    <fieldset className='settings-menu__options'>
                         <Button
                             label={'1d6 Pickpocketing Loot'}
                             onClick={() => { handleExampleSetup('table1') }}
@@ -175,11 +194,11 @@ const Sidebar = React.memo(() => {
                             label={'2d6 Extreme Weather'}
                             onClick={() => { handleExampleSetup('table2') }}
                             hierarchy={'secondary'} />
-                    </div>
+                    </fieldset>
                 </div>
                 <div className='settings-menu__misc settings-menu__section'>
                     <p className='settings-menu__section__heading'>Other settings</p>
-                    <div className='settings-menu__options'>
+                    <fieldset className='settings-menu__options'>
                         <Checkbox
                             id="prob-visibility"
                             name="settings"
@@ -187,11 +206,11 @@ const Sidebar = React.memo(() => {
                             label="Show probability column"
                             isChecked={true}
                             onChange={(e) => setIsProbabilityColumnVisible(e.target.checked)} />
-                    </div>
+                    </fieldset>
                 </div>
                 <div className='settings-menu__theme settings-menu__section'>
                     <p className='settings-menu__section__heading'>Theme</p>
-                    <div className='settings-menu__options'>
+                    <fieldset className='settings-menu__options'>
                         <Button
                             label={'Modern Light'}
                             onClick={() => { setTheme('theme--modern--light') }}
@@ -202,7 +221,7 @@ const Sidebar = React.memo(() => {
                             onClick={() => { setTheme('theme--modern--dark') }}
                             hierarchy={'secondary'}
                             className={theme === 'theme--modern--dark' ? 'active' : ''} />
-                    </div>
+                    </fieldset>
                 </div>
             </div>
         </aside>

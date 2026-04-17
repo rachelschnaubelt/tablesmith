@@ -4,10 +4,12 @@ import useTableStore from "../../store/tableStore";
 
 interface EntryInputProps {
     index: number,
-    isActive?: boolean
+    isActive?: boolean,
+    id: string,
+    role?: string
 }
 
-const EntryInput = ({index, isActive}: EntryInputProps) => {
+const EntryInput = ({index, isActive, id, role}: EntryInputProps) => {
     const value = useTableStore((state) => state.entries[index]);
     const { handleEntryChange } = useTableStore.getState();
     const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -28,12 +30,18 @@ const EntryInput = ({index, isActive}: EntryInputProps) => {
     }, [isActive, value])
 
     return (
+        <>
+            <label htmlFor={id}
+                className='cmp-entry-input__label'>{id}</label>
         <textarea
             value={value}
+            id={id}
             onChange={e => handleChange(index, e)}
             className='cmp-entry-input cmp-roll-table__input cmp-roll-table__column--value cmp-roll-table__cell'
             ref={inputRef}
-        />
+            role="cell"
+            />
+        </>
     )
 }
 

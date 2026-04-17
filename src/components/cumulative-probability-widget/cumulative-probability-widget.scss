@@ -6,15 +6,27 @@
     padding: $spacing--medium $spacing--large;
     color: $bg;
 
-    .cmp-input {
+    
+    
+    &__heading {
+        font-weight: $font-bold;
+    }
+
+    &__inputs {
+        color: $text;
+
+        .cmp-input {
         display: flex;
+        color: $text;
+
+        &__input--number {
+            color: inherit;
+        }
         &::before, &::after {
             display: none;
         }
     }
-    
-    &__heading {
-        font-weight: $font-bold;
+
     }
 
     &__cumulative-prob {

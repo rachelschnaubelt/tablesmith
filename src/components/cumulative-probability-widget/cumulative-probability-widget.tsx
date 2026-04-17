@@ -2,12 +2,14 @@ import './cumulative-probability-widget.scss';
 import Input from "../input/input.tsx";
 import React, { useEffect, useMemo, useState } from 'react';
 import { ComboObject } from '../../types/types.tsx';
+import { snakeCaseString } from '../../utils/stringUtils.ts';
 
 const CumulativeProbabilityWidget = ({comboObj}: {comboObj: ComboObject}) => {
     const minRange = comboObj.combination.length;
     const maxRange = minRange + comboObj.count - 1;
     const [minValue, setMinValue] = useState<number>(minRange);
     const [maxValue, setMaxValue] = useState<number>(maxRange);
+    const id = `cmp-cpw__${snakeCaseString(comboObj.diceString)}`;
 
     const handleChangeMin = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = parseInt(e.target.value);
@@ -55,7 +57,7 @@ const CumulativeProbabilityWidget = ({comboObj}: {comboObj: ComboObject}) => {
                     max={maxRange}
                     value={minValue}
                     onChange={e => handleChangeMin(e)}
-                    id="cmp-cpw__min" /> 
+                    id={`${id}__min`} /> 
                 <Input
                     className={'cmp-cpw__max'}
                     type="number"
@@ -64,7 +66,7 @@ const CumulativeProbabilityWidget = ({comboObj}: {comboObj: ComboObject}) => {
                     max={maxRange}
                     value={maxValue}
                     onChange={e => handleChangeMax(e)}
-                    id="cmp-cpw__max"/> 
+                    id={`${id}__max`}/> 
                     </div>
                 {CumulativeProbability}
             </div>

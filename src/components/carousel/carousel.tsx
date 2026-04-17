@@ -2,6 +2,7 @@ import { useEffect, useState, Children, useRef, ReactNode, ReactElement } from "
 import './carousel.scss';
 import Button from "../button/button.tsx";
 import useTableStore from "../../store/tableStore.ts";
+import TableHeader from "../table-header/table-header.tsx";
 
 const Carousel = ({ children }: {children: ReactNode}) => {
     const { setSidebarOpen, addEntry, setCarouselIndex } = useTableStore.getState();
@@ -71,6 +72,7 @@ const Carousel = ({ children }: {children: ReactNode}) => {
                     {getChildrenButtons()}
                 </div>
             </div>
+            <TableHeader />
             <div className={`cmp-carousel__items selected-${carouselIndex || 1}`}>
                 {children}
             </div>

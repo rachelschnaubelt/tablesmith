@@ -1,37 +1,19 @@
 @use '../../styles/variables.scss' as *;
 
 .cmp-accordion {
-    &__heading {
-        cursor: $cursor--pointer;
-        font-weight: $font-bold;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: $spacing--small $spacing--medium;
-        border-radius: $border-radius--pill;
-        background-color: $color-primary;
-        transition: $transition-duration--fast;
-        color: $bg;
-
-        &:hover {
-            background-color: $color-primary--light;
-            box-shadow: $shadow--button-hover;
-        }
-    }
-
     &__contents {
         overflow: hidden;
-        transition: $transition-duration--fast;
+        transition: all $transition-duration--fast;
         margin-top: $spacing--large;
     }
 
-    &__arrow {
+    .cmp-button__icon {
         transition: $transition-duration--fast;
     }
     
     &--open {
-        .cmp-accordion {
-            &__arrow {
+        .cmp-button {
+            &__icon {
                 transform: rotate(180deg);
             }
         }

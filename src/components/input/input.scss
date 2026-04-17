@@ -56,7 +56,10 @@
     }
 
     &__label {
-        display: none;
+        max-height: 0;
+        max-width: 0;
+        display: inline-block;
+        overflow: hidden;
     }
 
     &--number {

@@ -215,7 +215,8 @@
             &__dropdown {
                 display: flex;
                 flex-direction: column;
-                display: none;
+                height: 0;
+                overflow: hidden;
                 row-gap: $spacing--small;
                 position: absolute;
                 right: 0;
@@ -235,12 +236,13 @@
                 }
             }
 
-            &:hover, &:focus-visible, &:focus-within, &:focus {
+            &:hover, &:focus-visible, &:focus-within {
                 .cmp-roll-table {
                     &__actions__menu {
                         &__dropdown {
-                            display: flex;
+                            height: auto;
                             padding: $spacing--medium;
+                            overflow: visible;
                         }
                     }
                 }

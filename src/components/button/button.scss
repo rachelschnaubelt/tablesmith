@@ -67,6 +67,7 @@
         color: $text;
         border-color: $color-primary--light;
         box-shadow: $shadow--button-hover;
+        z-index: $z-index-1;
     }
 
     &--icon {

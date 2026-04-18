@@ -3,7 +3,7 @@ import './button.scss';
 
 interface ButtonProps {
     label?: string,
-    onClick?: () => void,
+    onClick?: () => void | ((event: MouseEvent) => void),
     className?: string,
     icon?: string | ReactNode
     type?: string, // limit options here

@@ -11,16 +11,12 @@
     background-color: $color-primary;
     color: $bg;
 
-    &:hover, &:active, &:target, &:focus {
+    &:hover, &:active, &:target, &:focus-visible {
     background-color: $color-primary--light;
     color: $text;
     border-color: $color-primary--light;
     box-shadow: $shadow--button-hover;
     z-index: $z-index-1;
-    }
-
-    &--primary {
-
     }
 
     &--secondary {

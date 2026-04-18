@@ -11,6 +11,7 @@ import EntryInput from '../entry-input/entry-input.tsx';
 import CumulativeProbabilityWidget from '../cumulative-probability-widget/cumulative-probability-widget.tsx';
 import { clearTable, copyTable, printTable, saveTable } from '../../utils/tableManagement.ts';
 import { ComboObject, Probability } from '../../types/types.tsx';
+import { blurActiveElement } from '../../utils/generalUtils.ts';
 
 interface Hints {
     minDiff?: number
@@ -53,7 +54,6 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
     const handleEntryMove = (index1: number, index2: number) => {
         handleChangeEntryIndex(index1, index2);
         if(tableBody.current) {
-
             const children = tableBody.current.children;
             const row1 = children[index1];
             const row2 = children[index2];
@@ -66,8 +66,14 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
                     textarea1.style.height = ta2scrollHeight + 1 + 'px';
                     textarea2.style.height = ta1scrollHeight + 1 + 'px';
                 }
+                blurActiveElement();                
             }
         }
+    }
+
+    const handleDelete = (index: number) => {
+        deleteEntry(index);
+        blurActiveElement();
     }
 
     const getProbabilityRows = (probabilities: Probability) => {
@@ -102,7 +108,7 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
                         ariaLabel='Swap down'/>}
                     <Button
                         className='no-print cmp-roll-table__button--delete'
-                        onClick={() => { deleteEntry(index) }}
+                        onClick={() => { handleDelete(index) }}
                         label={'Remove'}
                         type='icon'
                         icon={<XIcon size={16} />}
@@ -141,7 +147,7 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
                         hierarchy="secondary" />}
                     {entryCount > 2 && <Button
                         className='no-print cmp-roll-table__button--delete'
-                        onClick={() => { deleteEntry(index) }}
+                        onClick={() => { handleDelete(index) }}
                         label={'Remove'}
                         type='icon'
                         icon={<XIcon size={16} />}

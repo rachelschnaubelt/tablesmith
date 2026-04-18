@@ -334,9 +334,10 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
                                             className={'no-print'}
                                             icon={<FloppyDiskIcon size={16} />}
                                             type="icon"
+                                            id="modal__trigger-button--save"
                                             onClick={() => {
                                                 if (tableKey) {
-                                                    setSaveModalOpen(true);
+                                                    setSaveModalOpen(true, 'modal__trigger-button--save');
                                                 }
                                                 else {
                                                     comboObj && saveTable(comboObj, tableKey)

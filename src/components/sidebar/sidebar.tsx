@@ -15,9 +15,10 @@ import D100Icon from '../../assets/icons/dice/d100.svg?react';
 
 import { XIcon } from '@phosphor-icons/react';
 import React, { useEffect, useRef } from 'react';
+import { returnFocusToId } from '../../utils/generalUtils.ts';
 
 const Sidebar = React.memo(() => {
-    const { handleQuickSetup, setSidebarOpen, setSelectedOptions, setIsProbabilityColumnVisible, setTheme } = useTableStore.getState();
+    const { handleQuickSetup, setSidebarOpen, setSelectedOptions, setIsProbabilityColumnVisible, setTheme, focusReturn } = useTableStore.getState();
     const sidebarOpen = useTableStore((state) => state.sidebarOpen);
     const theme = useTableStore((state) => state.theme);
     const sidebarRef = useRef<HTMLElement>(null);
@@ -43,7 +44,7 @@ const escapeHandler = (e: KeyboardEvent) => {
         }
 
         return () => {
-            document.querySelector('.settings-button')?.focus();
+            returnFocusToId(focusReturn);
             document.removeEventListener('keydown', escapeHandler)};
     }, [sidebarOpen]);
 

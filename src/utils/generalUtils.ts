@@ -4,6 +4,16 @@ const blurActiveElement = () => {
     }
 }
 
+const returnFocusToId = (id: string | null) => {
+    if (id) {
+        const focusElement = document.querySelector(`#${id}`);
+        if (focusElement && focusElement instanceof HTMLElement) {
+            focusElement.focus();
+        }
+    }
+}
+
 export {
-    blurActiveElement
+    blurActiveElement,
+    returnFocusToId
 }

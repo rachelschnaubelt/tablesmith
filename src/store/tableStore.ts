@@ -58,6 +58,7 @@ interface TableState {
   theme: `${AvailableThemes}`,
   headerHeight: number,
   entryCount: number,
+  focusReturn: string | null,
   setEntries: (entries: string[]) => void,
   setTableKey: (tableKey: string) => void,
   setTheme: (theme: `${AvailableThemes}`) => void,
@@ -66,9 +67,9 @@ interface TableState {
   addEntry: () => void,
   addEntries: (count: number | undefined) => void,
   deleteEntry: (index: number) => void,
-  setSidebarOpen: (sidebarOpen: boolean) => void,
-  setLoadModalOpen: (loadModalOpen: boolean) => void,
-  setSaveModalOpen: (saveModalOpen: boolean) => void,
+  setSidebarOpen: (sidebarOpen: boolean, triggerId?: string) => void,
+  setLoadModalOpen: (loadModalOpen: boolean, triggerId?: string) => void,
+  setSaveModalOpen: (saveModalOpen: boolean, triggerId?: string) => void,
   setTableName: (tableName: string) => void,
   setSelectedOptions: (id: string, checked: boolean) => void,
   setCarouselIndex: (carouselIndex: number) => void,
@@ -93,6 +94,7 @@ const useTableStore = create<TableState>((set) => ({
   theme: 'theme--modern--light',
   headerHeight: 0,
   entryCount: defaultCount,
+  focusReturn: null,
 
   // actions
   setEntries: (entries: string[]) => set((state) => ({
@@ -138,14 +140,18 @@ const useTableStore = create<TableState>((set) => ({
      });
   }),
 
-  setSidebarOpen: (sidebarState: boolean) => set(() => ({
-    sidebarOpen: sidebarState
+  setSidebarOpen: (sidebarState, triggerId) => set((state) => {
+    return ({
+    sidebarOpen: sidebarState,
+    focusReturn: triggerId || null
+  })}),
+  setLoadModalOpen: (modalState, triggerId) => set(() => ({
+    loadModalOpen: modalState,
+    focusReturn: triggerId || null
   })),
-  setLoadModalOpen: (modalState: boolean) => set(() => ({
-    loadModalOpen: modalState
-  })),
-  setSaveModalOpen: (modalState: boolean) => set(() => ({
-    saveModalOpen: modalState
+  setSaveModalOpen: (modalState, triggerId) => set(() => ({
+    saveModalOpen: modalState,
+    focusReturn: triggerId || null
   })),
 
   setTableName: (tableName: string) => set({ tableName }),

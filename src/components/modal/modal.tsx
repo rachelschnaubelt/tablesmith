@@ -2,6 +2,8 @@ import './modal.scss';
 import Button from '../button/button.tsx';
 import { XIcon } from '@phosphor-icons/react';
 import { ReactNode, useEffect, useRef } from 'react';
+import { returnFocusToId } from '../../utils/generalUtils.ts';
+import useTableStore from '../../store/tableStore.ts';
 
 interface ModalProps {
     children: ReactNode,
@@ -12,6 +14,7 @@ interface ModalProps {
 }
 
 const Modal = ({ children, modalOpen, heading, className, modalHandler }: ModalProps) => {
+    const { focusReturn } = useTableStore.getState();
     const modalRef = useRef<HTMLDialogElement>(null);
 
     useEffect(() => {
@@ -27,7 +30,10 @@ const Modal = ({ children, modalOpen, heading, className, modalHandler }: ModalP
             document.addEventListener('keydown', escapeHandler)
         }
 
-        return () => document.removeEventListener('keydown', escapeHandler);
+        return () => {
+            returnFocusToId(focusReturn);
+            document.removeEventListener('keydown', escapeHandler)
+        };
     }, [modalOpen]);
 
     return (

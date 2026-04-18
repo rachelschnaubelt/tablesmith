@@ -37,13 +37,15 @@ const Header = () => {
                     <Button
                         label={'Settings'}
                         className={'no-print settings-button'}
-                        onClick={() => { setSidebarOpen(true) }}
+                        id="sidebar__trigger-button--settings"
+                        onClick={() => { setSidebarOpen(true, 'sidebar__trigger-button--settings') }}
                         type="icon"
                         icon={<GearIcon size={24} />} />
                     <Button
                         label={'load'}
                         className={'no-print load-button'}
-                        onClick={() => { setLoadModalOpen(true) }}
+                        id="modal__trigger-button--load"
+                        onClick={() => { setLoadModalOpen(true, "modal__trigger-button--load") }}
                         type="icon"
                         icon={<TableIcon size={24} />} />
                 </div>

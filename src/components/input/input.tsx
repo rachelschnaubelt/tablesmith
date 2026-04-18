@@ -1,3 +1,4 @@
+import { ChangeEvent, useRef } from 'react';
 import './input.scss';
 
 interface InputProps {
@@ -14,8 +15,17 @@ interface InputProps {
 
 const Input = ({ className, value, placeholder, type = 'text', id, onChange, min, max, label }: InputProps) => {
     const classNameString = `cmp-input__input--${type} ${className}`;
+    const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
     // there might be a better way to handle this through dynamic tags based on the type prop
+
+    const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+            onChange(e);
+            if(textAreaRef?.current) {
+                textAreaRef.current.style.height = 'auto';
+                textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
+            }
+        }
 
     if (type === 'textarea') {
         return (
@@ -24,10 +34,11 @@ const Input = ({ className, value, placeholder, type = 'text', id, onChange, min
                     className='cmp-input__label'>{label}</label>
                 <textarea
                     className={classNameString}
-                    onChange={onChange}
+                    onChange={handleTextAreaChange}
                     value={value}
                     id={id}
-                    placeholder={placeholder}>
+                    placeholder={placeholder}
+                    ref={textAreaRef}>
                 </textarea>
             </div>
         )

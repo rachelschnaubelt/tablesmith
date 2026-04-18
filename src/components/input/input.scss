@@ -50,7 +50,7 @@
         padding: 0rem $spacing--small;
         outline: none;
         position: relative;
-        transition: $transition-duration--fast;
+        transition: all $transition-duration--fast, height 0s;
         resize: none;
         color: inherit;
     }

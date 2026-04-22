@@ -1,8 +1,6 @@
 import useTableStore from "../store/tableStore";
 import { ComboObject, DiceCount, DiceOptions, Distribution, Probability } from "../types/types";
 
-
-
 const getCombinations = (count: number, selectedOptions: DiceOptions) => {
   const target = count - 1;
   const combinations: string[][] = [];
@@ -63,10 +61,12 @@ const getCombinationDistribution = (combination: string[], selectedOptions: Dice
   return distribution;
 }
 
-const getCombinationProbabilities = (distribution: Distribution, total: number) => {
+const getCombinationProbabilities = (distribution: Distribution) => {
+  const count = Object.values(distribution).reduce((acc, curr) => acc + curr, 0);
+
   const probabilities: Probability = {};
   for (const sum in distribution) {
-    probabilities[sum] = distribution[sum] / total;
+    probabilities[sum] = distribution[sum] / count;
   }
   return probabilities;
 }
@@ -118,8 +118,7 @@ const getCombinationObject = (combination: string[], count: number, selectedOpti
   const diceCounts = getDiceCounts(combination);
   const diceString = getDiceString(diceCounts);
   const distribution = getCombinationDistribution(combination, selectedOptions);
-  const total = combination.reduce((acc, curr) => acc * selectedOptions[curr].value, 1);
-  const probabilities = getCombinationProbabilities(distribution, total);
+  const probabilities = getCombinationProbabilities(distribution);
   const variance = getCombinationVariance(probabilities);
   const standardDeviation = getCombinationStandardDeviation(variance);
 
@@ -166,10 +165,10 @@ const getHints = (comboObjs: ComboObject[], selectedOptions: DiceOptions) => {
       ...(maxDiff && maxDiff < threshold && { maxDiff })
     }
   }
+  return {};
 }
 
-const getMostLikelyRolls = (comboObj: ComboObject) => {
-  let distribution: Distribution = comboObj.distribution;
+const getMostLikelyRolls = (distribution: Distribution) => {
   const sortedKeys = Object.keys(distribution).sort((a, b) => distribution[b] - distribution[a]);
   const results = [sortedKeys[0]];
   let i = 1; 
@@ -180,8 +179,7 @@ const getMostLikelyRolls = (comboObj: ComboObject) => {
   return results;
 }
 
-const getLeastLikelyRolls = (comboObj: ComboObject) => {
-  let distribution: Distribution = comboObj.distribution;
+const getLeastLikelyRolls = (distribution: Distribution) => {
   const sortedKeys = Object.keys(distribution).sort((a, b) => distribution[a] - distribution[b]);
   const results = [sortedKeys[0]];
   let i = 1; 

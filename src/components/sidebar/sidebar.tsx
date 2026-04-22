@@ -15,7 +15,7 @@ import D100Icon from '../../assets/icons/dice/d100.svg?react';
 
 import { XIcon } from '@phosphor-icons/react';
 import React, { useEffect, useRef } from 'react';
-import { returnFocusToId } from '../../utils/generalUtils.ts';
+import { returnFocusToId } from '../../utils/focusUtils.ts';
 
 const Sidebar = React.memo(() => {
     const { handleQuickSetup, setSidebarOpen, setSelectedOptions, setIsProbabilityColumnVisible, setTheme, focusReturn } = useTableStore.getState();

@@ -2,7 +2,7 @@ import './modal.scss';
 import Button from '../button/button.tsx';
 import { XIcon } from '@phosphor-icons/react';
 import { ReactNode, useEffect, useRef } from 'react';
-import { returnFocusToId } from '../../utils/generalUtils.ts';
+import { returnFocusToId } from '../../utils/focusUtils.ts';
 import useTableStore from '../../store/tableStore.ts';
 
 interface ModalProps {

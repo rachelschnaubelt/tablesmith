@@ -11,7 +11,7 @@ import EntryInput from '../entry-input/entry-input.tsx';
 import CumulativeProbabilityWidget from '../cumulative-probability-widget/cumulative-probability-widget.tsx';
 import { clearTable, copyTable, printTable, saveTable } from '../../utils/tableManagement.ts';
 import { ComboObject, Probability } from '../../types/types.tsx';
-import { blurActiveElement } from '../../utils/generalUtils.ts';
+import { blurActiveElement } from '../../utils/focusUtils.ts';
 
 interface Hints {
     minDiff?: number
@@ -387,11 +387,11 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
                         <div className='cmp-roll-table__roll-stats'>
                             <div className='cmp-roll-table__most-likely'>
                                 <p>Most likely to roll: </p>
-                                {evaluateRollLikelihood(getMostLikelyRolls(comboObj))}
+                                {evaluateRollLikelihood(getMostLikelyRolls(comboObj.distribution))}
                             </div>
                             <div className='cmp-roll-table__least-likely'>
                                 <p>Least likely to roll: </p>
-                                {evaluateRollLikelihood(getLeastLikelyRolls(comboObj))}
+                                {evaluateRollLikelihood(getLeastLikelyRolls(comboObj.distribution))}
                             </div>
                             <div className='cmp-roll-table__statistical-measurements'>
                                 <p className='cmp-roll-table__variance'>Variance: {comboObj.variance.toFixed(2)}</p>

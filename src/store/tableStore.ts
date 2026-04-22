@@ -84,7 +84,7 @@ const useTableStore = create<TableState>((set) => ({
   entries: Array(defaultCount).fill(''),
   sidebarOpen: false,
   tableName: '',
-  selectedOptions: { ...options },
+  selectedOptions: structuredClone(options),
   carouselIndex: 1,
   tableDescription: '',
   loadModalOpen: false,
@@ -158,22 +158,28 @@ const useTableStore = create<TableState>((set) => ({
 
   setSelectedOptions: (id: string, checked: boolean) => set((state) => {
     const newOptions = { ...state.selectedOptions };
-    newOptions[id].enabled = checked;
-    return ({ selectedOptions: newOptions })
+    if(newOptions[id]) {
+      newOptions[id].enabled = checked;
+      return ({ selectedOptions: newOptions })
+    }
+    return ({selectedOptions: newOptions})
   }),
 
   setCarouselIndex: (carouselIndex: number) => set({ carouselIndex }),
   setTableDescription: (tableDescription: string) => set({ tableDescription }),
   handleEntryChange: (index: number, value: string) => set((state) => {
     const newEntries = [...state.entries];
-    newEntries[index] = value;
-    return ({ entries: newEntries });
+    if(index < state.entryCount) {
+      newEntries[index] = value;
+      return ({ entries: newEntries });
+    }
+    return ({entries: newEntries});
   }),
   handleChangeEntryIndex: (originalIndex: number, newIndex: number) => {
     const {entries} = useTableStore.getState();
 
     const entryCount = entries.length;
-    if (newIndex < 0 || newIndex > entryCount - 1) {
+    if (newIndex < 0 || newIndex > entryCount - 1 || originalIndex < 0 || originalIndex > entryCount - 1) {
       return;
     }
     const item = entries[originalIndex];

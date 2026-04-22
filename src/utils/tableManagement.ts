@@ -14,10 +14,9 @@ const loadTable = (tableData: JSONEntry) => {
     setTableKey(tableData.id);
 }
 
-
-    const copyTable = async (comboObj: ComboObject) => {
-        const {entries, tableName, tableDescription, isProbabilityColumnVisible} = useTableStore.getState();
-                const html = `
+const copyTable = async (comboObj: ComboObject) => {
+    const { entries, tableName, tableDescription, isProbabilityColumnVisible } = useTableStore.getState();
+    const html = `
                     <style>
                         table, th, td {
                             border: 1px solid black;
@@ -37,88 +36,88 @@ const loadTable = (tableData: JSONEntry) => {
                         </thead>
                         <tbody>
                             ${comboObj ? Object.entries(comboObj.probabilities).map(([roll, prob], index) => {
-                    return (`<tr>
+        return (`<tr>
                                     <td>${roll}</td>
                                     ${isProbabilityColumnVisible ? `<td>${(prob * 100).toFixed(2)}%</td>` : ''}
                                     <td>${entries[index]}</td>
                                 </tr>`)
-                }).join('')
-                        :
-                        entries.map((entry, index) => {
-                            return (`<tr>
+    }).join('')
+            :
+            entries.map((entry, index) => {
+                return (`<tr>
                 <td>${index + 1}</td>
                 <td>${entry}</td>
                 </tr>`
-                            )
-                        }).join('')}
+                )
+            }).join('')}
                         </tbody>
                     </table>`;
 
-                const markdown = `
+    const markdown = `
         **${tableName}**
         ${tableDescription}
         | **${comboObj && comboObj.diceString ? `Roll ${comboObj.diceString}` : 'Item'}** | **${comboObj && isProbabilityColumnVisible ? `Probability` : ''}** | **Value** |
         | ------------ | ${comboObj && isProbabilityColumnVisible ? `--------------- |` : ''} ----------------- |
         ${comboObj ? Object.entries(comboObj.probabilities).map(([roll, prob], index) => {
-                    return (`| ${roll} | ${isProbabilityColumnVisible ? `${(prob * 100).toFixed(2)}% |` : ''} ${entries[index]} |`)
-                }).join('')
-                        :
-                        entries.map((entry, index) => {
-                            return (`| ${index + 1} | ${entry} |  `)
-                        }).join('')}
+        return (`| ${roll} | ${isProbabilityColumnVisible ? `${(prob * 100).toFixed(2)}% |` : ''} ${entries[index]} |`)
+    }).join('')
+            :
+            entries.map((entry, index) => {
+                return (`| ${index + 1} | ${entry} |  `)
+            }).join('')}
                     `;
-                try {
-                    const clipboardItemData = {
-                        ['text/html']: new Blob([html], { type: 'text/html' }),
-                        ['text/plain']: new Blob([markdown], { type: 'text/plain' })
-                    };
-                    const clipboardItem = new ClipboardItem(clipboardItemData);
-                    await navigator.clipboard.write([clipboardItem]);
-                }
-                catch (e) {
-                    console.log(e);
-                }
+    try {
+        const clipboardItemData = {
+            ['text/html']: new Blob([html], { type: 'text/html' }),
+            ['text/plain']: new Blob([markdown], { type: 'text/plain' })
+        };
+        const clipboardItem = new ClipboardItem(clipboardItemData);
+        await navigator.clipboard.write([clipboardItem]);
+    }
+    catch (e) {
+        console.log(e);
+    }
+}
+
+const printTable = () => {
+    window.scrollTo(0, 0);
+    window.print();
+}
+
+const saveTable = (comboObj: ComboObject, storageKey?: string) => {
+    const { tableName, tableDescription, entries, setTableKey } = useTableStore.getState();
+    let id = Date.now().toString();
+    const timestamp = new Date().toISOString();
+    const item = storageKey && localStorage.getItem(storageKey);
+    let savedAt = timestamp;
+    if (item) {
+        savedAt = JSON.parse(item)?.savedAt;
+    }
+    const saveObj = {
+        id: storageKey || id,
+        tableName,
+        tableDescription,
+        comboObj,
+        entries,
+        savedAt,
+        updatedAt: timestamp
     }
 
-    const printTable = () => {
-        window.scrollTo(0, 0);
-        window.print();
+    if (storageKey) {
+        id = storageKey;
     }
 
-    const saveTable = (comboObj: ComboObject, storageKey?: string) => {
-        const { tableName, tableDescription, entries, setTableKey } = useTableStore.getState();
-        let id = Date.now().toString();
-        const timestamp = new Date().toISOString();
-        const item = storageKey && localStorage.getItem(storageKey);
-        let savedAt = timestamp;
-        if(item) {
-            savedAt = JSON.parse(item)?.savedAt;
-        }
-        const saveObj = {
-            id: storageKey || id,
-            tableName,
-            tableDescription,
-            comboObj,
-            entries,
-            savedAt,
-            updatedAt: timestamp
-        }
+    localStorage.setItem(id, JSON.stringify(saveObj));
+    setTableKey(storageKey || id);
+}
 
-        if(storageKey) {
-            id = storageKey;
-        }
-
-        localStorage.setItem(id, JSON.stringify(saveObj));
-        setTableKey(storageKey || id);
-    }
-
-    const clearTable = () => {
-        const { setTableKey, setEntries, entryCount, setTableName, setTableDescription } = useTableStore.getState();
-        setTableKey('');
-        setEntries(Array(entryCount).fill(''));
-        setTableName('');
-        setTableDescription('');
-    }
+const clearTable = () => {
+    const { setTableKey, setEntries, entryCount, setTableName, setTableDescription } = useTableStore.getState();
+    setTableKey('');
+    setEntries(Array(entryCount).fill(''));
+    setTableName('');
+    setTableDescription('');
+}
 
 export {
     loadTable,

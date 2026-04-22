@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { resetStore } from "./test-utils";
 import useTableStore from "./tableStore";
+import { AvailableThemes } from "../utils/constants";
 
 const booleanSetterTests: { action: string, value: string }[] = [
     {
@@ -21,7 +22,7 @@ const booleanSetterTests: { action: string, value: string }[] = [
     }
 ]
 
-const stringSetterTests: { action: string, value: string }[] = [
+const stringSetterTests: { action: string, value: string, testValues?: string[], defaultValue?: string }[] = [
     {
         action: 'setTableKey',
         value: 'tableKey'
@@ -33,6 +34,12 @@ const stringSetterTests: { action: string, value: string }[] = [
     {
         action: 'setTableDescription',
         value: 'tableDescription'
+    },
+    {
+        action: 'setTheme',
+        value: 'theme',
+        testValues: Object.values(AvailableThemes),
+        defaultValue: 'theme--modern--light'
     }
 ]
 
@@ -69,16 +76,34 @@ describe('tableStore', () => {
 
     for (const test of stringSetterTests) {
         describe(test.action, () => {
-            it('handles setting a test value', () => {
-                useTableStore.getState()[test.action]('test value');
-                const expected = 'test value';
-                expect(useTableStore.getState()[test.value]).toEqual(expected);
-            })
-            it('handles setting an empty value', () => {
-                useTableStore.getState()[test.action]('');
-                const expected = '';
-                expect(useTableStore.getState()[test.value]).toEqual(expected);
-            })
+            if (test.testValues) {
+                for (const testVal in test.testValues) {
+                    it(`handles setting ${test.testValues[testVal]}`, () => {
+                        const testString = test.testValues[testVal];
+                        useTableStore.getState()[test.action](testString);
+                        const expected = testString;
+                        expect(useTableStore.getState()[test.value]).toEqual(expected);
+                    })
+                }
+                it(`handles setting an invalid value`, () => {
+                    const testString = "invalid string that shouldn't match any enum options";
+                    useTableStore.getState()[test.action](testString);
+                    expect(useTableStore.getState()[test.value]).toEqual(test.defaultValue);
+                })
+            }
+            else {
+                it('handles setting a test value', () => {
+                    useTableStore.getState()[test.action]('test value');
+                    const expected = 'test value';
+                    expect(useTableStore.getState()[test.value]).toEqual(expected);
+                })
+
+                it('handles setting an empty value', () => {
+                    useTableStore.getState()[test.action]('');
+                    const expected = '';
+                    expect(useTableStore.getState()[test.value]).toEqual(expected);
+                })
+            }
         })
     }
 
@@ -122,10 +147,6 @@ describe('tableStore', () => {
             expect(currentState.entryCount).toEqual(0);
         });
     })
-
-    // describe('setTheme', () => {
-
-    // })
 
     describe('addEntry', () => {
         it('correctly adds an empty entry', () => {
@@ -185,13 +206,12 @@ describe('tableStore', () => {
     describe('setSelectedOptions', () => {
         it('updates selected options', () => {
             useTableStore.getState().setSelectedOptions('d10', false);
-            const expectedD10 = {value: 10, enabled: false};
+            const expectedD10 = { value: 10, enabled: false };
             expect(useTableStore.getState().selectedOptions['d10']).toEqual(expectedD10);
         });
-        
+
         it('ignores invalid options', () => {
             resetStore();
-            console.log(useTableStore.getState().selectedOptions)
             useTableStore.getState().setSelectedOptions('d11', true);
             expect(useTableStore.getState().selectedOptions['d11']).toBeUndefined;
         });
@@ -213,47 +233,90 @@ describe('tableStore', () => {
 
     describe('handleChangeEntryIndex', () => {
         it('moves entries up', () => {
-            useTableStore.setState({entries: ['a', 'b', 'c', 'd', 'e', 'f']})
-            useTableStore.getState().handleChangeEntryIndex(4,3);
+            useTableStore.setState({ entries: ['a', 'b', 'c', 'd', 'e', 'f'] })
+            useTableStore.getState().handleChangeEntryIndex(4, 3);
             const expectedEntries = ['a', 'b', 'c', 'e', 'd', 'f'];
             expect(useTableStore.getState().entries).toEqual(expectedEntries);
         })
 
         it('moves entries down', () => {
-            useTableStore.setState({entries: ['a', 'b', 'c', 'd', 'e', 'f']})
-            useTableStore.getState().handleChangeEntryIndex(3,5);
+            useTableStore.setState({ entries: ['a', 'b', 'c', 'd', 'e', 'f'] })
+            useTableStore.getState().handleChangeEntryIndex(3, 5);
             const expectedEntries = ['a', 'b', 'c', 'e', 'f', 'd'];
             expect(useTableStore.getState().entries).toEqual(expectedEntries);
         })
 
         it('does not change if same index', () => {
-            useTableStore.setState({entries: ['a', 'b', 'c', 'd', 'e', 'f']})
-            useTableStore.getState().handleChangeEntryIndex(4,4);
+            useTableStore.setState({ entries: ['a', 'b', 'c', 'd', 'e', 'f'] })
+            useTableStore.getState().handleChangeEntryIndex(4, 4);
             const expectedEntries = ['a', 'b', 'c', 'd', 'e', 'f'];
             expect(useTableStore.getState().entries).toEqual(expectedEntries);
         })
 
         it('handles out of bounds target', () => {
-            useTableStore.setState({entries: ['a', 'b', 'c', 'd', 'e', 'f']})
-            useTableStore.getState().handleChangeEntryIndex(4,6);
+            useTableStore.setState({ entries: ['a', 'b', 'c', 'd', 'e', 'f'] })
+            useTableStore.getState().handleChangeEntryIndex(4, 6);
             const expectedEntries = ['a', 'b', 'c', 'd', 'e', 'f'];
             expect(useTableStore.getState().entries).toEqual(expectedEntries);
 
         })
 
         it('handles out of bounds source', () => {
-            useTableStore.setState({entries: ['a', 'b', 'c', 'd', 'e', 'f']})
-            useTableStore.getState().handleChangeEntryIndex(6,3);
+            useTableStore.setState({ entries: ['a', 'b', 'c', 'd', 'e', 'f'] })
+            useTableStore.getState().handleChangeEntryIndex(6, 3);
             const expectedEntries = ['a', 'b', 'c', 'd', 'e', 'f'];
             expect(useTableStore.getState().entries).toEqual(expectedEntries);
 
         })
     })
 
-    // describe('handleQuickSetup', () => {
+    describe('handleQuickSetup', () => {
+        it('handles empty entry array and updates all expected state values', () => {
+            useTableStore.getState().handleQuickSetup(10, "3d4");
+            const expectedEntries = Array(10).fill('');
+            const expectedEntryCount = 10;
+            const expectedCarouselIndex = 2;
+            const expectedSidebarState = false;
+            const currentState = useTableStore.getState();
+            expect(currentState.entries).toEqual(expectedEntries);
+            expect(currentState.entryCount).toEqual(expectedEntryCount);
+            expect(currentState.carouselIndex).toEqual(expectedCarouselIndex);
+            expect(currentState.sidebarOpen).toEqual(expectedSidebarState);
+        })
 
-    //     it('', () => {
+        it('handles increasing a filled entry array and updates all expected state values', () => {
+            useTableStore.setState({ entries: Array(6).fill('hello') });
+            useTableStore.getState().handleQuickSetup(10, "1d10");
+            const expectedEntries = [...Array(6).fill('hello'), ...Array(4).fill('')];
+            const expectedEntryCount = 10;
+            const expectedCarouselIndex = 1;
+            const expectedSidebarState = false;
+            const currentState = useTableStore.getState();
+            expect(currentState.entries).toEqual(expectedEntries);
+            expect(currentState.entryCount).toEqual(expectedEntryCount);
+            expect(currentState.carouselIndex).toEqual(expectedCarouselIndex);
+            expect(currentState.sidebarOpen).toEqual(expectedSidebarState);
+        })
 
-    //     })
-    // })
+        it('handles descreasing a filled entry array and updates all expected state values', () => {
+            useTableStore.setState({ entries: ['a', 'b', 'c', 'd', 'e', 'f'] });
+            useTableStore.getState().handleQuickSetup(4, "1d4");
+            const expectedEntries = ['a', 'b', 'c', 'd'];
+            const expectedEntryCount = 4;
+            const expectedCarouselIndex = 1;
+            const expectedSidebarState = false;
+            const currentState = useTableStore.getState();
+            expect(currentState.entries).toEqual(expectedEntries);
+            expect(currentState.entryCount).toEqual(expectedEntryCount);
+            expect(currentState.carouselIndex).toEqual(expectedCarouselIndex);
+            expect(currentState.sidebarOpen).toEqual(expectedSidebarState);
+        })
+
+        it('handles invalid dice string', () => {
+            useTableStore.getState().handleQuickSetup(10, "1d12");
+            const expectedCarouselIndex = 1;
+            const currentState = useTableStore.getState();
+            expect(currentState.carouselIndex).toEqual(expectedCarouselIndex);
+        })
+    })
 })

@@ -1,48 +1,7 @@
 import { create } from 'zustand';
 import { getCombinationObjects } from '../utils/calculations.ts';
 import { DiceOptions } from '../types/types';
-
-const defaultCount: number = 10;
-
-const options: DiceOptions = {
-  'd100': {
-    value: 100,
-    enabled: true
-  },
-  'd20': {
-    value: 20,
-    enabled: true
-  },
-  'd12': {
-    value: 12,
-    enabled: true
-  },
-  'd10': {
-    value: 10,
-    enabled: true
-  },
-  'd8': {
-    value: 8,
-    enabled: true
-  },
-  'd6': {
-    value: 6,
-    enabled: true
-  },
-  'd4': {
-    value: 4,
-    enabled: true
-  },
-  'd2': {
-    value: 2,
-    enabled: false
-  }
-}
-
-enum AvailableThemes {
-    ModernLight = "theme--modern--light",
-    ModernDark = "theme--modern--dark"
-}
+import { AvailableThemes, options, defaultCount } from '../utils/constants.ts';
 
 interface TableState {
   entries: string[],
@@ -103,19 +62,10 @@ const useTableStore = create<TableState>((set) => ({
   })),
   setTableKey: (tableKey: string) => set({ tableKey }),
   setTheme: (theme) => {
-    const html = document.querySelector('html');
-    if(html) {
-      const classList = html.classList;
-      const classesArray = Array.from(classList);
-      classesArray.forEach((cls) => {
-        if(cls.startsWith('theme')) {
-          classList.remove(cls);
-        }
-      })
-      classList.add(theme);
+    if(Object.values(AvailableThemes).includes(theme)) {
+      set({ theme })
     }
-
-    set({ theme })},
+  },
   setHeaderHeight: (headerHeight: number) => set({ headerHeight }),
   setIsProbabilityColumnVisible: (checked: boolean) => set(() => {
     return ({ isProbabilityColumnVisible: checked })
@@ -196,11 +146,15 @@ const useTableStore = create<TableState>((set) => ({
 
     const combos = getCombinationObjects(target, selectedOptions);
     const tableIndex = combos.findIndex((combo) => combo.diceString === diceString);
+    let carouselIndex = tableIndex;
+    if(tableIndex < 0) {
+      carouselIndex = 0;
+    }
 
     set({
       entries: newEntries,
       entryCount: newEntries.length,
-      carouselIndex: tableIndex + 1,
+      carouselIndex: carouselIndex + 1,
       sidebarOpen: false
     })
   }

@@ -18,7 +18,6 @@ const Header = () => {
                     setHeaderHeight(height);
                 }
             }
-
         }
         updateHeight();
 

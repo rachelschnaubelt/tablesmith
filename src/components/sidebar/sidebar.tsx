@@ -188,12 +188,32 @@ const escapeHandler = (e: KeyboardEvent) => {
                     <p className='settings-menu__section__heading'>Example tables</p>
                     <fieldset className='settings-menu__options'>
                         <Button
-                            label={'1d6 Pickpocketing Loot'}
+                            label={'1d6 (6) Pickpocketing Loot'}
                             onClick={() => { handleExampleSetup('table1') }}
                             hierarchy={'secondary'} />
                         <Button
-                            label={'2d6 Extreme Weather'}
+                            label={'2d6 (11) Extreme Weather'}
                             onClick={() => { handleExampleSetup('table2') }}
+                            hierarchy={'secondary'} />
+                        <Button
+                            label={'1d8 + 2d4 (14) Takeout Options'}
+                            onClick={() => { handleExampleSetup('table3') }}
+                            hierarchy={'secondary'} />
+                        <Button
+                            label={'1d20 + 1d4 (23) Movie Night Options'}
+                            onClick={() => { handleExampleSetup('table4') }}
+                            hierarchy={'secondary'} />
+                        <Button
+                            label={'1d12 (12) Exercises'}
+                            onClick={() => { handleExampleSetup('table5') }}
+                            hierarchy={'secondary'} />
+                        <Button
+                            label={'1d8 + 2d6 (18) Setting Themes'}
+                            onClick={() => { handleExampleSetup('table6') }}
+                            hierarchy={'secondary'} />
+                        <Button
+                            label={'1d8 + 1d6 (13) NPCs'}
+                            onClick={() => { handleExampleSetup('table7') }}
                             hierarchy={'secondary'} />
                     </fieldset>
                 </div>

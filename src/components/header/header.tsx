@@ -31,7 +31,7 @@ const Header = () => {
             className="cmp-header no-print"
             ref={headerRef}>
             <div className="cmp-header__inner">
-                <p className="cmp-header__heading">Table Maker</p>
+                <p className="cmp-header__heading">TableSmith</p>
                 <div className="cmp-header__menu">
                     <Button
                         label={'Settings'}

@@ -49,6 +49,7 @@ function App() {
     <div
       className={`cmp-app`}
       style={{ marginTop: `${headerHeight + 16}px` }}>
+      <title>TableSmith | Dice Table Maker</title>
       <Header />
       <Sidebar />
       <Carousel>

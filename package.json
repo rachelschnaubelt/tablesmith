@@ -1,5 +1,5 @@
 {
-  "name": "table-generator",
+  "name": "tablesmith",
   "private": true,
   "version": "0.0.0",
   "type": "module",

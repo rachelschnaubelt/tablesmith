@@ -131,15 +131,15 @@ This command uses Vitest to run your tests.
 ## The Math
 In order to figure out what dice you can roll to get a certain range of numbers, it's actually a bit simpler than it might seem.
 
-First, you have to realize that each die contributes a certain portion to a given range: however many faces the die has minus one.
+First, you have to realize that each die contributes a certain portion to a given range: however many faces the die has minus one. Each die will always give a lowest value of 1, so you can automatically count it out and only worry about the remaining faces.
 
-Then, you have to understand that the actual target is really n - 1.
+Then, you have to understand that the actual target is really n - 1. Because the lowest you can possibly get is 1, you only need to consider the remaining range.
 
 Once you have those facts, you can recursively iterate through the dice, subtracting their contribution from the target. Once the value is zero, you've got a combination that will cover the range of options.
 
 (During the recursion, I added a few gates to prevent too many options or ridiculous combinations with a bunch of coin flips. I also made sure to prevent duplicates by sorting each combination and using a Set to capture all possible combinations without repetition.)
 
-From there, you can run statistical analyses on the combinations to get the probability any number will come up or how many different ways you can get a given number. To do this, just iterate through the dice in a combination, expanding each existing sum by each face on the die. Then divide each number's possible ways to be rolled by the total number of rolls that can happen to get the probability it will come up. You can then get all kinds of other statistical info from there, such as variance and standard deviation.
+From there, you can use standard probability math to get the likelihood of any given roll, which can in turn be used to collect data like variance and standard deviation.
 
 An example:
 
@@ -149,11 +149,8 @@ Let's say we want to get all the ways we could roll four-sided dice (1d4) and si
 - A d4 can contribute 3 toward a target.
 - A d6 can contribute 5 toward a target.
 
-18 - 3 - 3 - 3 - 3 - 3 - 3 = 0 (this gives us 6d4)  
-18 - 3 - 5 - 5 - 5 = 0 (this gives us 1d4 + 3d6)
-
-6d4 will have a range between 6 and 24 
-1d4 + 3d6 will have a range between 4 and 22
+18 - 3 - 3 - 3 - 3 - 3 - 3 = 0 (this gives us 6d4 with a range of 6-24)
+18 - 3 - 5 - 5 - 5 = 0 (this gives us 1d4 + 3d6 with a range of 4-22)
 
 The probability distribution for each of these combinations is different as well. A few examples:
 

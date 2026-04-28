@@ -81,6 +81,8 @@
 
   // Cursor
   --cursor--pointer: pointer;
+  --cursor: url('../../public/cursors/cursor.svg'), auto;
+  --cursor--text: url('../../public/cursors/cursor--text.svg'), auto;
 
 
   @media (prefers-reduced-motion: reduce) {
@@ -237,3 +239,5 @@ $opacity--half: var(--opacity--half);
 
 // Cursor
 $cursor--pointer: var(--cursor--pointer);
+$cursor--text: var(--cursor--text);
+$cursor: var(--cursor);

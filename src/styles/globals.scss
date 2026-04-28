@@ -1,5 +1,9 @@
 @import './variables.scss';
 
+html {
+  cursor: $cursor;
+}
+
 body {
   background-color: $bg;
   color: $text;
@@ -47,4 +51,10 @@ body {
   width: 0;
   overflow: hidden;
   opacity: 0;
+}
+
+input, textarea {
+  &:hover {
+        cursor: $cursor--text;
+    }
 }

@@ -5,6 +5,41 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "OpenDyslexic";
+  src: url("../../public/fonts/OpenDyslexic-Regular.otf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "OpenDyslexic";
+  src: url("../../public/fonts/OpenDyslexic-Regular.otf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "OpenDyslexic";
+  src: url("../../public/fonts/OpenDyslexic-Bold.otf");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "OpenDyslexic";
+  src: url("../../public/fonts/OpenDyslexic-BoldItalic.otf");
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "OpenDyslexic";
+  src: url("../../public/fonts/OpenDyslexic-Italic.otf");
+  font-weight: normal;
+  font-style: italic;
+}
+
 p, li {
     line-height: 1.2;
 }

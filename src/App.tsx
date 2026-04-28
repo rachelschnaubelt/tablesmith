@@ -2,8 +2,6 @@ import { useEffect, useMemo } from 'react';
 import Carousel from './components/carousel/carousel.tsx';
 import Table from './components/table/table.tsx';
 import Sidebar from './components/sidebar/sidebar.tsx';
-import Modal from './components/modal/modal.tsx';
-import Gallery from './components/gallery/gallery.tsx';
 import useTableStore from './store/tableStore.ts';
 import { getCombinationObjects, getHints } from './utils/calculations.ts'
 import Header from './components/header/header.tsx';
@@ -15,6 +13,7 @@ function App() {
   const selectedOptions = useTableStore((state) => state.selectedOptions);
   const headerHeight = useTableStore((state) => state.headerHeight);
   const theme = useTableStore((state) => state.theme);
+  const usesDyslexicFont = useTableStore((state) => state.usesDyslexicFont);
 
   const comboObjects = useMemo(() => getCombinationObjects(entryCount, selectedOptions), [entryCount, selectedOptions]);
   const hints = useMemo(() => getHints(comboObjects, selectedOptions), [comboObjects, selectedOptions]);
@@ -44,6 +43,15 @@ function App() {
     }
 
   }, [theme])
+
+  useEffect(() => {
+    const html = document.querySelector('html');
+    if (html && usesDyslexicFont) {
+      html.classList.add('font--open-dyslexic');
+    } else if (html) {
+      html.classList.remove('font--open-dyslexic');
+    }
+  }, [usesDyslexicFont])
 
   return (
     <div

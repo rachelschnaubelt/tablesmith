@@ -13,6 +13,7 @@ interface TableState {
   loadModalOpen: boolean,
   saveModalOpen: boolean,
   aboutModalOpen: boolean,
+  usesDyslexicFont: boolean,
   tableKey: string,
   isProbabilityColumnVisible: boolean,
   theme: `${AvailableThemes}`,
@@ -31,6 +32,7 @@ interface TableState {
   setLoadModalOpen: (loadModalOpen: boolean, triggerId?: string) => void,
   setSaveModalOpen: (saveModalOpen: boolean, triggerId?: string) => void,
   setAboutModalOpen: (aboutModalOpen: boolean, triggerId?: string) => void,
+  setUsesDyslexicFont: (usesDyslexicFont: boolean) => void,
   setTableName: (tableName: string) => void,
   setSelectedOptions: (id: string, checked: boolean) => void,
   setCarouselIndex: (carouselIndex: number) => void,
@@ -51,6 +53,7 @@ const useTableStore = create<TableState>((set) => ({
   loadModalOpen: false,
   saveModalOpen: false,
   aboutModalOpen: false,
+  usesDyslexicFont: false,
   tableKey: '',
   isProbabilityColumnVisible: true,
   theme: 'theme--modern--light',
@@ -93,7 +96,7 @@ const useTableStore = create<TableState>((set) => ({
      });
   }),
 
-  setSidebarOpen: (sidebarState, triggerId) => set((state) => {
+  setSidebarOpen: (sidebarState, triggerId) => set(() => {
     return ({
     sidebarOpen: sidebarState,
     focusReturn: triggerId || null
@@ -110,6 +113,7 @@ const useTableStore = create<TableState>((set) => ({
     aboutModalOpen: modalState,
     focusReturn: triggerId || null
   })),
+  setUsesDyslexicFont: (usesDyslexicFont: boolean) => set({ usesDyslexicFont }),
 
   setTableName: (tableName: string) => set({ tableName }),
 

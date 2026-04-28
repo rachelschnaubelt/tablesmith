@@ -18,7 +18,7 @@ import React, { useEffect, useRef } from 'react';
 import { returnFocusToId } from '../../utils/focusUtils.ts';
 
 const Sidebar = React.memo(() => {
-    const { handleQuickSetup, setSidebarOpen, setSelectedOptions, setIsProbabilityColumnVisible, setTheme, focusReturn } = useTableStore.getState();
+    const { handleQuickSetup, setSidebarOpen, setSelectedOptions, setIsProbabilityColumnVisible, setTheme, setUsesDyslexicFont, focusReturn } = useTableStore.getState();
     const sidebarOpen = useTableStore((state) => state.sidebarOpen);
     const theme = useTableStore((state) => state.theme);
     const sidebarRef = useRef<HTMLElement>(null);
@@ -227,6 +227,13 @@ const escapeHandler = (e: KeyboardEvent) => {
                             label="Show probability column"
                             isChecked={true}
                             onChange={(e) => setIsProbabilityColumnVisible(e.target.checked)} />
+                        <Checkbox
+                            id="font--open-dyslexic"
+                            name="font--open-dyslexic"
+                            value="font--open-dyslexic"
+                            label="Use dyslexia-friendly font"
+                            isChecked={false}
+                            onChange={(e) => setUsesDyslexicFont(e.target.checked)} />
                     </fieldset>
                 </div>
                 <div className='settings-menu__theme settings-menu__section'>

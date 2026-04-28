@@ -1,6 +1,17 @@
 # ![Icon](./src/assets/icons/favicon.svg) TableSmith
 
-## Description / Overview
+[Overview](#overview)  
+[Installation](#installation)  
+[Usage](#usage)  
+[Features](#features)  
+[Roadmap](#roadmap-in-no-particular-order-and-with-no-guarantees)  
+[The Math](#the-math)  
+[Built With](#built-with)  
+[Key Design Decisions and Tradeoffs](#key-design-decisions--tradeoffs)  
+[Contributing](#contributing)  
+[License](#license)  
+
+## Overview
 TableSmith started from a question:
 
 > "Is there a way I can roll dice for any random number of items?"

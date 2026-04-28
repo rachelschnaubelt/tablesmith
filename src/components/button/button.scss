@@ -81,6 +81,11 @@
             &__label {
                 flex-shrink: 0;
             }
+
+            &__custom-icon {
+                height: 1em;
+                width: auto;
+            }
         }
     }
 }

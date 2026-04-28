@@ -7,12 +7,12 @@ import Gallery from './components/gallery/gallery.tsx';
 import useTableStore from './store/tableStore.ts';
 import { getCombinationObjects, getHints } from './utils/calculations.ts'
 import Header from './components/header/header.tsx';
+import AboutModal from './components/modals/about/about.tsx';
+import LoadModal from './components/modals/load/load.tsx';
 
 function App() {
-  const { setLoadModalOpen } = useTableStore.getState();
   const entryCount = useTableStore((state) => state.entryCount);
   const selectedOptions = useTableStore((state) => state.selectedOptions);
-  const loadModalOpen = useTableStore((state) => state.loadModalOpen);
   const headerHeight = useTableStore((state) => state.headerHeight);
   const theme = useTableStore((state) => state.theme);
 
@@ -55,13 +55,8 @@ function App() {
       <Carousel>
         {tables}
       </Carousel>
-      <Modal
-        className='modal--load'
-        modalOpen={loadModalOpen}
-        modalHandler={setLoadModalOpen}
-        heading={'Load'}>
-        <Gallery />
-      </Modal>
+      <LoadModal />
+      <AboutModal />      
     </div>
   )
 }

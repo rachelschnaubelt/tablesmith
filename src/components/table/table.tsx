@@ -5,13 +5,13 @@ import React, { useRef, useState } from 'react';
 import useTableStore from '../../store/tableStore.ts';
 import Accordion from '../accordion/accordion.tsx';
 import { ArrowsClockwiseIcon, CopySimpleIcon, DiceOneIcon, DiceSixIcon, DotsThreeIcon, EraserIcon, FilePdfIcon, FloppyDiskIcon, PlusIcon, PrinterIcon, XIcon } from '@phosphor-icons/react';
-import Modal from '../modal/modal.tsx';
 import { getLeastLikelyRolls, getMostLikelyRolls } from '../../utils/calculations.ts';
 import EntryInput from '../entry-input/entry-input.tsx';
 import CumulativeProbabilityWidget from '../cumulative-probability-widget/cumulative-probability-widget.tsx';
 import { clearTable, copyTable, printTable, saveTable } from '../../utils/tableManagement.ts';
 import { ComboObject, Probability } from '../../types/types.tsx';
 import { blurActiveElement } from '../../utils/focusUtils.ts';
+import SaveModal from '../modals/save/save.tsx';
 
 interface Hints {
     minDiff?: number
@@ -40,7 +40,6 @@ interface RollResults {
 const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProps) => {
     const { addEntry, addEntries, deleteEntry, setSaveModalOpen, handleChangeEntryIndex } = useTableStore.getState();
     const entryCount = useTableStore((store) => store.entryCount);
-    const saveModalOpen = useTableStore((store) => store.saveModalOpen);
     const tableKey = useTableStore((store) => store.tableKey);
     const isProbabilityColumnVisible = useTableStore((state) => state.isProbabilityColumnVisible);
     const headerHeight = useTableStore((state) => state.headerHeight);
@@ -409,22 +408,7 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
                     </div>
                 </Accordion>}
             </div>
-            <Modal
-                className='modal--save'
-                modalOpen={saveModalOpen}
-                modalHandler={setSaveModalOpen}
-                heading={'Save'}>
-                <p>This table is already saved. Would you like to overwrite the existing save?</p>
-                <div className='cmp-modal__button-group'>
-                    <Button
-                        label='overwrite existing save'
-                        onClick={() => { comboObj && saveTable(comboObj, tableKey); setSaveModalOpen(false) }} />
-                    <Button
-                        label='save as new table'
-                        hierarchy={'secondary'}
-                        onClick={() => { comboObj && saveTable(comboObj); setSaveModalOpen(false) }} />
-                </div>
-            </Modal>
+            {comboObj && <SaveModal comboObj={comboObj}/>}
         </div>
     )
 });

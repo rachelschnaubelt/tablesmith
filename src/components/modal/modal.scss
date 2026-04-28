@@ -4,6 +4,7 @@
     display: none;
     max-height: 80dvh;
     max-width: 80dvw;
+    min-width: 26rem;
     overflow: auto;
     background-color: $modal-bg;
     position: fixed;
@@ -18,6 +19,11 @@
     padding-top: $spacing--medium;
     width: auto;
     margin: 0;
+
+    p,
+    li {
+        margin-bottom: 0.5rem;
+    }
 
     &__heading {
         display: flex;
@@ -55,8 +61,8 @@
     }
 
     &__backdrop {
-        background-color: rgba(0,0,0,0.1);
-        backdrop-filter: blur(5px);
+        background-color: rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5px) brightness(0.4);
         z-index: calc($z-index-top - 1);
         position: fixed;
         inset: 0;

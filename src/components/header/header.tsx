@@ -3,11 +3,13 @@ import useTableStore from "../../store/tableStore";
 import Button from "../button/button.tsx";
 import './header.scss';
 import { GearIcon, TableIcon } from "@phosphor-icons/react";
+import Logo from "../../assets/icons/logo.svg?react";
 
 const Header = () => {
     const setLoadModalOpen = useTableStore((state) => state.setLoadModalOpen);
     const setSidebarOpen = useTableStore((state) => state.setSidebarOpen);
     const setHeaderHeight = useTableStore((state) => state.setHeaderHeight);
+    const setAboutModalOpen = useTableStore((state) => state.setAboutModalOpen);
     const headerRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
@@ -34,7 +36,14 @@ const Header = () => {
                 <p className="cmp-header__heading">TableSmith</p>
                 <div className="cmp-header__menu">
                     <Button
-                        label={'Settings'}
+                        label={'about'}
+                        className={'no-print about-button'}
+                        id="modal__trigger-button--about"
+                        onClick={() => { setAboutModalOpen(true, 'modal__trigger-button--about') }}
+                        type="icon"
+                        icon={<Logo className={'cmp-button__custom-icon'} />} />
+                    <Button
+                        label={'settings'}
                         className={'no-print settings-button'}
                         id="sidebar__trigger-button--settings"
                         onClick={() => { setSidebarOpen(true, 'sidebar__trigger-button--settings') }}

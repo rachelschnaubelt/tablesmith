@@ -12,6 +12,7 @@ interface TableState {
   tableDescription: string,
   loadModalOpen: boolean,
   saveModalOpen: boolean,
+  aboutModalOpen: boolean,
   tableKey: string,
   isProbabilityColumnVisible: boolean,
   theme: `${AvailableThemes}`,
@@ -29,6 +30,7 @@ interface TableState {
   setSidebarOpen: (sidebarOpen: boolean, triggerId?: string) => void,
   setLoadModalOpen: (loadModalOpen: boolean, triggerId?: string) => void,
   setSaveModalOpen: (saveModalOpen: boolean, triggerId?: string) => void,
+  setAboutModalOpen: (aboutModalOpen: boolean, triggerId?: string) => void,
   setTableName: (tableName: string) => void,
   setSelectedOptions: (id: string, checked: boolean) => void,
   setCarouselIndex: (carouselIndex: number) => void,
@@ -48,6 +50,7 @@ const useTableStore = create<TableState>((set) => ({
   tableDescription: '',
   loadModalOpen: false,
   saveModalOpen: false,
+  aboutModalOpen: false,
   tableKey: '',
   isProbabilityColumnVisible: true,
   theme: 'theme--modern--light',
@@ -101,6 +104,10 @@ const useTableStore = create<TableState>((set) => ({
   })),
   setSaveModalOpen: (modalState, triggerId) => set(() => ({
     saveModalOpen: modalState,
+    focusReturn: triggerId || null
+  })),
+  setAboutModalOpen: (modalState, triggerId) => set(() => ({
+    aboutModalOpen: modalState,
     focusReturn: triggerId || null
   })),
 

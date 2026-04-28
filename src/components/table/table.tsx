@@ -28,7 +28,7 @@ interface TableProps {
 }
 
 interface DieResult {
-    die: string, 
+    die: string,
     result: number
 }
 
@@ -53,20 +53,20 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
 
     const handleEntryMove = (index1: number, index2: number) => {
         handleChangeEntryIndex(index1, index2);
-        if(tableBody.current) {
+        if (tableBody.current) {
             const children = tableBody.current.children;
             const row1 = children[index1];
             const row2 = children[index2];
             if (row1 && row2) {
                 const textarea1 = row1.querySelector('textarea');
                 const textarea2 = row2.querySelector('textarea');
-                if(textarea1 && textarea2) {
+                if (textarea1 && textarea2) {
                     const ta1scrollHeight = textarea1.scrollHeight;
                     const ta2scrollHeight = textarea2.scrollHeight;
                     textarea1.style.height = ta2scrollHeight + 1 + 'px';
                     textarea2.style.height = ta1scrollHeight + 1 + 'px';
                 }
-                blurActiveElement();                
+                blurActiveElement();
             }
         }
     }
@@ -104,9 +104,9 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
                         label='swap'
                         type="icon"
                         icon={<ArrowsClockwiseIcon size={16} />}
-                        hierarchy="secondary" 
-                        ariaLabel='Swap down'/>}
-                    <Button
+                        hierarchy="secondary"
+                        ariaLabel='Swap down' />}
+                    {entryCount > 1 && <Button
                         className='no-print cmp-roll-table__button--delete'
                         onClick={() => { handleDelete(index) }}
                         label={'Remove'}
@@ -114,7 +114,7 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
                         icon={<XIcon size={16} />}
                         hierarchy="secondary"
                         isWarning={true}
-                        ariaLabel='Delete row' />
+                        ariaLabel='Delete row' />}
                 </div>
             );
         });
@@ -145,7 +145,7 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
                         type="icon"
                         icon={<ArrowsClockwiseIcon size={16} />}
                         hierarchy="secondary" />}
-                    {entryCount > 2 && <Button
+                    {entryCount > 1 && <Button
                         className='no-print cmp-roll-table__button--delete'
                         onClick={() => { handleDelete(index) }}
                         label={'Remove'}
@@ -191,12 +191,12 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
             })
         }
 
-        if(tableBody.current) {
+        if (tableBody.current) {
             const previousSelect = tableBody.current.querySelectorAll('.cmp-roll-table__row.selected');
             previousSelect.forEach(row => row.classList.remove('selected'));
-            
+
             const row = tableBody.current.querySelector(`.cmp-roll-table__row--${total}`);
-            if(row) {
+            if (row) {
                 row.classList.add('selected');
                 const rowY = row.getBoundingClientRect().y;
                 const windowHeight = window.innerHeight;
@@ -216,37 +216,38 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
     }
 
     const handleClearSelection = () => {
-        if(tableBody.current) {
+        if (tableBody.current) {
             const previousSelect = tableBody.current.querySelectorAll('.cmp-roll-table__row.selected');
             previousSelect.forEach(row => row.classList.remove('selected'));
             setIsRowSelected(false);
         }
     }
 
-    const RollLikelihoodEntry = React.memo(({ value, lowestResult }: {value: number, lowestResult: number}) => {
+    const RollLikelihoodEntry = React.memo(({ value, lowestResult }: { value: number, lowestResult: number }) => {
         const entry = useTableStore((state) => state.entries[value - lowestResult]);
         return <li key={value}>{value}{entry ? ` - ${entry}` : ''}</li>;
     });
 
     const evaluateRollLikelihood = (rolls: string[]) => {
-        if(comboObj) {
-        const lowestResult = comboObj.combination.length;
+        if (comboObj) {
+            const lowestResult = comboObj.combination.length;
 
-        if (rolls.length === comboObj.count) {
-            return <p>All outcomes are equally likely</p>
-        }
+            if (rolls.length === comboObj.count) {
+                return <p>All outcomes are equally likely</p>
+            }
 
-        return <ul>
-            {rolls.map((value: string) => {
-                const parsedValue = parseInt(value);
-                return(
-                <RollLikelihoodEntry
-                    key={parsedValue}
-                    value={parsedValue}
-                    lowestResult={lowestResult}
-                />
-            )})}
-        </ul>;
+            return <ul>
+                {rolls.map((value: string) => {
+                    const parsedValue = parseInt(value);
+                    return (
+                        <RollLikelihoodEntry
+                            key={parsedValue}
+                            value={parsedValue}
+                            lowestResult={lowestResult}
+                        />
+                    )
+                })}
+            </ul>;
         }
     }
 
@@ -255,11 +256,11 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
             <div className='cmp-roll-table'>
                 <div className='cmp-roll-table__inner'
                     data-table-key={tableKey}>
-                    <div 
+                    <div
                         className="cmp-roll-table__table"
                         role="table">
-                        <div 
-                            className='cmp-roll-table__row cmp-roll-table__row--header' 
+                        <div
+                            className='cmp-roll-table__row cmp-roll-table__row--header'
                             style={{ 'top': `${headerHeight}px` }}
                             role="row">
                             <p className='cmp-roll-table__column--number cmp-roll-table__cell' role="columnheader">
@@ -374,30 +375,37 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
                     label={'Advanced stats'}
                     initialState={false} >
                     <div className='cmp-roll-table__advanced-stats'>
-                        <div className='cmp-roll-table__distribution-chart'>
-                            <DistributionChart comboObj={comboObj} />
-                        </div>
-                        <CumulativeProbabilityWidget
-                            comboObj={comboObj} />
-                        {hints && (Object.keys(hints).length != 0) && <div className='cmp-roll-table__hints'>
-                            {comboCount && comboCount > 0 && <p>Want a more even distribution?</p>}
-                            {hints.closestMax && hints.maxDiff && <p><span className='action-text' onClick={() => { addEntries(hints.maxDiff) }}>Add another {hints.maxDiff > 1 && hints.maxDiff} option{hints.maxDiff > 1 && 's'}</span> to make a 1d{hints.closestMax} table</p>}
-                            {hints.closestMin && hints.minDiff && <p>{hints.closestMax && hints.maxDiff ? 'Or remove' : 'Remove'} {hints.minDiff > 1 ? hints.minDiff : 'an'} option{hints.minDiff > 1 && 's'} to make a 1d{hints.closestMin} table</p>}
-                        </div>}
-                        <div className='cmp-roll-table__roll-stats'>
-                            <div className='cmp-roll-table__most-likely'>
-                                <p>Most likely to roll: </p>
-                                {evaluateRollLikelihood(getMostLikelyRolls(comboObj.distribution))}
-                            </div>
-                            <div className='cmp-roll-table__least-likely'>
-                                <p>Least likely to roll: </p>
-                                {evaluateRollLikelihood(getLeastLikelyRolls(comboObj.distribution))}
-                            </div>
-                            <div className='cmp-roll-table__statistical-measurements'>
-                                <p className='cmp-roll-table__variance'>Variance: {comboObj.variance.toFixed(2)}</p>
-                                <p className='cmp-roll-table__standard-deviation'>Standard Deviation: {comboObj.standardDeviation.toFixed(2)}</p>
-                            </div>
-                        </div>
+                        {entryCount > 1 &&
+                            <>
+                                <div className='cmp-roll-table__distribution-chart'>
+                                    <DistributionChart comboObj={comboObj} />
+                                </div>
+                                <CumulativeProbabilityWidget
+                                    comboObj={comboObj} />
+                                {hints && (Object.keys(hints).length != 0) && <div className='cmp-roll-table__hints'>
+                                    {comboCount && comboCount > 0 && <p>Want a more even distribution?</p>}
+                                    {hints.closestMax && hints.maxDiff && <p><span className='action-text' onClick={() => { addEntries(hints.maxDiff) }}>Add another {hints.maxDiff > 1 && hints.maxDiff} option{hints.maxDiff > 1 && 's'}</span> to make a 1d{hints.closestMax} table</p>}
+                                    {hints.closestMin && hints.minDiff && <p>{hints.closestMax && hints.maxDiff ? 'Or remove' : 'Remove'} {hints.minDiff > 1 ? hints.minDiff : 'an'} option{hints.minDiff > 1 && 's'} to make a 1d{hints.closestMin} table</p>}
+                                </div>}
+                                <div className='cmp-roll-table__roll-stats'>
+                                    <div className='cmp-roll-table__most-likely'>
+                                        <p>Most likely to roll: </p>
+                                        {evaluateRollLikelihood(getMostLikelyRolls(comboObj.distribution))}
+                                    </div>
+                                    <div className='cmp-roll-table__least-likely'>
+                                        <p>Least likely to roll: </p>
+                                        {evaluateRollLikelihood(getLeastLikelyRolls(comboObj.distribution))}
+                                    </div>
+                                    <div className='cmp-roll-table__statistical-measurements'>
+                                        <p className='cmp-roll-table__variance'>Variance: {comboObj.variance.toFixed(2)}</p>
+                                        <p className='cmp-roll-table__standard-deviation'>Standard Deviation: {comboObj.standardDeviation.toFixed(2)}</p>
+                                    </div>
+                                </div>
+                            </>}
+                        {entryCount === 1 &&
+                            <p>
+                                100% guaranteed to choose: {useTableStore((state) => state.entries[0])}
+                            </p>}
                     </div>
                 </Accordion>}
             </div>

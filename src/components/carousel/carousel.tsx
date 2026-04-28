@@ -48,6 +48,11 @@ const Carousel = ({ children }: {children: ReactNode}) => {
             setCarouselIndex(buttonIndex);
         }
         setActiveButton(buttonIndex || 1);
+        if(entryCount === 1) {
+            return <div className="cmp-carousel__warning">
+                <p>Seems like you've made your decision.</p>
+            </div>
+        }
         if (buttons.length <= 0) {
             return <div className="cmp-carousel__warning">
                 <p>There is no way to create a combination of the selected dice for {entryCount} items.</p>
@@ -64,14 +69,14 @@ const Carousel = ({ children }: {children: ReactNode}) => {
 
     return (
         <div className="cmp-carousel">
-            <div className="cmp-carousel__header no-print">
+            {<div className="cmp-carousel__header no-print">
                 <p className="cmp-carousel__heading">Possible dice combinations</p>
                 <div
                     className="cmp-carousel__buttons"
                     ref={buttonContainerRef}>
                     {getChildrenButtons()}
                 </div>
-            </div>
+            </div>}
             <TableHeader />
             <div className={`cmp-carousel__items selected-${carouselIndex || 1}`}>
                 {children}

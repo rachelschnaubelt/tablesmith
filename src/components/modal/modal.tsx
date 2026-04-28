@@ -41,9 +41,9 @@ const Modal = ({ children, modalOpen, heading, className, modalHandler }: ModalP
             <dialog className={`cmp-modal cmp-modal--${modalOpen ? 'open' : 'closed'} ${className}`}
                 ref={modalRef}>
                 <div className='cmp-modal__heading'>
-                    <p className='cmp-modal__title'>
+                    <h2 className='cmp-modal__title'>
                         {heading}
-                    </p>
+                    </h2>
                     <Button
                         className={'cmp-modal__close'}
                         label={'close'}

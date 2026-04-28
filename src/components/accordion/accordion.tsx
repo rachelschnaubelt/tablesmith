@@ -50,6 +50,7 @@ const Accordion = ({children, label, initialState}: AccordionProps) => {
 
     return (
         <div className={`cmp-accordion cmp-accordion--${isOpen ? 'open' : 'closed'}`}>
+            <h2 className='sr-only'>{label}</h2>
                 <Button
                     label={label}
                     type="accordion"

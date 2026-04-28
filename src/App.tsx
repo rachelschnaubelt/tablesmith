@@ -50,8 +50,10 @@ function App() {
       className={`cmp-app`}
       style={{ marginTop: `${headerHeight + 16}px` }}>
       <title>TableSmith | Dice Table Maker</title>
+      <h1 className="sr-only">Dice Table Maker</h1>
       <Header />
       <Sidebar />
+      <h2 className="sr-only">Tables</h2>
       <Carousel>
         {tables}
       </Carousel>

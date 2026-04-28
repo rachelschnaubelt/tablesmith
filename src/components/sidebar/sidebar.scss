@@ -8,6 +8,7 @@
     transition: transform $transition-duration--fast;
     background-color: $sidebar-bg;
     visibility: hidden;
+    overflow: auto;
 
     &--open {
         transform: translateX(0);

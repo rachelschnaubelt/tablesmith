@@ -60,10 +60,10 @@ const escapeHandler = (e: KeyboardEvent) => {
                 icon={<XIcon size={32} />} />
             <div className='settings-menu'>
                 <div className='settings-menu__heading'>
-                    <p>Settings</p>
+                    <h2 className='settings-menu__heading'>Settings</h2>
                 </div>
                 <div className='settings-menu__dice settings-menu__section'>
-                    <p className='settings-menu__section__heading'>Available dice</p>
+                    <h3 className='settings-menu__section__heading'>Available dice</h3>
                     <fieldset className='settings-menu__options'>
                         <Checkbox
                             id="d2"
@@ -140,7 +140,7 @@ const escapeHandler = (e: KeyboardEvent) => {
                         </fieldset>
                 </div>
                 <div className='settings-menu__quick-setup settings-menu__section'>
-                    <p className='settings-menu__section__heading'>Quick Setup</p>
+                    <h3 className='settings-menu__section__heading'>Quick Setup</h3>
                     <fieldset className='settings-menu__options'>
                         <Button
                             label={'1d4'}
@@ -185,7 +185,7 @@ const escapeHandler = (e: KeyboardEvent) => {
                     </fieldset>
                 </div>
                 <div className='settings-menu__examples settings-menu__section'>
-                    <p className='settings-menu__section__heading'>Example tables</p>
+                    <h3 className='settings-menu__section__heading'>Example tables</h3>
                     <fieldset className='settings-menu__options'>
                         <Button
                             label={'1d6 (6) Pickpocketing Loot'}
@@ -218,7 +218,7 @@ const escapeHandler = (e: KeyboardEvent) => {
                     </fieldset>
                 </div>
                 <div className='settings-menu__misc settings-menu__section'>
-                    <p className='settings-menu__section__heading'>Other settings</p>
+                    <h3 className='settings-menu__section__heading'>Other settings</h3>
                     <fieldset className='settings-menu__options'>
                         <Checkbox
                             id="prob-visibility"
@@ -230,7 +230,7 @@ const escapeHandler = (e: KeyboardEvent) => {
                     </fieldset>
                 </div>
                 <div className='settings-menu__theme settings-menu__section'>
-                    <p className='settings-menu__section__heading'>Theme</p>
+                    <h3 className='settings-menu__section__heading'>Theme</h3>
                     <fieldset className='settings-menu__options'>
                         <Button
                             label={'Modern Light'}

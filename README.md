@@ -8,6 +8,7 @@
 [The Math](#the-math)  
 [Built With](#built-with)  
 [Key Design Decisions and Tradeoffs](#key-design-decisions--tradeoffs)  
+[AI Usage in Building](#ai-usage-in-building)  
 [Contributing](#contributing)  
 [License](#license)  
 
@@ -151,8 +152,8 @@ Let's say we want to get all the ways we could roll four-sided dice (1d4) and si
 18 - 3 - 3 - 3 - 3 - 3 - 3 = 0 (this gives us 6d4)  
 18 - 3 - 5 - 5 - 5 = 0 (this gives us 1d4 + 3d6)
 
-6d4 will have a range between 6 (the total number of dice) and 24 (the total number of dice * the largest face on the dice)  
-1d4 + 3d6 will have a range between 4 (4 dice) and 22 (1 * 4 + 3 * 6)
+6d4 will have a range between 6 and 24 
+1d4 + 3d6 will have a range between 4 and 22
 
 The probability distribution for each of these combinations is different as well. A few examples:
 
@@ -175,8 +176,6 @@ The probability distribution for each of these combinations is different as well
 
 **Libraries & Packages:**
 - **Recharts**: React-native charting, minimal boilerplate, data already in the right shape. Considered Chart.js and native Canvas as alternatives
-
-**Development Tools:**
 - **Vitest**: chosen over Jest for lighter weight and native Vite integration
 
 **Utilities & Plugins:**
@@ -194,7 +193,7 @@ The probability distribution for each of these combinations is different as well
 - Zustand chosen over Context API for precise rerender control, as Zustand includes selectors to prevent large amounts of rerenders due to minor state changes
 
 ### Performance:
-- Performance initially suffered due to the large number of state-managed inputs causing rerender cascades.
+- Performance initially suffered due to the large number of state-managed inputs. Table components were subscribed to the entire array of input values, rather than individual indexes, which caused rerender cascades for each table on the page. Not a big deal when there was just one table, but if there were multiple options, the site got *laggy.*
 - Resolution:
   - Created isolated input components that subscribe only to their own specific index
   - Memoized Recharts and calculations to manage rerenders and recalculation
@@ -210,6 +209,18 @@ The probability distribution for each of these combinations is different as well
 - **Median/mean**: not actionable for DMs, standard deviation covers the need better
 - **Math.random → crypto.getRandomValues**: overkill, threat model is essentially zero for dice rolls
 - **Plinko/wheel/roulette**: interesting but undermine the physical dice philosophy
+
+## AI Usage in Building
+
+I used Claude Sonnet 4.6 for this project, although it didn't write a single line of code for me. It was instead:
+
+- **A math tutor** that helped me to understand the math and develop the recursive search and distribution and probability calculations. I didn't just want the answer; I wanted to understand it.
+- **A rubber duck** that helped discuss and drive decisions as I built the system. I would propose solutions, ask for feedback, then based on that conversation I would make a decision and take it from there. Fixing bugs or weird edge cases followed the same process where I always started with the idea that I would then iterate on with AI.
+- **A reference, research assistant, and explainer** that helped explain concepts or propose ideas for problem areas I'm not as familiar with.
+- **A project manager** that maintained an ongoing task list and decision log for the project, allowing for easy reference of tasks, decisions, and rationales.
+
+AI was not used to write code directly. From the get-go, I wanted to build this tool myself, not just vibe-code it in a weekend. AI was a useful tool for managing the project, operating as a sounding board, and providing conceptual guidance. In doing so, I've learned loads more than I would have about the technologies that went into this project and found a flow state nearly every time I sat down to work on it.
+
 
 ## Contributing
 Not currently accepting contributions

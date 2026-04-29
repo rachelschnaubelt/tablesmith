@@ -9,6 +9,7 @@ import AboutModal from './components/modals/about/about.tsx';
 import LoadModal from './components/modals/load/load.tsx';
 
 function App() {
+  const { setTheme } = useTableStore.getState();
   const entryCount = useTableStore((state) => state.entryCount);
   const selectedOptions = useTableStore((state) => state.selectedOptions);
   const headerHeight = useTableStore((state) => state.headerHeight);
@@ -28,6 +29,13 @@ function App() {
       />
     )) :
     <Table />;
+
+  useEffect(() => {
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if(prefersDark) {
+      setTheme('theme--modern--dark');
+    }
+  }, [])
 
   useEffect(() => {
     const html = document.querySelector('html');

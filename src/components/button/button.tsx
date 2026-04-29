@@ -12,10 +12,11 @@ interface ButtonProps {
     ariaLabel?: string,
     ariaControls?: string,
     ariaExpanded?: boolean,
-    id?: string
+    id?: string,
+    dataTestId?: string
 }
 
-const Button = ({ label, onClick, className, type, icon, hierarchy, isWarning, ariaLabel, ariaExpanded, ariaControls, id }: ButtonProps) => {
+const Button = ({ label, onClick, className, type, icon, hierarchy, isWarning, ariaLabel, ariaExpanded, ariaControls, id, dataTestId }: ButtonProps) => {
     const propClasses = className ? className.split(' ') : [];
     const classNameArray = [
         'cmp-button',
@@ -34,7 +35,8 @@ const Button = ({ label, onClick, className, type, icon, hierarchy, isWarning, a
             className={classNameArray.join(' ')}
             onClick={onClick}
             aria-label={ariaLabel}
-            id={id}>
+            id={id}
+            data-testid={dataTestId}>
                 <span className='cmp-button__icon'>{icon}</span>
                 {label && <span className='cmp-button__label'>
                     {label}
@@ -53,7 +55,8 @@ const Button = ({ label, onClick, className, type, icon, hierarchy, isWarning, a
             aria-label={ariaLabel}
             aria-expanded={ariaExpanded}
             aria-controls={ariaControls}
-            id={id}>
+            id={id}
+            data-testid={dataTestId}>
                 {label && <span className='cmp-button__label'>
                     {label}
                 </span>}
@@ -66,7 +69,8 @@ const Button = ({ label, onClick, className, type, icon, hierarchy, isWarning, a
         <button
             className={classNameArray.join(' ')}
             onClick={onClick}
-            id={id}>
+            id={id}
+            data-testid={dataTestId}>
             <span className='cmp-button__label'>
                 {label}
             </span>

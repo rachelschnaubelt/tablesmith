@@ -321,7 +321,8 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
                                             icon={<CopySimpleIcon size={16} />}
                                             type="icon"
                                             onClick={() => { comboObj && copyTable(comboObj) }}
-                                            hierarchy={'tertiary'} />
+                                            hierarchy={'tertiary'}
+                                            dataTestId="copy-button" />
                                         <Button
                                             label={'print/save as pdf'}
                                             className={'no-print'}
@@ -335,6 +336,7 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
                                             icon={<FloppyDiskIcon size={16} />}
                                             type="icon"
                                             id="modal__trigger-button--save"
+                                            dataTestId="save-button"
                                             onClick={() => {
                                                 if (tableKey) {
                                                     setSaveModalOpen(true, 'modal__trigger-button--save');
@@ -357,7 +359,8 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
                                             icon={<EraserIcon size={16} />}
                                             type='icon'
                                             onClick={clearTable}
-                                            hierarchy={'tertiary'} />
+                                            hierarchy={'tertiary'}
+                                            dataTestId='clear-button' />
                                     </div>
                                 </div>
                             </div>

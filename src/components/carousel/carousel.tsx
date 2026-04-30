@@ -43,7 +43,11 @@ const Carousel = ({ children }: {children: ReactNode}) => {
             }
         })
         let buttonIndex = carouselIndex;
-        if (buttons.length < carouselIndex) {
+        if(carouselIndex < 1) {
+            buttonIndex = 1;
+            setCarouselIndex(1);
+        }
+        else if (carouselIndex > 1 && buttons.length < carouselIndex) {
             buttonIndex = buttons.length;
             setCarouselIndex(buttonIndex);
         }

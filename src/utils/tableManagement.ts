@@ -7,10 +7,12 @@ const loadTable = (tableData: JSONEntry) => {
     setTableName(tableData.tableName);
     setTableDescription(tableData.tableDescription);
     setEntries(tableData.entries);
-    const comboObjects = getCombinationObjects(tableData.entries.length, tableData.comboObj.selectedOptions);
-    const findCombo = (combo: ComboObject) => combo.diceString === tableData.comboObj.diceString;
-    const tableIndex = comboObjects.findIndex(findCombo);
-    setCarouselIndex(tableIndex + 1);
+    if(tableData.comboObj) {
+        const comboObjects = getCombinationObjects(tableData.entries.length, tableData.comboObj.selectedOptions);
+        const findCombo = (combo: ComboObject) => combo.diceString === tableData.comboObj.diceString;
+        const tableIndex = comboObjects.findIndex(findCombo);
+        setCarouselIndex(tableIndex + 1);
+    }
     setTableKey(tableData.id);
 }
 
@@ -84,7 +86,7 @@ const printTable = () => {
     window.print();
 }
 
-const saveTable = (comboObj: ComboObject, storageKey?: string) => {
+const saveTable = (comboObj: ComboObject | null, storageKey?: string) => {
     const { tableName, tableDescription, entries, setTableKey } = useTableStore.getState();
     let id = Date.now().toString();
     const timestamp = new Date().toISOString();
@@ -97,7 +99,7 @@ const saveTable = (comboObj: ComboObject, storageKey?: string) => {
         id: storageKey || id,
         tableName,
         tableDescription,
-        comboObj,
+        ...(comboObj && {comboObj}),
         entries,
         savedAt,
         updatedAt: timestamp

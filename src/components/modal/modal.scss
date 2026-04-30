@@ -21,6 +21,7 @@
     transition: $transition-duration--fast;
     visibility: hidden;
     display: block;
+    color: $text;
 
     p,
     li {
@@ -35,7 +36,6 @@
         right: 0;
         background-color: $modal-bg;
         padding-bottom: $spacing--medium;
-        color: $text;
     }
 
     &__title {

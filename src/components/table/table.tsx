@@ -37,7 +37,7 @@ interface RollResults {
     total: number
 }
 
-const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProps) => {
+const Table = React.memo(({ comboObj, hints, comboCount, tableIndex = 1 }: TableProps) => {
     const { addEntry, addEntries, deleteEntry, setSaveModalOpen, handleChangeEntryIndex } = useTableStore.getState();
     const entryCount = useTableStore((store) => store.entryCount);
     const tableKey = useTableStore((store) => store.tableKey);
@@ -342,7 +342,7 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
                                                     setSaveModalOpen(true, 'modal__trigger-button--save');
                                                 }
                                                 else {
-                                                    comboObj && saveTable(comboObj, tableKey)
+                                                    saveTable(comboObj || null, tableKey)
                                                 }
                                             }}
                                             hierarchy={'tertiary'} />
@@ -411,7 +411,7 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex }: TableProp
                     </div>
                 </Accordion>}
             </div>
-            {comboObj && <SaveModal comboObj={comboObj}/>}
+            {<SaveModal comboObj={comboObj}/>}
         </div>
     )
 });

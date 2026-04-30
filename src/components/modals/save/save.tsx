@@ -5,14 +5,13 @@ import Button from "../../button/button";
 import Modal from "../../modal/modal";
 
 interface saveModalProps {
-    comboObj: ComboObject
+    comboObj: ComboObject | undefined
 }
 
 const SaveModal = ({ comboObj }: saveModalProps) => {
     const saveModalOpen = useTableStore((store) => store.saveModalOpen);
     const { setSaveModalOpen } = useTableStore.getState();
     const tableKey = useTableStore((store) => store.tableKey);
-
 
     return (
         <Modal
@@ -24,11 +23,11 @@ const SaveModal = ({ comboObj }: saveModalProps) => {
             <div className='cmp-modal__button-group'>
                 <Button
                     label='overwrite existing save'
-                    onClick={() => { comboObj && saveTable(comboObj, tableKey); setSaveModalOpen(false) }} />
+                    onClick={() => { saveTable(comboObj || null, tableKey); setSaveModalOpen(false) }} />
                 <Button
                     label='save as new table'
                     hierarchy={'secondary'}
-                    onClick={() => { comboObj && saveTable(comboObj); setSaveModalOpen(false) }} />
+                    onClick={() => { saveTable(comboObj || null); setSaveModalOpen(false) }} />
             </div>
         </Modal>
     )

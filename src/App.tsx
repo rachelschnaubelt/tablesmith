@@ -69,11 +69,11 @@ function App() {
       <MetaTags
         title="TableSmith | Dice Table Maker"
         description="TableSmith finds the right dice combinations for any number of items, so you can roll the dice for anything."
-        canonicalUrl="" // TODO: figure these out once the site is hosted
+        canonicalUrl="https://rachelschnaubelt.github.io/tablesmith/"
         ogTitle="TableSmith - Dice Table Maker"
-        ogUrl="" // TODO: figure these out once the site is hosted
+        ogUrl="https://rachelschnaubelt.github.io/tablesmith/"
         ogDescription="TableSmith finds the right dice combinations for any number of items, so you can roll the dice for anything."
-        ogImage="" // TODO: figure these out once the site is hosted
+        ogImage="" // TODO: make this, add it, and link it
         />
       <h1 className="sr-only">Dice Table Maker</h1>
       <Header />

@@ -7,6 +7,7 @@ import { getCombinationObjects, getHints } from './utils/calculations.ts'
 import Header from './components/header/header.tsx';
 import AboutModal from './components/modals/about/about.tsx';
 import LoadModal from './components/modals/load/load.tsx';
+import MetaTags from './components/meta-tags/meta-tags.tsx';
 
 function App() {
   const { setTheme } = useTableStore.getState();
@@ -32,7 +33,7 @@ function App() {
 
   useEffect(() => {
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    if(prefersDark) {
+    if (prefersDark) {
       setTheme('theme--modern--dark');
     }
   }, [])
@@ -65,7 +66,15 @@ function App() {
     <div
       className={`cmp-app`}
       style={{ marginTop: `${headerHeight + 16}px` }}>
-      <title>TableSmith | Dice Table Maker</title>
+      <MetaTags
+        title="TableSmith | Dice Table Maker"
+        description="TableSmith finds the right dice combinations for any number of items, so you can roll the dice for anything."
+        canonicalUrl="" // TODO: figure these out once the site is hosted
+        ogTitle="TableSmith - Dice Table Maker"
+        ogUrl="" // TODO: figure these out once the site is hosted
+        ogDescription="TableSmith finds the right dice combinations for any number of items, so you can roll the dice for anything."
+        ogImage="" // TODO: figure these out once the site is hosted
+        />
       <h1 className="sr-only">Dice Table Maker</h1>
       <Header />
       <Sidebar />
@@ -74,7 +83,7 @@ function App() {
         {tables}
       </Carousel>
       <LoadModal />
-      <AboutModal />      
+      <AboutModal />
     </div>
   )
 }

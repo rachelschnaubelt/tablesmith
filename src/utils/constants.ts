@@ -1,5 +1,16 @@
 import { DiceOptions } from "../types/types";
 
+const defaultSiteMetadata = {
+  title: "TableSmith",
+  description: "",
+  canonicalUrl: "",
+  ogTitle: "TableSmith",
+  ogUrl: "",
+  ogDescription: "",
+  ogImage: "",
+  themeColor: "#942BFD"
+}
+
 enum AvailableThemes {
     ModernLight = "theme--modern--light",
     ModernDark = "theme--modern--dark"
@@ -43,6 +54,7 @@ const options: DiceOptions = {
 }
 
 export {
+    defaultSiteMetadata,
     AvailableThemes,
     options,
     defaultCount

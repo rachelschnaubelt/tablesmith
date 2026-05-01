@@ -1,7 +1,7 @@
 import './table.scss';
 import Button from "../button/button.tsx";
 import DistributionChart from '../distribution-chart/distribution-chart.tsx';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import useTableStore from '../../store/tableStore.ts';
 import Accordion from '../accordion/accordion.tsx';
 import { ArrowsClockwiseIcon, CopySimpleIcon, DiceOneIcon, DiceSixIcon, DotsThreeIcon, EraserIcon, FilePdfIcon, FloppyDiskIcon, PlusIcon, PrinterIcon, XIcon } from '@phosphor-icons/react';
@@ -49,6 +49,7 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex = 1 }: Table
     const [rollResults, setRollResults] = useState<RollResults | null>(null);
     const diceRollsRef = useRef<HTMLDivElement>(null);
     const tableBody = useRef<HTMLDivElement>(null);
+    const dropdownRef = useRef<HTMLDivElement>(null);
     const isActive = tableIndex === carouselIndex;
 
     const handleEntryMove = (index1: number, index2: number) => {
@@ -251,6 +252,27 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex = 1 }: Table
         }
     }
 
+    useEffect(() => {
+        const upListener = () => {
+            blurActiveElement();
+        }
+        if (dropdownRef.current) {
+            const dropdownButtons = dropdownRef.current.querySelectorAll('.cmp-roll-table__actions__menu__dropdown button');
+            for (const button of dropdownButtons) {
+                button.addEventListener('pointerup', upListener)
+            }
+        }
+
+        return () => {
+            if (dropdownRef.current) {
+                const dropdownButtons = dropdownRef.current.querySelectorAll('.cmp-roll-table__actions__menu__dropdown button');
+                for (const button of dropdownButtons) {
+                    button.removeEventListener('pointerup', upListener)
+                }
+            }
+        }
+    }, [])
+
     return (
         <div aria-hidden={!isActive}>
             <div className='cmp-roll-table'>
@@ -315,7 +337,8 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex = 1 }: Table
                                         type='icon'
                                         icon={<DotsThreeIcon size={24} />}
                                         hierarchy="secondary" />
-                                    <div className='cmp-roll-table__actions__menu__dropdown'>
+                                    <div className='cmp-roll-table__actions__menu__dropdown'
+                                        ref={dropdownRef}>
                                         <Button
                                             label={'copy'}
                                             className={'no-print'}
@@ -414,7 +437,7 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex = 1 }: Table
                     </div>
                 </Accordion>}
             </div>
-            {<SaveModal comboObj={comboObj}/>}
+            {<SaveModal comboObj={comboObj} />}
         </div>
     )
 });

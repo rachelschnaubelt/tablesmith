@@ -269,7 +269,7 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex = 1 }: Table
                             {comboObj && isProbabilityColumnVisible && <p className='cmp-roll-table__column--probability cmp-roll-table__cell' role="columnheader">Probability</p>}
                             <p className='cmp-roll-table__column--value cmp-roll-table__cell' role="columnheader">Value</p>
                             <div className='cmp-roll-table__actions'>
-                                <p className='cmp-roll-table__entry-count no-print'>{entryCount} Entries</p>
+                                <p className='cmp-roll-table__entry-count no-print'>{entryCount} entries</p>
                                 <Button
                                     label={'add'}
                                     className={'no-print add-button'}

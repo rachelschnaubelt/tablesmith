@@ -140,7 +140,7 @@ const escapeHandler = (e: KeyboardEvent) => {
                         </fieldset>
                 </div>
                 <div className='settings-menu__quick-setup settings-menu__section'>
-                    <h3 className='settings-menu__section__heading'>Quick Setup</h3>
+                    <h3 className='settings-menu__section__heading'>Quick setup</h3>
                     <fieldset className='settings-menu__options'>
                         <Button
                             label={'1d4'}
@@ -240,12 +240,12 @@ const escapeHandler = (e: KeyboardEvent) => {
                     <h3 className='settings-menu__section__heading'>Theme</h3>
                     <fieldset className='settings-menu__options'>
                         <Button
-                            label={'Modern Light'}
+                            label={'modern light'}
                             onClick={() => { setTheme('theme--modern--light') }}
                             hierarchy={'secondary'}
                             className={theme === 'theme--modern--light' ? 'active' : ''} />
                         <Button
-                            label={'Modern Dark'}
+                            label={'modern dark'}
                             onClick={() => { setTheme('theme--modern--dark') }}
                             hierarchy={'secondary'}
                             className={theme === 'theme--modern--dark' ? 'active' : ''} />

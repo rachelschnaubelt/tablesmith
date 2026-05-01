@@ -1,4 +1,5 @@
 # ![Icon](./src/assets/icons/favicon.svg) TableSmith
+https://rachelschnaubelt.github.io/tablesmith/
 
 [Overview](#overview)  
 [Installation](#installation)  

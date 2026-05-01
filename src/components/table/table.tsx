@@ -38,12 +38,13 @@ interface RollResults {
 }
 
 const Table = React.memo(({ comboObj, hints, comboCount, tableIndex = 1 }: TableProps) => {
-    const { addEntry, addEntries, deleteEntry, setSaveModalOpen, handleChangeEntryIndex } = useTableStore.getState();
+    const { addEntry, addEntries, deleteEntry, setSaveModalOpen, handleChangeEntryIndex, setStatsAccordionOpen } = useTableStore.getState();
     const entryCount = useTableStore((store) => store.entryCount);
     const tableKey = useTableStore((store) => store.tableKey);
     const isProbabilityColumnVisible = useTableStore((state) => state.isProbabilityColumnVisible);
     const headerHeight = useTableStore((state) => state.headerHeight);
     const carouselIndex = useTableStore((state) => state.carouselIndex);
+    const statsAccordionOpen = useTableStore((state) => state.statsAccordionOpen);
     const [isRowSelected, setIsRowSelected] = useState(false);
     const [rollResults, setRollResults] = useState<RollResults | null>(null);
     const diceRollsRef = useRef<HTMLDivElement>(null);
@@ -375,7 +376,9 @@ const Table = React.memo(({ comboObj, hints, comboCount, tableIndex = 1 }: Table
                 </div>
                 {comboObj && <Accordion
                     label={'Advanced stats'}
-                    initialState={false} >
+                    initialState={false}
+                    state={statsAccordionOpen}
+                    stateHandler={setStatsAccordionOpen} >
                     <div className='cmp-roll-table__advanced-stats'>
                         {entryCount > 1 &&
                             <>

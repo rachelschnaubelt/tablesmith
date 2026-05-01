@@ -82,9 +82,10 @@
   // Cursor
   --cursor--pointer: pointer;
 
+  // Columns
+  --probability-width: 6rem;
 
   @media (prefers-reduced-motion: reduce) {
-
     *,
     *::before,
     *::after {
@@ -152,6 +153,7 @@
 
 .font--open-dyslexic {
   --font-family: "OpenDyslexic", sans-serif !important;
+  --probability-width: 8rem;
 }
 
 // ***************
@@ -241,3 +243,6 @@ $opacity--half: var(--opacity--half);
 
 // Cursor
 $cursor--pointer: var(--cursor--pointer);
+
+// Columns
+$probability-width: var(--probability-width);

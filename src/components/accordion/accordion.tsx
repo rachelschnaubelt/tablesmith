@@ -6,7 +6,9 @@ import Button from '../button/button';
 interface AccordionProps {
     children: ReactNode,
     label: string,
-    initialState: boolean
+    initialState: boolean,
+    state?: boolean,
+    stateHandler?: (accordionState: boolean | undefined) => void
 }
 
 interface ContentStyle {
@@ -15,32 +17,45 @@ interface ContentStyle {
     visibility?: 'hidden' | 'visible'
 }
 
-const Accordion = ({children, label, initialState}: AccordionProps) => {
-    const [isOpen, setIsOpen] = useState(initialState);
+const Accordion = ({children, label, initialState, state, stateHandler}: AccordionProps) => {
+    const [isOpen, setIsOpen] = useState<boolean | undefined>(initialState);
     const contentsRef = useRef<HTMLDivElement>(null);
     const [contentStyle, setContentStyle] = useState<ContentStyle>({
         height: initialState ? 'auto' : 0
     })
 
-    const handleToggle = () => {
-        if(!isOpen && contentsRef.current) {
+    const updateContentStyle = (isFullHeight: boolean | undefined) => {
+        if(isFullHeight && contentsRef.current) {
             const height = contentsRef.current.scrollHeight;
             setContentStyle({
                 minHeight: `${height}px`,
                 visibility: 'visible'
             })
-        }
-        else {
+        } else if((typeof isFullHeight === 'boolean') && !isFullHeight) {
             setContentStyle({
                 height: 0,
                 visibility: 'hidden'
             });
         }
-        setIsOpen(!isOpen);
+    }
+
+    const handleToggle = () => {
+        if((!isOpen) && contentsRef.current) {
+            updateContentStyle(true);
+        }
+        else {
+            updateContentStyle(false);
+        }
+        if(stateHandler && (typeof state === 'boolean')) {
+            setIsOpen(!state);
+            stateHandler(!state);
+        } else {
+            setIsOpen(!isOpen);
+        }
     }
 
     useEffect(() => {
-        if(isOpen && contentsRef.current) {
+        if((isOpen || state) && contentsRef.current) {
             const height = contentsRef.current.scrollHeight;
             setContentStyle({
                 minHeight: `${height}px`
@@ -48,8 +63,13 @@ const Accordion = ({children, label, initialState}: AccordionProps) => {
         }
     }, [children])
 
+    useEffect(() => {
+        setIsOpen(state);
+        updateContentStyle(state);
+    }, [state])
+
     return (
-        <div className={`cmp-accordion cmp-accordion--${isOpen ? 'open' : 'closed'}`}>
+        <div className={`cmp-accordion cmp-accordion--${(isOpen || state) ? 'open' : 'closed'}`}>
             <h2 className='sr-only'>{label}</h2>
                 <Button
                     label={label}

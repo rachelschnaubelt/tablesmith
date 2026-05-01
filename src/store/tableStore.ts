@@ -13,6 +13,7 @@ interface TableState {
   loadModalOpen: boolean,
   saveModalOpen: boolean,
   aboutModalOpen: boolean,
+  statsAccordionOpen: boolean,
   usesDyslexicFont: boolean,
   tableKey: string,
   isProbabilityColumnVisible: boolean,
@@ -32,6 +33,7 @@ interface TableState {
   setLoadModalOpen: (loadModalOpen: boolean, triggerId?: string) => void,
   setSaveModalOpen: (saveModalOpen: boolean, triggerId?: string) => void,
   setAboutModalOpen: (aboutModalOpen: boolean, triggerId?: string) => void,
+  setStatsAccordionOpen: (statsAccordionOpen: boolean | undefined) => void,
   setUsesDyslexicFont: (usesDyslexicFont: boolean) => void,
   setTableName: (tableName: string) => void,
   setSelectedOptions: (id: string, checked: boolean) => void,
@@ -53,6 +55,7 @@ const useTableStore = create<TableState>((set) => ({
   loadModalOpen: false,
   saveModalOpen: false,
   aboutModalOpen: false,
+  statsAccordionOpen: false,
   usesDyslexicFont: false,
   tableKey: '',
   isProbabilityColumnVisible: true,
@@ -114,6 +117,11 @@ const useTableStore = create<TableState>((set) => ({
     focusReturn: triggerId || null
   })),
   setUsesDyslexicFont: (usesDyslexicFont: boolean) => set({ usesDyslexicFont }),
+  setStatsAccordionOpen: (statsAccOpen: boolean | undefined) => {
+    if(typeof statsAccOpen === 'boolean') {
+      set({ statsAccordionOpen: statsAccOpen })
+    }
+  },
 
   setTableName: (tableName: string) => set({ tableName }),
 

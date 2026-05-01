@@ -15,15 +15,26 @@
     
     &__inner {
         display: flex;
-        justify-content: space-between;
         align-items: center;
         max-width: $max-width;
         margin: 0 auto;
+        flex-wrap: wrap;
+        justify-content: center;
+        
+        @media screen and (min-width: 768px){
+            justify-content: space-between;
+        }
     }
 
     &__menu {
         display: flex;
         align-items: flex-end;
         column-gap: $spacing--medium;
+        flex-basis: 100%;
+        justify-content: center;
+
+        @media screen and (min-width: 768px){
+            flex-basis: auto;
+        }
     }
 }

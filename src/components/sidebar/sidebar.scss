@@ -24,6 +24,13 @@
         position: absolute;
         top: $spacing--large;
         right: $spacing--large;
+
+        .cmp-button__label {
+            display: none;   
+            @media screen and (min-width: 768px){
+                display: inline-block;
+            }
+        }
     }
 }
 
@@ -36,7 +43,6 @@
     &__heading {
         align-self: center;
         font-size: $font-size--title;
-
     }
 
     &__section {
@@ -48,15 +54,15 @@
     }
 
     &__options {
-        display: flex;
         gap: $spacing--medium $spacing--large;
-        flex-wrap: wrap;
         padding: 0;
         padding-left: $spacing--large;
         border: none;
+        flex-wrap: wrap;
+        display: flex;
 
         &>div {
-            flex: 1;
+            flex: 1 1 20%;
         }
     }
 }

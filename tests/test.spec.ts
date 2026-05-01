@@ -16,12 +16,12 @@ test('add and remove entry', async ({ page }) => {
 
   await expect(page.getByRole('button', { name: '1d8 + 1d4' })).toBeVisible();
   await expect(page.getByRole('button', { name: '2d6' })).toBeVisible();
-  await expect(page.getByRole('row', { name: 'Roll 1d8 + 1d4 Probability' }).getByRole('paragraph')).toHaveText('11 Entries');
+  await expect(page.getByRole('row', { name: 'Roll 1d8 + 1d4 Probability' }).getByRole('paragraph')).toHaveText('11entries');
 
   await page.getByRole('row', { name: '3.13% cmp-roll-table-1__entry--0 Swap down Delete row' }).getByLabel('Delete row').click();
   await expect(page.getByRole('button', { name: '1d10' })).toBeVisible();
   await expect(page.getByRole('button', { name: '3d4' })).toBeVisible();
-  await expect(page.getByRole('row', { name: 'Roll 1d10 Probability' }).getByRole('paragraph')).toHaveText('10 Entries');
+  await expect(page.getByRole('row', { name: 'Roll 1d10 Probability' }).getByRole('paragraph')).toHaveText('10entries');
 });
 
 // Quick setup generating the correct table
@@ -37,7 +37,7 @@ test('quick setup', async ({ page }) => {
   await expect(page.getByRole('button', { name: '1d8 + 1d6 + 1d4' })).toBeVisible();
   await expect(page.getByRole('button', { name: '3d6' })).toBeVisible();
   await expect(page.getByRole('button', { name: '5d4' })).toBeVisible();
-  await expect(page.getByRole('row', { name: 'Roll 3d6 Probability' }).getByRole('paragraph')).toHaveText('16 Entries');
+  await expect(page.getByRole('row', { name: 'Roll 3d6 Probability' }).getByRole('paragraph')).toHaveText('16entries');
 });
 
 // Rolling and getting a result
